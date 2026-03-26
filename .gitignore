@@ -1,0 +1,69 @@
+# ========================================
+# ПКО Database Project — .gitignore
+# ========================================
+
+# === OS Files ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# === Environment ===
+.env
+.env.local
+.env.*.local
+*.env
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# === Node (если понадобится) ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# === Temp Files ===
+*.tmp
+*.temp
+*.log
+/tmp/
+
+# === Large Data Files (хранятся локально, не в git) ===
+# Раскомментируй если файлы слишком большие для git:
+# data/*.xlsx
+# data/*.csv
+
+# === Secrets ===
+*.pem
+*.key
+credentials.json
+token.json
