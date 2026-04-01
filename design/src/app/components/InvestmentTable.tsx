@@ -1,6 +1,32 @@
 import { useState } from 'react';
 import { ArrowUp, ArrowDown, ArrowUpDown, ExternalLink } from 'lucide-react';
 import { bonds, siteLoans, corporates, allInvestments, Bond, SiteLoan, Corporate, AllInvestment } from '../data/investmentData';
+import { ratingData } from '../data/ratingData';
+
+// Lookup: company name → rank in ПКО-300
+const pkoRankMap = new Map<string, number>();
+for (const c of ratingData) {
+  if (!pkoRankMap.has(c.name)) pkoRankMap.set(c.name, c.rank);
+}
+// Aliases for names that differ between investmentData and ratingData
+const ALIASES: Record<string, string> = {
+  'НФИ': 'Национальная Фабрика Ипотеки',
+  'Воксис': 'ПКО ВОКСИС',
+  'Первое клиентское бюро': 'ПКБ',
+  'Агентство Судебного Взыскания': 'АСВ',
+  'Служба защиты активов': 'СЗА',
+  'Юридическая служба взыскания': 'ЮСВ',
+  'АктивБизнесКонсалт': 'АБК',
+  'Столичная Сервисная Компания': 'Столичное АВД',
+};
+function getPkoRank(companyName: string): number | null {
+  if (pkoRankMap.has(companyName)) return pkoRankMap.get(companyName)!;
+  if (ALIASES[companyName] && pkoRankMap.has(ALIASES[companyName])) return pkoRankMap.get(ALIASES[companyName])!;
+  for (const [name, rank] of pkoRankMap) {
+    if (name.includes(companyName) || companyName.includes(name)) return rank;
+  }
+  return null;
+}
 
 export type InvestMode = 'bonds' | 'loans' | 'corporate' | 'all';
 
@@ -196,10 +222,10 @@ function TypeBadge({ type }: { type: string }) {
 }
 
 // ── BONDS TABLE ───────────────────────────────────────��──────────
-type BondSortKey = 'company' | 'rating' | 'coupon' | 'volume' | 'status' | 'repayment';
+type BondSortKey = 'pkoRank' | 'company' | 'rating' | 'coupon' | 'volume' | 'status' | 'repayment';
 
 function BondsTable() {
-  const [sortKey, setSortKey] = useState<BondSortKey>('company');
+  const [sortKey, setSortKey] = useState<BondSortKey>('pkoRank');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
   const handleSort = (k: BondSortKey) => {
@@ -209,6 +235,7 @@ function BondsTable() {
 
   const sorted = [...bonds].sort((a, b) => {
     const mul = sortDir === 'asc' ? 1 : -1;
+    if (sortKey === 'pkoRank') return ((getPkoRank(a.company) ?? 999) - (getPkoRank(b.company) ?? 999)) * mul;
     if (sortKey === 'volume') return ((a.volume ?? -1) - (b.volume ?? -1)) * mul;
     const av = (a as Record<string, string | number | null>)[sortKey] as string ?? '';
     const bv = (b as Record<string, string | number | null>)[sortKey] as string ?? '';
@@ -240,12 +267,11 @@ function BondsTable() {
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
-          <th style={{ ...TH, width: '36px' }}>#</th>
+          <Th k="pkoRank">№ в ПКО-300</Th>
           <Th k="company">Компания</Th>
           <Th k="rating">Рейтинг</Th>
-          <th style={TH}>ISIN</th>
+          <th style={TH}>ISIN / Погашение</th>
           <Th k="coupon">Купон</Th>
-          <Th k="repayment">Погашение</Th>
           <Th k="volume">Объём, млн ₽</Th>
           <th style={TH}>Площадка</th>
           <Th k="status">Статус</Th>
@@ -259,14 +285,16 @@ function BondsTable() {
             onMouseEnter={e => { e.currentTarget.style.background = '#fafafa'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
-            <td style={{ ...TD, color: '#d1d5db', fontSize: '11px', width: '36px' }}>{idx + 1}</td>
+            <td style={{ ...TD, color: '#6b7280', fontSize: '12px', fontWeight: 600, width: '60px' }}>{getPkoRank(b.company) ?? '—'}</td>
             <td style={TD_NAME}>{b.company}</td>
             <td style={TD}><RatingBadge rating={b.rating} /></td>
-            <td style={{ ...TD, fontFamily: 'monospace', fontSize: '12px', color: b.isin === '—' ? '#d1d5db' : '#374151' }}>
-              {b.isin}
+            <td style={{ ...TD }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+                <span style={{ fontFamily: 'monospace', fontSize: '12px', color: b.isin === '—' ? '#d1d5db' : '#374151' }}>{b.isin}</span>
+                <span style={{ fontSize: '11px', color: '#9ca3af' }}>{b.repayment || '—'}</span>
+              </div>
             </td>
             <td style={{ ...TD, fontWeight: 600, color: '#111' }}>{b.coupon}</td>
-            <td style={TD}>{b.repayment || '—'}</td>
             <td style={TD}>
               {b.volume != null
                 ? <span style={{ fontWeight: 500 }}>{b.volume.toLocaleString('ru-RU')}</span>
@@ -287,21 +315,21 @@ function LoansTable() {
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
-          <th style={{ ...TH, width: '36px' }}>#</th>
+          <th style={{ ...TH, width: '60px', fontSize: '11px' }}>№ в ПКО-300</th>
           <th style={TH}>Компания</th>
           <th style={TH}>Тип</th>
           <th style={TH}>Сайт</th>
         </tr>
       </thead>
       <tbody>
-        {siteLoans.map((l, idx) => (
+        {[...siteLoans].sort((a, b) => (getPkoRank(a.company) ?? 999) - (getPkoRank(b.company) ?? 999)).map((l, idx) => (
           <tr
             key={l.company}
             style={{ borderBottom: idx < siteLoans.length - 1 ? '1px solid #f7f7f7' : 'none' }}
             onMouseEnter={e => { e.currentTarget.style.background = '#fafafa'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
-            <td style={{ ...TD, color: '#d1d5db', fontSize: '11px' }}>{idx + 1}</td>
+            <td style={{ ...TD, color: '#6b7280', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(l.company) ?? '—'}</td>
             <td style={TD_NAME}>{l.company}</td>
             <td style={TD}>
               <TypeBadge type={l.type} />
@@ -344,7 +372,7 @@ function CorporateTable() {
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
-          <th style={{ ...TH, width: '36px' }}>#</th>
+          <th style={{ ...TH, width: '60px', fontSize: '11px' }}>№ в ПКО-300</th>
           <th style={TH}>Компания</th>
           <th style={TH}>Учредитель / Структура</th>
           <th style={TH}>Тип</th>
@@ -352,14 +380,14 @@ function CorporateTable() {
         </tr>
       </thead>
       <tbody>
-        {corporates.map((c, idx) => (
+        {[...corporates].sort((a, b) => (getPkoRank(a.company) ?? 999) - (getPkoRank(b.company) ?? 999)).map((c, idx) => (
           <tr
             key={c.company}
             style={{ borderBottom: idx < corporates.length - 1 ? '1px solid #f7f7f7' : 'none' }}
             onMouseEnter={e => { e.currentTarget.style.background = '#fafafa'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
-            <td style={{ ...TD, color: '#d1d5db', fontSize: '11px' }}>{idx + 1}</td>
+            <td style={{ ...TD, color: '#6b7280', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(c.company) ?? '—'}</td>
             <td style={TD_NAME}>{c.company}</td>
             <td style={{ ...TD, color: '#374151', maxWidth: '280px', whiteSpace: 'normal' }}>
               {c.founder}
@@ -392,7 +420,7 @@ function AllTable() {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th style={{ ...TH, width: '36px' }}>#</th>
+            <th style={{ ...TH, width: '60px', fontSize: '11px' }}>№ в ПКО-300</th>
             <th style={TH}>Компания</th>
             <th style={TH}>Тип привлечения</th>
             <th style={TH}>Детали</th>
@@ -400,7 +428,7 @@ function AllTable() {
           </tr>
         </thead>
         <tbody>
-          {filtered.map((r, idx) => {
+          {[...filtered].sort((a, b) => (getPkoRank(a.company) ?? 999) - (getPkoRank(b.company) ?? 999)).map((r, idx) => {
             const meta = INVEST_TYPE_META[r.type];
             return (
               <tr
@@ -409,7 +437,7 @@ function AllTable() {
                 onMouseEnter={e => { e.currentTarget.style.background = '#fafafa'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
               >
-                <td style={{ ...TD, color: '#d1d5db', fontSize: '11px' }}>{idx + 1}</td>
+                <td style={{ ...TD, color: '#6b7280', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(r.company) ?? '—'}</td>
                 <td style={TD_NAME}>{r.company}</td>
                 <td style={TD}>
                   <span

@@ -12,6 +12,7 @@ import { RatingTable } from './components/RatingTable';
 import { FinanceTable, FinanceMode, FinanceYear } from './components/FinanceTable';
 import { InvestmentTable } from './components/InvestmentTable';
 import { mockCompanies, Company } from './data/mockData';
+import { ratingData, RatingCompany } from './data/ratingData';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>('rating');
@@ -48,38 +49,39 @@ export default function App() {
     maxRate: 99,
   });
 
-  // ── Search ─────────────────────────────────────────────────────
+  // ── Search (mock for finance/invest, real for rating) ──────────
   const searched = mockCompanies.filter(c => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
     return c.name.toLowerCase().includes(q) || c.inn.includes(q);
   });
 
-  // ── Rating: filter + sort ──────────────────────────────────────
-  const ratingCompanies: Company[] = (() => {
+  // ── Rating: real data, filter + sort ──────────────────────────
+  const ratingCompanies: RatingCompany[] = (() => {
     const f = ratingFilters;
 
-    const filtered = searched.filter(c => {
+    const filtered = ratingData.filter(c => {
+      // Search
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        if (!c.name.toLowerCase().includes(q) && !c.inn.includes(q)) return false;
+      }
+
       // Revenue range
-      const revFrom = f.revenueFrom !== '' ? Number(f.revenueFrom) : null;
-      const revTo   = f.revenueTo   !== '' ? Number(f.revenueTo)   : null;
-      if (revFrom !== null && c.revenue < revFrom) return false;
-      if (revTo   !== null && c.revenue > revTo)   return false;
+      if (f.revenueFrom !== '' && c.revenue < Number(f.revenueFrom)) return false;
+      if (f.revenueTo   !== '' && c.revenue > Number(f.revenueTo))   return false;
 
       // Profit range
-      const profFrom = f.profitFrom !== '' ? Number(f.profitFrom) : null;
-      const profTo   = f.profitTo   !== '' ? Number(f.profitTo)   : null;
-      if (profFrom !== null && c.profit < profFrom) return false;
-      if (profTo   !== null && c.profit > profTo)   return false;
+      if (f.profitFrom !== '' && c.profit < Number(f.profitFrom)) return false;
+      if (f.profitTo   !== '' && c.profit > Number(f.profitTo))   return false;
 
-      // Debt Load
-      if (f.debtLoadTo !== '') {
-        const a = c.assets[2024];
-        if (a && a.equity > 0) {
-          const debtLoad = a.totalDebt / a.equity;
-          if (debtLoad > Number(f.debtLoadTo)) return false;
-        }
-      }
+      // НАПКА
+      if (f.napka === 'yes' && c.napka !== true)  return false;
+      if (f.napka === 'no'  && c.napka !== false) return false;
+
+      // Experience range
+      if (f.experienceFrom !== '' && c.experience < Number(f.experienceFrom)) return false;
+      if (f.experienceTo   !== '' && c.experience > Number(f.experienceTo))   return false;
 
       // Capital checkboxes
       const allChecked = f.capitalPublic && f.capitalCorporate && f.capitalNone;
@@ -89,24 +91,12 @@ export default function App() {
         if (c.capitalAttraction === 'none'      && !f.capitalNone)      return false;
       }
 
-      // НАПКА
-      if (f.napka === 'yes' && c.napka !== true)  return false;
-      if (f.napka === 'no'  && c.napka !== false) return false;
-
-      // Experience range (years)
-      const expFrom = f.experienceFrom !== '' ? Number(f.experienceFrom) : null;
-      const expTo   = f.experienceTo   !== '' ? Number(f.experienceTo)   : null;
-      if (expFrom !== null && c.experience < expFrom) return false;
-      if (expTo   !== null && c.experience > expTo)   return false;
-
       return true;
     });
 
-    // Default sorting by Rank (1 is top), if desc, we show Rank 1 first. If asc, we show Rank 20 first? 
-    // Usually desc means best first (high revenue). Asc means worst first. Rank is inverted.
     return [...filtered].sort((a, b) => {
-      if (f.sortDir === 'desc') return a.rank - b.rank; // 1, 2, 3 (Best first)
-      return b.rank - a.rank; // 20, 19, 18
+      if (f.sortDir === 'desc') return a.rank - b.rank;
+      return b.rank - a.rank;
     });
   })();
 
@@ -166,7 +156,6 @@ export default function App() {
   });
 
   const tableCompanies: Company[] =
-    activeTab === 'rating'     ? ratingCompanies :
     activeTab === 'finance'    ? financeCompanies :
     investmentCompanies;
 
@@ -181,10 +170,11 @@ export default function App() {
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
         }}
       >
-        <AppHeader searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-      <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
+        <AppHeader />
       <FilterBar
         activeTab={activeTab}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
         ratingFilters={ratingFilters}
         onRatingFiltersChange={setRatingFilters}
         ratingPreset={ratingPreset}
@@ -200,26 +190,30 @@ export default function App() {
       />
 
       <main style={{ padding: '20px 32px 40px' }}>
-        {tableCompanies.length === 0 ? (
-          <div
-            style={{
-              background: '#fff',
-              borderRadius: '12px',
-              border: '1px solid #f0f0f0',
-              padding: '64px 0',
-              textAlign: 'center',
-              color: '#9ca3af',
-              fontSize: '14px',
-            }}
-          >
-            По вашему запросу ничего не найдено
-          </div>
-        ) : activeTab === 'rating' ? (
-          <RatingTable companies={tableCompanies} />
+        {activeTab === 'rating' ? (
+          ratingPreset === 'capital' ? (
+            <InvestmentTable />
+          ) : ratingCompanies.length === 0 ? (
+            <div
+              style={{
+                background: '#fff',
+                borderRadius: '12px',
+                border: '1px solid #f0f0f0',
+                padding: '64px 0',
+                textAlign: 'center',
+                color: '#9ca3af',
+                fontSize: '14px',
+              }}
+            >
+              По вашему запросу ничего не найдено
+            </div>
+          ) : (
+            <RatingTable companies={ratingCompanies} />
+          )
         ) : activeTab === 'finance' ? (
           <FinanceTable companies={tableCompanies} mode={financeMode} year={financeYear} />
         ) : (
-          <InvestmentTable companies={tableCompanies} />
+          <InvestmentTable />
         )}
 
         <p style={{ marginTop: '16px', fontSize: '11px', color: '#d1d5db', textAlign: 'center' }}>

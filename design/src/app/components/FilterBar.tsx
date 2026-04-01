@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { TabId } from './TabBar';
 import { FinanceMode, FinanceYear } from './FinanceTable';
-import { ChevronDown, ChevronUp, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, X, Search } from 'lucide-react';
 
 // ── Filter interfaces ────────────────────────────────────────────
 
@@ -42,6 +42,8 @@ export interface InvestmentFilters {
 
 interface FilterBarProps {
   activeTab: TabId;
+  searchQuery: string;
+  onSearchChange: (v: string) => void;
   ratingFilters: RatingFilters;
   onRatingFiltersChange: (f: RatingFilters) => void;
   ratingPreset: 'overview' | 'pl' | 'balance' | 'capital';
@@ -86,11 +88,13 @@ function PopoverFilter({
   label,
   isActive,
   activeCount,
+  align = 'left',
   children
 }: {
   label: string;
   isActive: boolean;
   activeCount?: number;
+  align?: 'left' | 'right';
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -147,7 +151,7 @@ function PopoverFilter({
           style={{
             position: 'absolute',
             top: 'calc(100% + 6px)',
-            left: 0,
+            ...(align === 'right' ? { right: 0 } : { left: 0 }),
             background: '#fff',
             borderRadius: '12px',
             border: '1px solid #e5e7eb',
@@ -247,6 +251,7 @@ function RangeInputs({ fromVal, toVal, onFromChange, onToChange }: { fromVal: st
 
 export function FilterBar({
   activeTab,
+  searchQuery, onSearchChange,
   ratingFilters, onRatingFiltersChange,
   ratingPreset, onRatingPresetChange,
   financeFilters, onFinanceFiltersChange,
@@ -258,7 +263,7 @@ export function FilterBar({
   const setF = (patch: Partial<FinanceFilters>) => onFinanceFiltersChange({ ...financeFilters, ...patch });
 
   const presets = [
-    { id: 'overview', label: 'Обзор' },
+    { id: 'overview', label: 'Рейтинг ПКО-300' },
     { id: 'pl', label: 'P&L' },
     { id: 'balance', label: 'Баланс' },
     { id: 'capital', label: 'Привлечение капитала' },
@@ -269,67 +274,11 @@ export function FilterBar({
       background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '12px 32px',
       display: 'flex', flexDirection: 'column', gap: '12px'
     }}>
-      
+
       {/* ── РЕЙТИНГ ────────────────────────────────────────────── */}
       {activeTab === 'rating' && (
         <>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', minHeight: '36px' }}>
-            <PopoverFilter label="Фильтры" isActive={false}>
-            <div style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '12px', minWidth: '200px' }}>
-              <div>
-                <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Быстрые фильтры</div>
-                <CustomCheckbox checked={ratingFilters.profitFrom === '0'} label="Прибыльные (> 0)" onChange={() => setR({ profitFrom: ratingFilters.profitFrom === '0' ? '' : '0' })} />
-                <CustomCheckbox checked={ratingFilters.debtLoadTo === '1'} label="D/E ≤ 1" onChange={() => setR({ debtLoadTo: ratingFilters.debtLoadTo === '1' ? '' : '1' })} />
-              </div>
-              <Divider />
-              <div>
-                <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Сортировка</div>
-                <CustomRadio checked={ratingFilters.sortDir === 'desc'} label="По убыванию" onChange={() => setR({ sortDir: 'desc' })} />
-                <CustomRadio checked={ratingFilters.sortDir === 'asc'} label="По возрастанию" onChange={() => setR({ sortDir: 'asc' })} />
-              </div>
-            </div>
-          </PopoverFilter>
-
-          {ratingFilters.profitFrom === '0' && (
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              padding: '6px 12px', background: '#f4f4f5', borderRadius: '100px',
-              fontSize: '13px', fontWeight: 500, color: '#111'
-            }}>
-              Прибыльные
-              <button onClick={() => setR({ profitFrom: '' })} style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                <X style={{ width: '14px', height: '14px', color: '#6b7280' }} />
-              </button>
-            </div>
-          )}
-
-          {ratingFilters.debtLoadTo === '1' && (
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              padding: '6px 12px', background: '#f4f4f5', borderRadius: '100px',
-              fontSize: '13px', fontWeight: 500, color: '#111'
-            }}>
-              D/E ≤ 1
-              <button onClick={() => setR({ debtLoadTo: '' })} style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                <X style={{ width: '14px', height: '14px', color: '#6b7280' }} />
-              </button>
-            </div>
-          )}
-
-          {ratingFilters.sortDir !== 'desc' && (
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              padding: '6px 12px', background: '#f4f4f5', borderRadius: '100px',
-              fontSize: '13px', fontWeight: 500, color: '#111'
-            }}>
-              Сорт: По возрастанию
-              <button onClick={() => setR({ sortDir: 'desc' })} style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                <X style={{ width: '14px', height: '14px', color: '#6b7280' }} />
-              </button>
-            </div>
-          )}
-          </div>
-          <div style={{ display: 'flex', gap: '8px', marginTop: '4px', overflowX: 'auto', paddingBottom: '4px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {presets.map(p => (
               <button
                 key={p.id}
@@ -345,7 +294,106 @@ export function FilterBar({
                 {p.label}
               </button>
             ))}
+
+            <div style={{ flex: 1 }} />
+
+            <div style={{ position: 'relative' }}>
+              <Search
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '14px',
+                  height: '14px',
+                  color: '#9ca3af',
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Поиск по названию или ИНН..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                style={{
+                  paddingLeft: '32px',
+                  paddingRight: '12px',
+                  paddingTop: '7px',
+                  paddingBottom: '7px',
+                  width: '240px',
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb',
+                  fontSize: '13px',
+                  background: '#fff',
+                  color: '#111',
+                  outline: 'none',
+                }}
+              />
+            </div>
+
+            <PopoverFilter label="Фильтры" isActive={ratingFilters.revenueFrom !== '' || ratingFilters.revenueTo !== '' || ratingFilters.profitFrom !== '' || ratingFilters.profitTo !== '' || ratingFilters.napka !== 'ignore' || ratingFilters.experienceFrom !== '' || ratingFilters.experienceTo !== '' || ratingFilters.sortDir !== 'desc'} align="right">
+              <div style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '12px', minWidth: '260px' }}>
+                <div>
+                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Сортировка</div>
+                  <CustomRadio checked={ratingFilters.sortDir === 'desc'} label="По убыванию" onChange={() => setR({ sortDir: 'desc' })} />
+                  <CustomRadio checked={ratingFilters.sortDir === 'asc'} label="По возрастанию" onChange={() => setR({ sortDir: 'asc' })} />
+                </div>
+                <Divider />
+                <div>
+                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Выручка + пр. доходы, тыс ₽</div>
+                  <RangeInputs fromVal={ratingFilters.revenueFrom} toVal={ratingFilters.revenueTo} onFromChange={v => setR({ revenueFrom: v })} onToChange={v => setR({ revenueTo: v })} />
+                </div>
+                <Divider />
+                <div>
+                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Чистая прибыль, тыс ₽</div>
+                  <RangeInputs fromVal={ratingFilters.profitFrom} toVal={ratingFilters.profitTo} onFromChange={v => setR({ profitFrom: v })} onToChange={v => setR({ profitTo: v })} />
+                </div>
+                <Divider />
+                <div>
+                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Член НАПКА</div>
+                  <CustomRadio checked={ratingFilters.napka === 'ignore'} label="Не учитывать" onChange={() => setR({ napka: 'ignore' })} />
+                  <CustomRadio checked={ratingFilters.napka === 'yes'} label="Да" onChange={() => setR({ napka: 'yes' })} />
+                  <CustomRadio checked={ratingFilters.napka === 'no'} label="Нет" onChange={() => setR({ napka: 'no' })} />
+                </div>
+                <Divider />
+                <div>
+                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Работает на рынке, лет</div>
+                  <RangeInputs fromVal={ratingFilters.experienceFrom} toVal={ratingFilters.experienceTo} onFromChange={v => setR({ experienceFrom: v })} onToChange={v => setR({ experienceTo: v })} />
+                </div>
+              </div>
+            </PopoverFilter>
           </div>
+
+          {/* Active filter chips */}
+          {(() => {
+            const f = ratingFilters;
+            const hasChips = f.sortDir !== 'desc' || f.revenueFrom !== '' || f.revenueTo !== '' || f.profitFrom !== '' || f.profitTo !== '' || f.napka !== 'ignore' || f.experienceFrom !== '' || f.experienceTo !== '';
+            if (!hasChips) return null;
+            const chipStyle: React.CSSProperties = {
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              padding: '6px 12px', background: '#f4f4f5', borderRadius: '100px',
+              fontSize: '13px', fontWeight: 500, color: '#111'
+            };
+            const btnStyle: React.CSSProperties = { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' };
+            return (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                {f.sortDir !== 'desc' && (
+                  <div style={chipStyle}>Сорт: По возрастанию<button onClick={() => setR({ sortDir: 'desc' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
+                )}
+                {(f.revenueFrom !== '' || f.revenueTo !== '') && (
+                  <div style={chipStyle}>Выручка: {f.revenueFrom || '∞'} — {f.revenueTo || '∞'}<button onClick={() => setR({ revenueFrom: '', revenueTo: '' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
+                )}
+                {(f.profitFrom !== '' || f.profitTo !== '') && (
+                  <div style={chipStyle}>Прибыль: {f.profitFrom || '∞'} — {f.profitTo || '∞'}<button onClick={() => setR({ profitFrom: '', profitTo: '' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
+                )}
+                {f.napka !== 'ignore' && (
+                  <div style={chipStyle}>НАПКА: {f.napka === 'yes' ? 'Да' : 'Нет'}<button onClick={() => setR({ napka: 'ignore' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
+                )}
+                {(f.experienceFrom !== '' || f.experienceTo !== '') && (
+                  <div style={chipStyle}>Стаж: {f.experienceFrom || '∞'} — {f.experienceTo || '∞'} лет<button onClick={() => setR({ experienceFrom: '', experienceTo: '' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
+                )}
+              </div>
+            );
+          })()}
         </>
       )}
 
