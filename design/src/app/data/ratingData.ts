@@ -13,6 +13,15 @@ export interface RatingCompany {
   experience: number; // Стаж (лет)
   capitalAttraction: 'public' | 'corporate' | 'none';
   napka: boolean;
+  cost: number;        // Расходы 2024, тыс руб
+  eqt: number;         // Собственный капитал, тыс руб
+  dLong: number;       // Долгосрочные обязательства, тыс руб
+  dShort: number;      // Краткосрочные обязательства, тыс руб
+  de: number;          // D/E коэффициент
+  receivable: number;  // Дебиторская задолженность, тыс руб
+  cagr: number;        // CAGR выручки 5 лет (доля, напр. 0.33 = 33%)
+  loan: number;        // Заёмный капитал, тыс руб
+  rankDelta: number;    // Изменение позиции в рейтинге YoY (+ = рост)
 }
 
 export const ratingData: RatingCompany[] = [
@@ -27,7 +36,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 298.0,
     "experience": 17,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 7354522.0,
+    "eqt": 9093524.0,
+    "dLong": 11939199.0,
+    "dShort": 2090909.0,
+    "de": 1.54,
+    "receivable": 522393.0,
+    "cagr": 0.37,
+    "loan": 1760236.0,
+    "rankDelta": 0
   },
   {
     "rank": 2,
@@ -40,7 +58,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 222.0,
     "experience": 12,
     "capitalAttraction": "corporate",
-    "napka": false
+    "napka": false,
+    "cost": 1895600.0,
+    "eqt": 28988865.0,
+    "dLong": 2376917.0,
+    "dShort": 103749.0,
+    "de": 0.09,
+    "receivable": 276242.0,
+    "cagr": 0.33,
+    "loan": 0.0,
+    "rankDelta": 0
   },
   {
     "rank": 3,
@@ -53,7 +80,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1667.6,
     "experience": 9,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 4073731.0,
+    "eqt": 6067436.0,
+    "dLong": 9473411.0,
+    "dShort": 5302974.0,
+    "de": 2.44,
+    "receivable": 114237.0,
+    "cagr": 3.56,
+    "loan": 912527.0,
+    "rankDelta": 2
   },
   {
     "rank": 4,
@@ -66,7 +102,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 209.8,
     "experience": 19,
     "capitalAttraction": "corporate",
-    "napka": true
+    "napka": true,
+    "cost": 3020218.0,
+    "eqt": 16522000.0,
+    "dLong": 4122488.0,
+    "dShort": 1683456.0,
+    "de": 0.35,
+    "receivable": 169474.0,
+    "cagr": 0.31,
+    "loan": 2227176.0,
+    "rankDelta": -1
   },
   {
     "rank": 5,
@@ -79,7 +124,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 220.1,
     "experience": 9,
     "capitalAttraction": "corporate",
-    "napka": false
+    "napka": false,
+    "cost": 6476527.0,
+    "eqt": 354847.0,
+    "dLong": 14929252.0,
+    "dShort": 145736.0,
+    "de": 42.48,
+    "receivable": 563914.0,
+    "cagr": 0.2,
+    "loan": 5781067.0,
+    "rankDelta": -1
   },
   {
     "rank": 6,
@@ -92,7 +146,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 608.1,
     "experience": 7,
     "capitalAttraction": "corporate",
-    "napka": false
+    "napka": false,
+    "cost": 4214695.0,
+    "eqt": 1067240.0,
+    "dLong": 3985035.0,
+    "dShort": 1074710.0,
+    "de": 4.74,
+    "receivable": 104605.0,
+    "cagr": 6.62,
+    "loan": 44142.0,
+    "rankDelta": 3
   },
   {
     "rank": 7,
@@ -105,7 +168,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 347.3,
     "experience": 16,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 1394961.0,
+    "eqt": 6570651.0,
+    "dLong": 1254284.0,
+    "dShort": 1452702.0,
+    "de": 0.41,
+    "receivable": 69730.0,
+    "cagr": 0.69,
+    "loan": 1284660.0,
+    "rankDelta": 1
   },
   {
     "rank": 8,
@@ -118,7 +190,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 402.0,
     "experience": 14,
     "capitalAttraction": "corporate",
-    "napka": true
+    "napka": true,
+    "cost": 2473779.0,
+    "eqt": 9218076.0,
+    "dLong": 585342.0,
+    "dShort": 3295771.0,
+    "de": 0.42,
+    "receivable": 770038.0,
+    "cagr": 1.13,
+    "loan": 1023448.0,
+    "rankDelta": -1
   },
   {
     "rank": 9,
@@ -131,7 +212,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1272.8,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3014575.0,
+    "eqt": 3392234.0,
+    "dLong": 25136.0,
+    "dShort": 113423.0,
+    "de": 0.04,
+    "receivable": 60950.0,
+    "cagr": 1.42,
+    "loan": 0.0,
+    "rankDelta": 1
   },
   {
     "rank": 10,
@@ -144,7 +234,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 350.7,
     "experience": 20,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 1582938.0,
+    "eqt": 4947834.0,
+    "dLong": 267.0,
+    "dShort": 1203854.0,
+    "de": 0.24,
+    "receivable": 177879.0,
+    "cagr": 0.56,
+    "loan": 39151.0,
+    "rankDelta": 1
   },
   {
     "rank": 11,
@@ -157,7 +256,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 828.7,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1267589.0,
+    "eqt": 147533.0,
+    "dLong": 151850.0,
+    "dShort": 1550835.0,
+    "de": 11.54,
+    "receivable": 85223.0,
+    "cagr": 4.58,
+    "loan": 5404.0,
+    "rankDelta": 4
   },
   {
     "rank": 12,
@@ -170,7 +278,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 216.8,
     "experience": 17,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 1292887.0,
+    "eqt": 2209358.0,
+    "dLong": 352862.0,
+    "dShort": 363222.0,
+    "de": 0.32,
+    "receivable": 212366.0,
+    "cagr": 0.51,
+    "loan": 660689.0,
+    "rankDelta": 2
   },
   {
     "rank": 13,
@@ -183,7 +300,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 4299200.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1427145.0,
+    "eqt": 2042600.0,
+    "dLong": 218160.0,
+    "dShort": 69885.0,
+    "de": 0.14,
+    "receivable": 143816.0,
+    "cagr": 4.33,
+    "loan": 131100.0,
+    "rankDelta": 4
   },
   {
     "rank": 14,
@@ -196,7 +322,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1041.6,
     "experience": 11,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 833951.0,
+    "eqt": 428644.0,
+    "dLong": 1366956.0,
+    "dShort": 1048936.0,
+    "de": 5.64,
+    "receivable": 231762.0,
+    "cagr": 0.96,
+    "loan": 284159.0,
+    "rankDelta": 5
   },
   {
     "rank": 15,
@@ -209,7 +344,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 637.5,
     "experience": 13,
     "capitalAttraction": "corporate",
-    "napka": true
+    "napka": true,
+    "cost": 969389.0,
+    "eqt": 1282966.0,
+    "dLong": 1104803.0,
+    "dShort": 1722259.0,
+    "de": 2.2,
+    "receivable": 164532.0,
+    "cagr": 0.32,
+    "loan": 99136.0,
+    "rankDelta": -2
   },
   {
     "rank": 16,
@@ -222,7 +366,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 182.9,
     "experience": 7,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 1053672.0,
+    "eqt": 662472.0,
+    "dLong": 1631500.0,
+    "dShort": 274064.0,
+    "de": 2.88,
+    "receivable": 50562.0,
+    "cagr": 3.07,
+    "loan": 0.0,
+    "rankDelta": 21
   },
   {
     "rank": 17,
@@ -235,7 +388,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 188.6,
     "experience": 17,
     "capitalAttraction": "corporate",
-    "napka": true
+    "napka": true,
+    "cost": 411601.0,
+    "eqt": 383077.0,
+    "dLong": 895053.0,
+    "dShort": 235911.0,
+    "de": 2.95,
+    "receivable": 149199.0,
+    "cagr": 0.33,
+    "loan": 176734.0,
+    "rankDelta": -5
   },
   {
     "rank": 18,
@@ -248,7 +410,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 800.1,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 676507.0,
+    "eqt": 1541825.0,
+    "dLong": 1370.0,
+    "dShort": 151961.0,
+    "de": 0.1,
+    "receivable": 191378.0,
+    "cagr": 0.73,
+    "loan": 117783.0,
+    "rankDelta": 2
   },
   {
     "rank": 19,
@@ -261,7 +432,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 125.7,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 493549.0,
+    "eqt": -672.0,
+    "dLong": 10012498.0,
+    "dShort": 87219.0,
+    "de": -15029.34,
+    "receivable": 1483189.0,
+    "cagr": 0.08,
+    "loan": 5959463.0,
+    "rankDelta": -13
   },
   {
     "rank": 20,
@@ -274,7 +454,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 526.4,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 1359256.0,
+    "eqt": 23225.0,
+    "dLong": 63930.0,
+    "dShort": 3346314.0,
+    "de": 146.84,
+    "receivable": 1252719.0,
+    "cagr": 0.41,
+    "loan": 0.0,
+    "rankDelta": -2
   },
   {
     "rank": 21,
@@ -287,7 +476,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 203.3,
     "experience": 13,
     "capitalAttraction": "public",
-    "napka": false
+    "napka": false,
+    "cost": 494821.0,
+    "eqt": 135360.0,
+    "dLong": 579179.0,
+    "dShort": 1123779.0,
+    "de": 12.58,
+    "receivable": 372691.0,
+    "cagr": 1.03,
+    "loan": 379373.0,
+    "rankDelta": 2
   },
   {
     "rank": 22,
@@ -300,7 +498,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 114.6,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 914213.0,
+    "eqt": 146201.0,
+    "dLong": 52145.0,
+    "dShort": 366642.0,
+    "de": 2.86,
+    "receivable": 16702.0,
+    "cagr": 0.4,
+    "loan": 14758.0,
+    "rankDelta": 10
   },
   {
     "rank": 23,
@@ -313,7 +520,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 302.6,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1162053.0,
+    "eqt": 18748.0,
+    "dLong": 0.0,
+    "dShort": 662018.0,
+    "de": 35.31,
+    "receivable": 280200.0,
+    "cagr": 134.61,
+    "loan": 0,
+    "rankDelta": 17
   },
   {
     "rank": 24,
@@ -326,7 +542,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2752.8,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 675418.0,
+    "eqt": 618133.0,
+    "dLong": 18287.0,
+    "dShort": 258250.0,
+    "de": 0.45,
+    "receivable": 7173.0,
+    "cagr": 7.64,
+    "loan": 15548.0,
+    "rankDelta": 2
   },
   {
     "rank": 25,
@@ -339,7 +564,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 302.8,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 239551.0,
+    "eqt": 1976012.0,
+    "dLong": 37000.0,
+    "dShort": 142258.0,
+    "de": 0.09,
+    "receivable": 44170.0,
+    "cagr": 0.37,
+    "loan": 18407.0,
+    "rankDelta": -4
   },
   {
     "rank": 26,
@@ -352,7 +586,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 30065.1,
     "experience": 6,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 413636.0,
+    "eqt": 589454.0,
+    "dLong": 410022.0,
+    "dShort": 224903.0,
+    "de": 1.08,
+    "receivable": 15567.0,
+    "cagr": 340.7,
+    "loan": 237.0,
+    "rankDelta": 18
   },
   {
     "rank": 27,
@@ -365,7 +608,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 4261186.8,
     "experience": 10,
     "capitalAttraction": "corporate",
-    "napka": false
+    "napka": false,
+    "cost": 270763.0,
+    "eqt": 141316.0,
+    "dLong": 1389648.0,
+    "dShort": 393528.0,
+    "de": 12.62,
+    "receivable": 252095.0,
+    "cagr": 1876.87,
+    "loan": 1392.0,
+    "rankDelta": 24
   },
   {
     "rank": 28,
@@ -378,7 +630,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 87.3,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 12655.0,
+    "eqt": 260910.0,
+    "dLong": 30159.0,
+    "dShort": 125130.0,
+    "de": 0.6,
+    "receivable": 121904.0,
+    "cagr": 0.37,
+    "loan": 0.0,
+    "rankDelta": 1
   },
   {
     "rank": 29,
@@ -391,7 +652,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 30000.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 772065.0,
+    "eqt": 20807.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 598217.0,
+    "cagr": 15.07,
+    "loan": 0.0,
+    "rankDelta": 65
   },
   {
     "rank": 30,
@@ -404,7 +674,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 3.8,
     "experience": 21,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 465905.0,
+    "eqt": 168994.0,
+    "dLong": 71109.0,
+    "dShort": 73212.0,
+    "de": 0.85,
+    "receivable": 88079.0,
+    "cagr": 0.2,
+    "loan": 0.0,
+    "rankDelta": -3
   },
   {
     "rank": 31,
@@ -417,7 +696,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 233.2,
     "experience": 1,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 385166.0,
+    "eqt": 155664.0,
+    "dLong": 0.0,
+    "dShort": 133577.0,
+    "de": 0.86,
+    "receivable": 74119.0,
+    "cagr": 0.89,
+    "loan": 24071.0,
+    "rankDelta": 4
   },
   {
     "rank": 32,
@@ -430,7 +718,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 34.8,
     "experience": 22,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 424217.0,
+    "eqt": 119632.0,
+    "dLong": 85909.0,
+    "dShort": 68628.0,
+    "de": 1.29,
+    "receivable": 121055.0,
+    "cagr": 0.15,
+    "loan": 93259.0,
+    "rankDelta": -2
   },
   {
     "rank": 33,
@@ -443,7 +740,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2060.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 424272.0,
+    "eqt": 96637.0,
+    "dLong": 124800.0,
+    "dShort": 880483.0,
+    "de": 10.4,
+    "receivable": 175406.0,
+    "cagr": 1266.13,
+    "loan": 32886.0,
+    "rankDelta": -2
   },
   {
     "rank": 34,
@@ -456,7 +762,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 8420.0,
     "experience": 1,
     "capitalAttraction": "public",
-    "napka": false
+    "napka": false,
+    "cost": 369240.0,
+    "eqt": 73980.0,
+    "dLong": 304453.0,
+    "dShort": 1034436.0,
+    "de": 18.1,
+    "receivable": 15739.0,
+    "cagr": 7.21,
+    "loan": 0,
+    "rankDelta": 76
   },
   {
     "rank": 35,
@@ -469,7 +784,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 543.0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 302637.0,
+    "eqt": 162945.0,
+    "dLong": 532308.0,
+    "dShort": 276951.0,
+    "de": 4.97,
+    "receivable": 97869.0,
+    "cagr": 26.04,
+    "loan": 0,
+    "rankDelta": 69
   },
   {
     "rank": 36,
@@ -482,7 +806,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2392.6,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 61213.0,
+    "eqt": 464664.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 823925.0,
+    "cagr": 4.99,
+    "loan": 0,
+    "rankDelta": 86
   },
   {
     "rank": 37,
@@ -495,7 +828,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 565.8,
     "experience": 15,
     "capitalAttraction": "corporate",
-    "napka": true
+    "napka": true,
+    "cost": -231515.0,
+    "eqt": 1403612.0,
+    "dLong": 805956.0,
+    "dShort": 145766.0,
+    "de": 0.68,
+    "receivable": 59874.0,
+    "cagr": 0.3,
+    "loan": 0.0,
+    "rankDelta": -9
   },
   {
     "rank": 38,
@@ -508,7 +850,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 513.7,
     "experience": 21,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 163046.0,
+    "eqt": 194912.0,
+    "dLong": 43.0,
+    "dShort": 278602.0,
+    "de": 1.43,
+    "receivable": 133820.0,
+    "cagr": 0.11,
+    "loan": 797772.0,
+    "rankDelta": -22
   },
   {
     "rank": 39,
@@ -521,7 +872,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 4.1,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 121793.0,
+    "eqt": 203236.0,
+    "dLong": 0.0,
+    "dShort": 2202.0,
+    "de": 0.01,
+    "receivable": 3844.0,
+    "cagr": 0.17,
+    "loan": 0.0,
+    "rankDelta": -5
   },
   {
     "rank": 40,
@@ -534,7 +894,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 64.6,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 188415.0,
+    "eqt": 155970.0,
+    "dLong": 0.0,
+    "dShort": 2524.0,
+    "de": 0.02,
+    "receivable": 17746.0,
+    "cagr": 0.27,
+    "loan": 0.0,
+    "rankDelta": 5
   },
   {
     "rank": 41,
@@ -547,7 +916,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 35.0,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 157694.0,
+    "eqt": 353922.0,
+    "dLong": 220728.0,
+    "dShort": 23264.0,
+    "de": 0.69,
+    "receivable": 110614.0,
+    "cagr": 0.32,
+    "loan": 222162.0,
+    "rankDelta": -5
   },
   {
     "rank": 42,
@@ -560,7 +938,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 21.7,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 424695.0,
+    "eqt": -52018.0,
+    "dLong": 118818.0,
+    "dShort": 112783.0,
+    "de": -4.45,
+    "receivable": 48490.0,
+    "cagr": 0.76,
+    "loan": 215049.0,
+    "rankDelta": -17
   },
   {
     "rank": 43,
@@ -573,7 +960,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 72.1,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 330891.0,
+    "eqt": 37598.0,
+    "dLong": 0.0,
+    "dShort": 65932.0,
+    "de": 1.75,
+    "receivable": 6247.0,
+    "cagr": 0.52,
+    "loan": 0,
+    "rankDelta": -19
   },
   {
     "rank": 44,
@@ -586,7 +982,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 529.2,
     "experience": 7,
     "capitalAttraction": "public",
-    "napka": false
+    "napka": false,
+    "cost": 408769.0,
+    "eqt": 558382.0,
+    "dLong": 114120.0,
+    "dShort": 535283.0,
+    "de": 1.16,
+    "receivable": 70874.0,
+    "cagr": 10.88,
+    "loan": 0.0,
+    "rankDelta": 11
   },
   {
     "rank": 45,
@@ -599,7 +1004,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 31.2,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 440631.0,
+    "eqt": 180879.0,
+    "dLong": 20900.0,
+    "dShort": 112706.0,
+    "de": 0.74,
+    "receivable": 164107.0,
+    "cagr": 0.33,
+    "loan": 300152.0,
+    "rankDelta": 39
   },
   {
     "rank": 46,
@@ -612,7 +1026,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 162.8,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 91330.0,
+    "eqt": 178862.0,
+    "dLong": 0.0,
+    "dShort": 217965.0,
+    "de": 1.22,
+    "receivable": 64337.0,
+    "cagr": 0.77,
+    "loan": 36936.0,
+    "rankDelta": 4
   },
   {
     "rank": 47,
@@ -625,7 +1048,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -5
   },
   {
     "rank": 48,
@@ -638,7 +1070,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.4,
     "experience": 19,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 332500.0,
+    "eqt": 143158.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 282519.0,
+    "cagr": 0.52,
+    "loan": 25009.0,
+    "rankDelta": 17
   },
   {
     "rank": 49,
@@ -651,7 +1092,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 172.1,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 398387.0,
+    "eqt": 24477.0,
+    "dLong": 3430.0,
+    "dShort": 41245.0,
+    "de": 1.83,
+    "receivable": 6646.0,
+    "cagr": 0.58,
+    "loan": 1571.0,
+    "rankDelta": -27
   },
   {
     "rank": 50,
@@ -664,7 +1114,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 180618.4,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 9359.0,
+    "eqt": 83895.0,
+    "dLong": 70366.0,
+    "dShort": 62016.0,
+    "de": 1.58,
+    "receivable": 52387.0,
+    "cagr": 1.62,
+    "loan": 3611.0,
+    "rankDelta": 3
   },
   {
     "rank": 51,
@@ -677,7 +1136,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1407.6,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 237166.0,
+    "eqt": 70484.0,
+    "dLong": 44475.0,
+    "dShort": 37617.0,
+    "de": 1.16,
+    "receivable": 17561.0,
+    "cagr": 0.82,
+    "loan": 0,
+    "rankDelta": 91
   },
   {
     "rank": 52,
@@ -690,7 +1158,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 71.4,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 197818.0,
+    "eqt": 116090.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 579876.0,
+    "cagr": 0.35,
+    "loan": 217640.0,
+    "rankDelta": 8
   },
   {
     "rank": 53,
@@ -703,7 +1180,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 215366.0,
+    "eqt": 21730.0,
+    "dLong": 0.0,
+    "dShort": 12665.0,
+    "de": 0.58,
+    "receivable": 21934.0,
+    "cagr": 0.35,
+    "loan": 0.0,
+    "rankDelta": -6
   },
   {
     "rank": 54,
@@ -716,7 +1202,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1397.6,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 78624.0,
+    "eqt": 164747.0,
+    "dLong": 34.0,
+    "dShort": 18052.0,
+    "de": 0.11,
+    "receivable": 74132.0,
+    "cagr": 1570.13,
+    "loan": 0.0,
+    "rankDelta": -11
   },
   {
     "rank": 55,
@@ -729,7 +1224,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.1,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 254769.0,
+    "eqt": 52161.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 108682.0,
+    "cagr": 0.26,
+    "loan": 13641.0,
+    "rankDelta": 13
   },
   {
     "rank": 56,
@@ -742,7 +1246,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 6759.2,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2081.0,
+    "eqt": 246084.0,
+    "dLong": 35220.0,
+    "dShort": 54076.0,
+    "de": 0.36,
+    "receivable": 48643.0,
+    "cagr": 63490.0,
+    "loan": 0,
+    "rankDelta": 438
   },
   {
     "rank": 57,
@@ -755,7 +1268,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 313.9,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 146635.0,
+    "eqt": 327526.0,
+    "dLong": 0.0,
+    "dShort": 24096.0,
+    "de": 0.07,
+    "receivable": 11962.0,
+    "cagr": 0.83,
+    "loan": 14792.0,
+    "rankDelta": 13
   },
   {
     "rank": 58,
@@ -768,7 +1290,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 214182.0,
+    "eqt": 21606.0,
+    "dLong": 0.0,
+    "dShort": 19728.0,
+    "de": 0.91,
+    "receivable": 38866.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 438
   },
   {
     "rank": 59,
@@ -781,7 +1312,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 165.8,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 206655.0,
+    "eqt": 374417.0,
+    "dLong": 303378.0,
+    "dShort": 14652.0,
+    "de": 0.85,
+    "receivable": 263718.0,
+    "cagr": 0.18,
+    "loan": 174550.0,
+    "rankDelta": -7
   },
   {
     "rank": 60,
@@ -794,7 +1334,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1297.0,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 196032.0,
+    "eqt": 135664.0,
+    "dLong": 96494.0,
+    "dShort": 28467.0,
+    "de": 0.92,
+    "receivable": 22138.0,
+    "cagr": 1.67,
+    "loan": 1859.0,
+    "rankDelta": 11
   },
   {
     "rank": 61,
@@ -807,7 +1356,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 3023.5,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 229768.0,
+    "dLong": 98506.0,
+    "dShort": 6199.0,
+    "de": 0.46,
+    "receivable": 0.0,
+    "cagr": 4.22,
+    "loan": 1207.0,
+    "rankDelta": 28
   },
   {
     "rank": 62,
@@ -820,7 +1378,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 80.0,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 263085.0,
+    "eqt": 15475.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 28712.0,
+    "cagr": 3.08,
+    "loan": 0,
+    "rankDelta": 238
   },
   {
     "rank": 63,
@@ -833,7 +1400,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 98.4,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 52271.0,
+    "eqt": 285615.0,
+    "dLong": 0.0,
+    "dShort": 10652.0,
+    "de": 0.04,
+    "receivable": 10645.0,
+    "cagr": 0.17,
+    "loan": 4394.0,
+    "rankDelta": -14
   },
   {
     "rank": 64,
@@ -846,7 +1422,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 163.8,
     "experience": 22,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 109982.0,
+    "eqt": 418811.0,
+    "dLong": 0.0,
+    "dShort": 414244.0,
+    "de": 0.99,
+    "receivable": 31473.0,
+    "cagr": 0.11,
+    "loan": 0.0,
+    "rankDelta": -10
   },
   {
     "rank": 65,
@@ -859,7 +1444,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 191.3,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 44951.0,
+    "eqt": 192003.0,
+    "dLong": 0.0,
+    "dShort": 11224.0,
+    "de": 0.06,
+    "receivable": 11363.0,
+    "cagr": 0.16,
+    "loan": 12628.0,
+    "rankDelta": -19
   },
   {
     "rank": 66,
@@ -872,7 +1466,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1214.9,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 193583.0,
+    "eqt": 167248.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 327241.0,
+    "cagr": 2.63,
+    "loan": 20336.0,
+    "rankDelta": -3
   },
   {
     "rank": 67,
@@ -885,7 +1488,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 6170.8,
     "experience": 6,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 140531.0,
+    "eqt": 109438.0,
+    "dLong": 110963.0,
+    "dShort": 97573.0,
+    "de": 1.91,
+    "receivable": 163.0,
+    "cagr": 6.41,
+    "loan": 0.0,
+    "rankDelta": 2
   },
   {
     "rank": 68,
@@ -898,7 +1510,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 110.2,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 283226.0,
+    "eqt": 32304.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 389531.0,
+    "cagr": 0.42,
+    "loan": 0.0,
+    "rankDelta": 38
   },
   {
     "rank": 69,
@@ -911,7 +1532,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1765.4,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 159953.0,
+    "eqt": 115320.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 129402.0,
+    "cagr": 3.73,
+    "loan": 361.0,
+    "rankDelta": 175
   },
   {
     "rank": 70,
@@ -924,7 +1554,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 253.2,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 338984.0,
+    "eqt": 211919.0,
+    "dLong": 33417.0,
+    "dShort": 33690.0,
+    "de": 0.32,
+    "receivable": 124506.0,
+    "cagr": 26.31,
+    "loan": 0.0,
+    "rankDelta": 7
   },
   {
     "rank": 71,
@@ -937,7 +1576,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 448.1,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 105781.0,
+    "eqt": 231288.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 402552.0,
+    "cagr": 1.1,
+    "loan": 7773.0,
+    "rankDelta": 9
   },
   {
     "rank": 72,
@@ -950,7 +1598,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 25598.4,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 134074.0,
+    "eqt": 39000.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 2382.0,
+    "cagr": 51.4,
+    "loan": 0.0,
+    "rankDelta": 99
   },
   {
     "rank": 73,
@@ -963,7 +1620,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 114.6,
     "experience": 20,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 97268.0,
+    "eqt": 63159.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 75396.0,
+    "cagr": 0.43,
+    "loan": 0.0,
+    "rankDelta": -7
   },
   {
     "rank": 74,
@@ -976,7 +1642,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 185062.9,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 159419.0,
+    "eqt": 193847.0,
+    "dLong": 0.0,
+    "dShort": 13526.0,
+    "de": 0.07,
+    "receivable": 62557.0,
+    "cagr": 0.37,
+    "loan": 0.0,
+    "rankDelta": 34
   },
   {
     "rank": 75,
@@ -989,7 +1664,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2680.7,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 192014.0,
+    "eqt": 64519.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 34318.0,
+    "cagr": 5.56,
+    "loan": 0.0,
+    "rankDelta": 48
   },
   {
     "rank": 76,
@@ -1002,7 +1686,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 252.0,
     "experience": 2,
     "capitalAttraction": "public",
-    "napka": true
+    "napka": true,
+    "cost": 42517.0,
+    "eqt": 215712.0,
+    "dLong": 155641.0,
+    "dShort": 11400.0,
+    "de": 0.77,
+    "receivable": 60072.0,
+    "cagr": 0.72,
+    "loan": 0.0,
+    "rankDelta": 31
   },
   {
     "rank": 77,
@@ -1015,7 +1708,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1728.4,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 179181.0,
+    "eqt": 56484.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 50415.0,
+    "cagr": 3.66,
+    "loan": 3150.0,
+    "rankDelta": 10
   },
   {
     "rank": 78,
@@ -1028,7 +1730,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 22.8,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 99115.0,
+    "eqt": 41947.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 26227.0,
+    "cagr": 0.33,
+    "loan": 0.0,
+    "rankDelta": -14
   },
   {
     "rank": 79,
@@ -1041,7 +1752,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 345.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 218777.0,
+    "eqt": 135303.0,
+    "dLong": 1084.0,
+    "dShort": 2255.0,
+    "de": 0.02,
+    "receivable": 2201.0,
+    "cagr": 2154.97,
+    "loan": 0.0,
+    "rankDelta": -6
   },
   {
     "rank": 80,
@@ -1054,7 +1774,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1643.4,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -2
   },
   {
     "rank": 81,
@@ -1067,7 +1796,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 68.8,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 81193.0,
+    "eqt": 151107.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 137657.0,
+    "cagr": 0.8,
+    "loan": 1718.0,
+    "rankDelta": 68
   },
   {
     "rank": 82,
@@ -1080,7 +1818,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 26149.8,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 183583.0,
+    "eqt": 16803.0,
+    "dLong": 539143.0,
+    "dShort": 42532.0,
+    "de": 34.62,
+    "receivable": 628.0,
+    "cagr": 0.25,
+    "loan": 430865.0,
+    "rankDelta": -49
   },
   {
     "rank": 83,
@@ -1093,7 +1840,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 3.1,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 228047.0,
+    "eqt": 32637.0,
+    "dLong": 0.0,
+    "dShort": 4783.0,
+    "de": 0.15,
+    "receivable": 23982.0,
+    "cagr": 0.25,
+    "loan": 0,
+    "rankDelta": 12
   },
   {
     "rank": 84,
@@ -1106,7 +1862,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 946.9,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 181629.0,
+    "eqt": 406376.0,
+    "dLong": 0.0,
+    "dShort": 35080.0,
+    "de": 0.09,
+    "receivable": 37097.0,
+    "cagr": 127.36,
+    "loan": 0,
+    "rankDelta": 395
   },
   {
     "rank": 85,
@@ -1119,7 +1884,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1297.0,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1005.0,
+    "eqt": 173366.0,
+    "dLong": 0.0,
+    "dShort": 4130.0,
+    "de": 0.02,
+    "receivable": 40548.0,
+    "cagr": 0.98,
+    "loan": 5.0,
+    "rankDelta": 26
   },
   {
     "rank": 86,
@@ -1132,7 +1906,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1932.7,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 184480.0,
+    "eqt": 11700.0,
+    "dLong": 0.0,
+    "dShort": 2447.0,
+    "de": 0.21,
+    "receivable": 10131.0,
+    "cagr": 4.07,
+    "loan": 0,
+    "rankDelta": -24
   },
   {
     "rank": 87,
@@ -1145,7 +1928,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 688.2,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 78155.0,
+    "eqt": 48403.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 101497.0,
+    "cagr": 1.58,
+    "loan": 0,
+    "rankDelta": 183
   },
   {
     "rank": 88,
@@ -1158,7 +1950,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 619.3,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 35378.0,
+    "eqt": 61440.0,
+    "dLong": 41000.0,
+    "dShort": 11398.0,
+    "de": 0.85,
+    "receivable": 65117.0,
+    "cagr": 1.44,
+    "loan": 0,
+    "rankDelta": 174
   },
   {
     "rank": 89,
@@ -1171,7 +1972,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.1,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 174215.0,
+    "eqt": 13081.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 360311.0,
+    "cagr": 0.4,
+    "loan": 53947.0,
+    "rankDelta": -7
   },
   {
     "rank": 90,
@@ -1184,7 +1994,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2872.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 149504.0,
+    "eqt": 37003.0,
+    "dLong": 28102.0,
+    "dShort": 164019.0,
+    "de": 5.19,
+    "receivable": 139410.0,
+    "cagr": 103.73,
+    "loan": 2104.0,
+    "rankDelta": 47
   },
   {
     "rank": 91,
@@ -1197,7 +2016,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 104944.0,
+    "eqt": 177721.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 117851.0,
+    "cagr": 0.37,
+    "loan": 35.0,
+    "rankDelta": 7
   },
   {
     "rank": 92,
@@ -1210,7 +2038,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 122.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 94242.0,
+    "eqt": 384274.0,
+    "dLong": 0.0,
+    "dShort": 18830.0,
+    "de": 0.05,
+    "receivable": 18740.0,
+    "cagr": 0.77,
+    "loan": 0.0,
+    "rankDelta": 77
   },
   {
     "rank": 93,
@@ -1223,7 +2060,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 66.3,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 91910.0,
+    "eqt": 126027.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 126289.0,
+    "cagr": 0.33,
+    "loan": 52500.0,
+    "rankDelta": -21
   },
   {
     "rank": 94,
@@ -1236,7 +2082,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 179.1,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 167137.0,
+    "eqt": 286310.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 307730.0,
+    "cagr": 0.12,
+    "loan": 0,
+    "rankDelta": -38
   },
   {
     "rank": 95,
@@ -1249,7 +2104,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 201.1,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18574.0,
+    "eqt": 121818.0,
+    "dLong": 45094.0,
+    "dShort": 374920.0,
+    "de": 3.45,
+    "receivable": 14021.0,
+    "cagr": 0.41,
+    "loan": 280800.0,
+    "rankDelta": 20
   },
   {
     "rank": 96,
@@ -1262,7 +2126,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 315.2,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 32300.0,
+    "eqt": 457038.0,
+    "dLong": 0.0,
+    "dShort": 3699918.0,
+    "de": 8.1,
+    "receivable": 3703953.0,
+    "cagr": 0.25,
+    "loan": 43339.0,
+    "rankDelta": -17
   },
   {
     "rank": 97,
@@ -1275,7 +2148,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -9.8,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 108226.0,
+    "eqt": 113107.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 107269.0,
+    "cagr": 0.18,
+    "loan": 0.0,
+    "rankDelta": -16
   },
   {
     "rank": 98,
@@ -1288,7 +2170,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 150.6,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 46092.0,
+    "eqt": 249715.0,
+    "dLong": 0.0,
+    "dShort": 2652.0,
+    "de": 0.01,
+    "receivable": 2429.0,
+    "cagr": 0.26,
+    "loan": 0.0,
+    "rankDelta": -23
   },
   {
     "rank": 99,
@@ -1301,7 +2192,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -3
   },
   {
     "rank": 100,
@@ -1314,7 +2214,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2472.1,
     "experience": 18,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 24210.0,
+    "eqt": 162312.0,
+    "dLong": 17409.0,
+    "dShort": 4505.0,
+    "de": 0.14,
+    "receivable": 25282.0,
+    "cagr": 0.01,
+    "loan": 7665.0,
+    "rankDelta": 14
   },
   {
     "rank": 101,
@@ -1327,7 +2236,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 109005.0,
+    "eqt": 58767.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 59434.0,
+    "cagr": 1.9,
+    "loan": 0,
+    "rankDelta": 207
   },
   {
     "rank": 102,
@@ -1340,7 +2258,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 451.4,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 64088.0,
+    "eqt": 137001.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 63456.0,
+    "cagr": 1.1,
+    "loan": 9900.0,
+    "rankDelta": -10
   },
   {
     "rank": 103,
@@ -1353,7 +2280,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 4338.9,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 45279.0,
+    "eqt": 248641.0,
+    "dLong": 21612.0,
+    "dShort": 5624.0,
+    "de": 0.11,
+    "receivable": 66067.0,
+    "cagr": 9.95,
+    "loan": 10910.0,
+    "rankDelta": 33
   },
   {
     "rank": 104,
@@ -1366,7 +2302,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -46
   },
   {
     "rank": 105,
@@ -1379,7 +2324,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 14.7,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 42062.0,
+    "eqt": 169319.0,
+    "dLong": 67046.0,
+    "dShort": 46195.0,
+    "de": 0.67,
+    "receivable": 260462.0,
+    "cagr": 0.48,
+    "loan": 76671.0,
+    "rankDelta": 4
   },
   {
     "rank": 106,
@@ -1392,7 +2346,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 116.1,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 148010.0,
+    "eqt": 10835.0,
+    "dLong": 0.0,
+    "dShort": 4939.0,
+    "de": 0.46,
+    "receivable": 1107.0,
+    "cagr": 3.7,
+    "loan": 223.0,
+    "rankDelta": -9
   },
   {
     "rank": 107,
@@ -1405,7 +2368,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -38.1,
     "experience": 19,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1354220.0,
+    "eqt": 99797.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 110351.0,
+    "cagr": 0.12,
+    "loan": 4232.0,
+    "rankDelta": -50
   },
   {
     "rank": 108,
@@ -1418,7 +2390,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 26.3,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 39724.0,
+    "eqt": 142516.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 124919.0,
+    "cagr": 0.25,
+    "loan": 0.0,
+    "rankDelta": -9
   },
   {
     "rank": 109,
@@ -1431,7 +2412,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 144.4,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 41247.0,
+    "eqt": 257318.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 637850.0,
+    "cagr": 0.49,
+    "loan": 0,
+    "rankDelta": 3
   },
   {
     "rank": 110,
@@ -1444,7 +2434,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 184.3,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 30556.0,
+    "eqt": 179706.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 309613.0,
+    "cagr": 0.57,
+    "loan": 17861.0,
+    "rankDelta": 7
   },
   {
     "rank": 111,
@@ -1457,7 +2456,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 266.1,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 9768.0,
+    "eqt": 231488.0,
+    "dLong": 133.0,
+    "dShort": 117799.0,
+    "de": 0.51,
+    "receivable": 153438.0,
+    "cagr": 0.28,
+    "loan": 0.0,
+    "rankDelta": -11
   },
   {
     "rank": 112,
@@ -1470,7 +2478,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 828.7,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 98122.0,
+    "eqt": 100825.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 84700.0,
+    "cagr": 1.86,
+    "loan": 0.0,
+    "rankDelta": 1
   },
   {
     "rank": 113,
@@ -1483,7 +2500,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 308.1,
     "experience": 20,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 46854.0,
+    "eqt": 66079.0,
+    "dLong": 0.0,
+    "dShort": 6603.0,
+    "de": 0.1,
+    "receivable": 4273.0,
+    "cagr": 0.34,
+    "loan": 0.0,
+    "rankDelta": 20
   },
   {
     "rank": 114,
@@ -1496,7 +2522,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 54837.0,
+    "eqt": 119711.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 113267.0,
+    "cagr": 1.8,
+    "loan": 5892.0,
+    "rankDelta": 37
   },
   {
     "rank": 115,
@@ -1509,7 +2544,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1060.6,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 65194.0,
+    "eqt": 201660.0,
+    "dLong": 0.0,
+    "dShort": 38731.0,
+    "de": 0.19,
+    "receivable": 158847.0,
+    "cagr": 68.65,
+    "loan": 0,
+    "rankDelta": -74
   },
   {
     "rank": 116,
@@ -1522,7 +2566,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -12.4,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 131151.0,
+    "eqt": 23422.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 21595.0,
+    "cagr": 0.18,
+    "loan": 0.0,
+    "rankDelta": 24
   },
   {
     "rank": 117,
@@ -1535,7 +2588,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -41.8,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 82802.0,
+    "eqt": 318467.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 403877.0,
+    "cagr": 0.12,
+    "loan": 4918.0,
+    "rankDelta": -50
   },
   {
     "rank": 118,
@@ -1548,7 +2610,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 15.5,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 61478.0,
+    "eqt": 79238.0,
+    "dLong": 11934.0,
+    "dShort": 16127.0,
+    "de": 0.35,
+    "receivable": 10171.0,
+    "cagr": 0.09,
+    "loan": 253500.0,
+    "rankDelta": 17
   },
   {
     "rank": 119,
@@ -1561,7 +2632,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 20.1,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 70737.0,
+    "eqt": 112927.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 111042.0,
+    "cagr": 0.24,
+    "loan": 16885.0,
+    "rankDelta": -14
   },
   {
     "rank": 120,
@@ -1574,7 +2654,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 40313.5,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 43755.0,
+    "eqt": 12879.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 18133.0,
+    "cagr": 80.83,
+    "loan": 0.0,
+    "rankDelta": 76
   },
   {
     "rank": 121,
@@ -1587,7 +2676,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 17175.0,
+    "eqt": 176809.0,
+    "dLong": 0.0,
+    "dShort": 6860.0,
+    "de": 0.04,
+    "receivable": 173575.0,
+    "cagr": 3.08,
+    "loan": 350.0,
+    "rankDelta": 31
   },
   {
     "rank": 122,
@@ -1600,7 +2698,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 18,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 37870.0,
+    "eqt": 305312.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 507391.0,
+    "cagr": 0.26,
+    "loan": 59210.0,
+    "rankDelta": -37
   },
   {
     "rank": 123,
@@ -1613,7 +2720,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 25149.0,
+    "eqt": 187307.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 380818.0,
+    "cagr": 0.54,
+    "loan": 0.0,
+    "rankDelta": 32
   },
   {
     "rank": 124,
@@ -1626,7 +2742,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 128759.0,
+    "eqt": 11091.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 172296.0,
+    "cagr": 0.68,
+    "loan": 0,
+    "rankDelta": 88
   },
   {
     "rank": 125,
@@ -1639,7 +2764,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 179.2,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 75648.0,
+    "eqt": 13644.0,
+    "dLong": 0.0,
+    "dShort": 1325.0,
+    "de": 0.1,
+    "receivable": 7764.0,
+    "cagr": 4.51,
+    "loan": 0,
+    "rankDelta": 283
   },
   {
     "rank": 126,
@@ -1652,7 +2786,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 68.4,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 107383.0,
+    "eqt": 335942.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 365697.0,
+    "cagr": 0.24,
+    "loan": 6013.0,
+    "rankDelta": -24
   },
   {
     "rank": 127,
@@ -1665,7 +2808,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -39
   },
   {
     "rank": 128,
@@ -1678,7 +2830,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2.6,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 96137.0,
+    "eqt": 1539616.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 1408007.0,
+    "cagr": 0.58,
+    "loan": 8720.0,
+    "rankDelta": -10
   },
   {
     "rank": 129,
@@ -1691,7 +2852,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 30.5,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 62648.0,
+    "eqt": 43506.0,
+    "dLong": 32301.0,
+    "dShort": 4387.0,
+    "de": 0.84,
+    "receivable": 2900.0,
+    "cagr": 850.65,
+    "loan": 0,
+    "rankDelta": -46
   },
   {
     "rank": 130,
@@ -1704,7 +2874,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 82.8,
     "experience": 19,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 57407.0,
+    "eqt": 22926.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 11332.0,
+    "cagr": 0.37,
+    "loan": 0.0,
+    "rankDelta": 4
   },
   {
     "rank": 131,
@@ -1717,7 +2896,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 238.9,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 84521.0,
+    "eqt": 46194.0,
+    "dLong": 113523.0,
+    "dShort": 39316.0,
+    "de": 3.31,
+    "receivable": 13079.0,
+    "cagr": 5.07,
+    "loan": 729.0,
+    "rankDelta": 45
   },
   {
     "rank": 132,
@@ -1730,7 +2918,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 470.0,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 11907.0,
+    "eqt": 322718.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 327875.0,
+    "cagr": 1.14,
+    "loan": 9195.0,
+    "rankDelta": -4
   },
   {
     "rank": 133,
@@ -1743,7 +2940,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 39.8,
     "experience": 18,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 74768.0,
+    "eqt": 51031.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 82420.0,
+    "cagr": 0.28,
+    "loan": 9610.0,
+    "rankDelta": 5
   },
   {
     "rank": 134,
@@ -1756,7 +2962,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 55020.0,
+    "eqt": 11963.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 40753.0,
+    "cagr": 0.11,
+    "loan": 0.0,
+    "rankDelta": -48
   },
   {
     "rank": 135,
@@ -1769,7 +2984,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 260.2,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 126967.0,
+    "eqt": -13805.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 87968.0,
+    "cagr": 0.72,
+    "loan": 10823.0,
+    "rankDelta": 32
   },
   {
     "rank": 136,
@@ -1782,7 +3006,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 105920.0,
+    "eqt": 17671.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 24960.0,
+    "cagr": 0.72,
+    "loan": 0.0,
+    "rankDelta": -20
   },
   {
     "rank": 137,
@@ -1795,7 +3028,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 97141.0,
+    "eqt": 28948.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 88865.0,
+    "cagr": 0.46,
+    "loan": 10139.0,
+    "rankDelta": -17
   },
   {
     "rank": 138,
@@ -1808,7 +3050,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 344.8,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 57518.0,
+    "eqt": 166024.0,
+    "dLong": 0.0,
+    "dShort": 48025.0,
+    "de": 0.29,
+    "receivable": 17877.0,
+    "cagr": 0.35,
+    "loan": 0.0,
+    "rankDelta": -11
   },
   {
     "rank": 139,
@@ -1821,7 +3072,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 311.8,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 25427.0,
+    "eqt": 77382.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 77986.0,
+    "cagr": 0.82,
+    "loan": 40.0,
+    "rankDelta": 9
   },
   {
     "rank": 140,
@@ -1834,7 +3094,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -81
   },
   {
     "rank": 141,
@@ -1847,7 +3116,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18957.0,
+    "eqt": 106340.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 102932.0,
+    "cagr": 0,
+    "loan": 623.0,
+    "rankDelta": 356
   },
   {
     "rank": 142,
@@ -1860,7 +3138,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 188.2,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 87628.0,
+    "eqt": 151011.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 152238.0,
+    "cagr": 0.58,
+    "loan": 12259.0,
+    "rankDelta": -10
   },
   {
     "rank": 143,
@@ -1873,7 +3160,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 20.0,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 98125.0,
+    "eqt": 79696.0,
+    "dLong": 0.0,
+    "dShort": 45529.0,
+    "de": 0.57,
+    "receivable": 1683.0,
+    "cagr": 0.31,
+    "loan": 316.0,
+    "rankDelta": -42
   },
   {
     "rank": 144,
@@ -1886,7 +3182,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 142.4,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 70721.0,
+    "eqt": 17184.0,
+    "dLong": 77.0,
+    "dShort": 297934.0,
+    "de": 17.34,
+    "receivable": 182156.0,
+    "cagr": 0.54,
+    "loan": 2342.0,
+    "rankDelta": 26
   },
   {
     "rank": 145,
@@ -1899,7 +3204,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 505.0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 21267.0,
+    "eqt": 179839.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 195468.0,
+    "cagr": 1.21,
+    "loan": 0,
+    "rankDelta": 196
   },
   {
     "rank": 146,
@@ -1912,7 +3226,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 25844.0,
+    "eqt": 81081.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 8142.0,
+    "cagr": 30.47,
+    "loan": 380.0,
+    "rankDelta": 67
   },
   {
     "rank": 147,
@@ -1925,7 +3248,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 19,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 100591.0,
+    "eqt": 15799.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 39986.0,
+    "cagr": 0.32,
+    "loan": 1151.0,
+    "rankDelta": -21
   },
   {
     "rank": 148,
@@ -1938,7 +3270,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 33.9,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 94421.0,
+    "eqt": 118831.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 110804.0,
+    "cagr": 0.25,
+    "loan": 53882.0,
+    "rankDelta": -19
   },
   {
     "rank": 149,
@@ -1951,7 +3292,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 13
   },
   {
     "rank": 150,
@@ -1964,7 +3314,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 79192.0,
+    "eqt": 31481.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 59469.0,
+    "cagr": 0.44,
+    "loan": 24010.0,
+    "rankDelta": -31
   },
   {
     "rank": 151,
@@ -1977,7 +3336,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 208.9,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 84084.0,
+    "eqt": 16472.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 61097.0,
+    "cagr": 0.62,
+    "loan": 0.0,
+    "rankDelta": 12
   },
   {
     "rank": 152,
@@ -1990,7 +3358,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 179.2,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1678.0,
+    "eqt": 54735.0,
+    "dLong": 3200.0,
+    "dShort": 1439.0,
+    "de": 0.08,
+    "receivable": 355.0,
+    "cagr": 0.56,
+    "loan": 13402.0,
+    "rankDelta": -9
   },
   {
     "rank": 153,
@@ -2003,7 +3380,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1534.7,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 67152.0,
+    "eqt": 70449.0,
+    "dLong": 0.0,
+    "dShort": 39255.0,
+    "de": 0.56,
+    "receivable": 12886.0,
+    "cagr": 2.22,
+    "loan": 0,
+    "rankDelta": 71
   },
   {
     "rank": 154,
@@ -2016,7 +3402,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 555.9,
     "experience": 22,
     "capitalAttraction": "public",
-    "napka": false
+    "napka": false,
+    "cost": 174360.0,
+    "eqt": -144884.0,
+    "dLong": 777586.0,
+    "dShort": 49957.0,
+    "de": -5.71,
+    "receivable": 12143.0,
+    "cagr": 3.76,
+    "loan": 1124.0,
+    "rankDelta": 263
   },
   {
     "rank": 155,
@@ -2029,7 +3424,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 197.3,
     "experience": 20,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 13759.0,
+    "eqt": 34615.0,
+    "dLong": 0.0,
+    "dShort": 37620.0,
+    "de": 1.09,
+    "receivable": 20161.0,
+    "cagr": 0.42,
+    "loan": 11160.0,
+    "rankDelta": -31
   },
   {
     "rank": 156,
@@ -2042,7 +3446,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 29602.0,
+    "eqt": 66186.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 58398.0,
+    "cagr": 1.35,
+    "loan": 0.0,
+    "rankDelta": -26
   },
   {
     "rank": 157,
@@ -2055,7 +3468,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 76.3,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 90595.0,
+    "eqt": 152725.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 140921.0,
+    "cagr": 0.23,
+    "loan": 0.0,
+    "rankDelta": -3
   },
   {
     "rank": 158,
@@ -2068,7 +3490,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2089.2,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 46938.0,
+    "eqt": 54024.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 53362.0,
+    "cagr": 111.27,
+    "loan": 0,
+    "rankDelta": 45
   },
   {
     "rank": 159,
@@ -2081,7 +3512,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -111
   },
   {
     "rank": 160,
@@ -2094,7 +3534,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 177.9,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 78038.0,
+    "eqt": 35300.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 233179.0,
+    "cagr": 0.56,
+    "loan": 0,
+    "rankDelta": -3
   },
   {
     "rank": 161,
@@ -2107,7 +3556,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 255.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 77291.0,
+    "eqt": 263567.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 562892.0,
+    "cagr": 0.71,
+    "loan": 58599.0,
+    "rankDelta": 4
   },
   {
     "rank": 162,
@@ -2120,7 +3578,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 116880.0,
+    "eqt": -41874.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 576623.0,
+    "cagr": 0.2,
+    "loan": 10739.0,
+    "rankDelta": -72
   },
   {
     "rank": 163,
@@ -2133,7 +3600,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -7
   },
   {
     "rank": 164,
@@ -2146,7 +3622,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 23,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 16263.0,
+    "eqt": 83078.0,
+    "dLong": 0.0,
+    "dShort": 2912.0,
+    "de": 0.04,
+    "receivable": 46853.0,
+    "cagr": 0.91,
+    "loan": 0.0,
+    "rankDelta": 46
   },
   {
     "rank": 165,
@@ -2159,7 +3644,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 78.5,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 81972.0,
+    "eqt": 70898.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 67653.0,
+    "cagr": 0.36,
+    "loan": 0.0,
+    "rankDelta": -72
   },
   {
     "rank": 166,
@@ -2172,7 +3666,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 12699.5,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 84936.0,
+    "eqt": 12424.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 11387.0,
+    "cagr": 25.6,
+    "loan": 0,
+    "rankDelta": 191
   },
   {
     "rank": 167,
@@ -2185,7 +3688,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 163.2,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 23361.0,
+    "eqt": 80910.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 90177.0,
+    "cagr": 0.53,
+    "loan": 0,
+    "rankDelta": 75
   },
   {
     "rank": 168,
@@ -2198,7 +3710,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 10
   },
   {
     "rank": 169,
@@ -2211,7 +3732,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 414.6,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 103070.0,
+    "eqt": 16806.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 23323.0,
+    "cagr": 1.03,
+    "loan": 0.0,
+    "rankDelta": -66
   },
   {
     "rank": 170,
@@ -2224,7 +3754,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 795.3,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 52786.0,
+    "eqt": 44167.0,
+    "dLong": 218762.0,
+    "dShort": 501.0,
+    "de": 4.96,
+    "receivable": 35836.0,
+    "cagr": 1.79,
+    "loan": 1000.0,
+    "rankDelta": -10
   },
   {
     "rank": 171,
@@ -2237,7 +3776,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 486.6,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 26059.0,
+    "eqt": 39152.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 546274.0,
+    "cagr": 1.17,
+    "loan": 0.0,
+    "rankDelta": -26
   },
   {
     "rank": 172,
@@ -2250,7 +3798,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 55.6,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18284.0,
+    "eqt": 46929.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 50028.0,
+    "cagr": 4.15,
+    "loan": 275.0,
+    "rankDelta": 100
   },
   {
     "rank": 173,
@@ -2263,7 +3820,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 141.3,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 48963.0,
+    "eqt": 20783.0,
+    "dLong": 0.0,
+    "dShort": 37284.0,
+    "de": 1.79,
+    "receivable": 0.0,
+    "cagr": 0.69,
+    "loan": 5206.0,
+    "rankDelta": -12
   },
   {
     "rank": 174,
@@ -2276,7 +3842,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 352.6,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 63319.0,
+    "eqt": 20708.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 23378.0,
+    "cagr": 0.91,
+    "loan": 0,
+    "rankDelta": 69
   },
   {
     "rank": 175,
@@ -2289,7 +3864,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 41841.0,
+    "eqt": 5044.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 8456.0,
+    "cagr": 1.38,
+    "loan": 0.0,
+    "rankDelta": -29
   },
   {
     "rank": 176,
@@ -2302,7 +3886,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 211.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 15910.0,
+    "eqt": 34684.0,
+    "dLong": 9349.0,
+    "dShort": 6613.0,
+    "de": 0.46,
+    "receivable": 42679.0,
+    "cagr": 0.4,
+    "loan": 3621.0,
+    "rankDelta": -26
   },
   {
     "rank": 177,
@@ -2315,7 +3908,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 237.4,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 20897.0,
+    "eqt": 17159.0,
+    "dLong": 5167.0,
+    "dShort": 1335.0,
+    "de": 0.38,
+    "receivable": 1722.0,
+    "cagr": 0.42,
+    "loan": 0.0,
+    "rankDelta": -13
   },
   {
     "rank": 178,
@@ -2328,7 +3930,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 327.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 13981.0,
+    "eqt": 63683.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 60862.0,
+    "cagr": 0.85,
+    "loan": 12060.0,
+    "rankDelta": -6
   },
   {
     "rank": 179,
@@ -2341,7 +3952,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 140
   },
   {
     "rank": 180,
@@ -2354,7 +3974,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 270.7,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5313.0,
+    "eqt": 77569.0,
+    "dLong": 0.0,
+    "dShort": 4049.0,
+    "de": 0.05,
+    "receivable": 27742.0,
+    "cagr": 0.44,
+    "loan": 0.0,
+    "rankDelta": -3
   },
   {
     "rank": 181,
@@ -2367,7 +3996,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -107
   },
   {
     "rank": 182,
@@ -2380,7 +4018,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 77.2,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5473.0,
+    "eqt": 80406.0,
+    "dLong": 0.0,
+    "dShort": 4640.0,
+    "de": 0.06,
+    "receivable": 18538.0,
+    "cagr": 1.94,
+    "loan": 0.0,
+    "rankDelta": -43
   },
   {
     "rank": 183,
@@ -2393,7 +4040,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1453.3,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 37529.0,
+    "eqt": 45489.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 56094.0,
+    "cagr": 3.11,
+    "loan": 0.0,
+    "rankDelta": -36
   },
   {
     "rank": 184,
@@ -2406,7 +4062,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 51489.0,
+    "eqt": 82484.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 77705.0,
+    "cagr": 0.39,
+    "loan": 3781.0,
+    "rankDelta": 4
   },
   {
     "rank": 185,
@@ -2419,7 +4084,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 152.4,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 55391.0,
+    "eqt": 29814.0,
+    "dLong": 21611.0,
+    "dShort": 3658.0,
+    "de": 0.85,
+    "receivable": 43769.0,
+    "cagr": 9.11,
+    "loan": 1075.0,
+    "rankDelta": -41
   },
   {
     "rank": 186,
@@ -2432,7 +4106,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 330.1,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 38561.0,
+    "eqt": 19650.0,
+    "dLong": 0.0,
+    "dShort": 30468.0,
+    "de": 1.55,
+    "receivable": 27491.0,
+    "cagr": 0.86,
+    "loan": 0.0,
+    "rankDelta": 141
   },
   {
     "rank": 187,
@@ -2445,7 +4128,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 180.5,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5217.0,
+    "eqt": 26266.0,
+    "dLong": 2939.0,
+    "dShort": 15514.0,
+    "de": 0.7,
+    "receivable": 25327.0,
+    "cagr": 0.14,
+    "loan": 1000.0,
+    "rankDelta": -62
   },
   {
     "rank": 188,
@@ -2458,7 +4150,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 148.1,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 46693.0,
+    "eqt": 13051.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 14251.0,
+    "cagr": 0.5,
+    "loan": 8240.0,
+    "rankDelta": -8
   },
   {
     "rank": 189,
@@ -2471,7 +4172,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 118.6,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 30608.0,
+    "eqt": 60490.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 56366.0,
+    "cagr": 0.44,
+    "loan": 7996.0,
+    "rankDelta": -4
   },
   {
     "rank": 190,
@@ -2484,7 +4194,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 248.4,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 35446.0,
+    "eqt": 17943.0,
+    "dLong": 1019.0,
+    "dShort": 19894.0,
+    "de": 1.17,
+    "receivable": 7275.0,
+    "cagr": 0.11,
+    "loan": 1019.0,
+    "rankDelta": -59
   },
   {
     "rank": 191,
@@ -2497,7 +4216,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2481.5,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 11751.0,
+    "eqt": 86322.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 79512.0,
+    "cagr": 5.16,
+    "loan": 3253.0,
+    "rankDelta": -2
   },
   {
     "rank": 192,
@@ -2510,7 +4238,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 273.4,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 35635.0,
+    "eqt": 74224.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 100863.0,
+    "cagr": 0.75,
+    "loan": 554.0,
+    "rankDelta": 1
   },
   {
     "rank": 193,
@@ -2523,7 +4260,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 48828.0,
+    "eqt": 40471.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 37582.0,
+    "cagr": 0.16,
+    "loan": 0.0,
+    "rankDelta": 6
   },
   {
     "rank": 194,
@@ -2536,7 +4282,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 287.0,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 27961.0,
+    "eqt": 35824.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 21984.0,
+    "cagr": 0.77,
+    "loan": 47.0,
+    "rankDelta": 32
   },
   {
     "rank": 195,
@@ -2549,7 +4304,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 65.4,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 87.0,
+    "eqt": 76125.0,
+    "dLong": 0.0,
+    "dShort": 504.0,
+    "de": 0.01,
+    "receivable": 64870.0,
+    "cagr": 1.06,
+    "loan": 666.0,
+    "rankDelta": 294
   },
   {
     "rank": 196,
@@ -2562,7 +4326,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 20692.7,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 31322.0,
+    "eqt": 38970.0,
+    "dLong": 16014.0,
+    "dShort": 930.0,
+    "de": 0.43,
+    "receivable": 46961.0,
+    "cagr": 41.59,
+    "loan": 7543.0,
+    "rankDelta": 97
   },
   {
     "rank": 197,
@@ -2575,7 +4348,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 235.7,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 41575.0,
+    "eqt": 219334.0,
+    "dLong": 0.0,
+    "dShort": 2608.0,
+    "de": 0.01,
+    "receivable": 46142.0,
+    "cagr": 10.24,
+    "loan": 0,
+    "rankDelta": -158
   },
   {
     "rank": 198,
@@ -2588,7 +4370,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 32090.0,
+    "eqt": 10418.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 65702.0,
+    "cagr": 10.37,
+    "loan": 0,
+    "rankDelta": 60
   },
   {
     "rank": 199,
@@ -2601,7 +4392,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 33398.7,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 40012.0,
+    "eqt": 22025.0,
+    "dLong": 0.0,
+    "dShort": 5138.0,
+    "de": 0.23,
+    "receivable": 23174.0,
+    "cagr": 67.0,
+    "loan": 0.0,
+    "rankDelta": -18
   },
   {
     "rank": 200,
@@ -2614,7 +4414,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -9.8,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 36771.0,
+    "eqt": 69833.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 35786.0,
+    "cagr": 0.18,
+    "loan": 0.0,
+    "rankDelta": -26
   },
   {
     "rank": 201,
@@ -2627,7 +4436,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 22,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18360.0,
+    "eqt": 134719.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 167117.0,
+    "cagr": 0.36,
+    "loan": 13227.0,
+    "rankDelta": -17
   },
   {
     "rank": 202,
@@ -2640,7 +4458,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 27.6,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 297958.0,
+    "dLong": 0.0,
+    "dShort": 29144.0,
+    "de": 0.1,
+    "receivable": 317986.0,
+    "cagr": 0.26,
+    "loan": 1900.0,
+    "rankDelta": 6
   },
   {
     "rank": 203,
@@ -2653,7 +4480,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 37143.0,
+    "eqt": 929194.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 1105187.0,
+    "cagr": 0.84,
+    "loan": 0,
+    "rankDelta": 150
   },
   {
     "rank": 204,
@@ -2666,7 +4502,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 235.5,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 15021.0,
+    "eqt": 76216.0,
+    "dLong": 74275.0,
+    "dShort": 117462.0,
+    "de": 2.52,
+    "receivable": 1154.0,
+    "cagr": 0.24,
+    "loan": 0,
+    "rankDelta": -2
   },
   {
     "rank": 205,
@@ -2679,7 +4524,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 489.9,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 38756.0,
+    "eqt": 28607.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 58004.0,
+    "cagr": 1.18,
+    "loan": 0,
+    "rankDelta": 26
   },
   {
     "rank": 206,
@@ -2692,7 +4546,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2125.3,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 58435.0,
+    "eqt": 13019.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 330043.0,
+    "cagr": 4.45,
+    "loan": 0,
+    "rankDelta": 241
   },
   {
     "rank": 207,
@@ -2705,7 +4568,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1.4,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 20748.0,
+    "eqt": 37781.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 34263.0,
+    "cagr": 6.77,
+    "loan": 0,
+    "rankDelta": 94
   },
   {
     "rank": 208,
@@ -2718,7 +4590,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 4232.6,
     "experience": 3,
     "capitalAttraction": "public",
-    "napka": false
+    "napka": false,
+    "cost": 93722.0,
+    "eqt": 37889.0,
+    "dLong": 17486.0,
+    "dShort": 530428.0,
+    "de": 14.46,
+    "receivable": 111008.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 290
   },
   {
     "rank": 209,
@@ -2731,7 +4612,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 170.9,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 68399.0,
+    "eqt": 12266.0,
+    "dLong": 0.0,
+    "dShort": 333062.0,
+    "de": 27.15,
+    "receivable": 73730.0,
+    "cagr": 0.17,
+    "loan": 3161.0,
+    "rankDelta": -30
   },
   {
     "rank": 210,
@@ -2744,7 +4634,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 495.4,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 30161.0,
+    "eqt": 33115.0,
+    "dLong": 0.0,
+    "dShort": 36469.0,
+    "de": 1.1,
+    "receivable": 3525.0,
+    "cagr": 0.44,
+    "loan": 13643.0,
+    "rankDelta": -69
   },
   {
     "rank": 211,
@@ -2757,7 +4656,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2019.6,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 37717.0,
+    "eqt": 33909.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 41257.0,
+    "cagr": 4.24,
+    "loan": 16722.0,
+    "rankDelta": 0
   },
   {
     "rank": 212,
@@ -2770,7 +4678,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 39870.0,
+    "eqt": 15522.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 16379.0,
+    "cagr": 1.55,
+    "loan": 3150.0,
+    "rankDelta": 2
   },
   {
     "rank": 213,
@@ -2783,7 +4700,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 25563.0,
+    "eqt": 38681.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 41100.0,
+    "cagr": 5.05,
+    "loan": 0.0,
+    "rankDelta": 46
   },
   {
     "rank": 214,
@@ -2796,7 +4722,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 349.3,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 16965.0,
+    "eqt": 25773.0,
+    "dLong": 4754.0,
+    "dShort": 577.0,
+    "de": 0.21,
+    "receivable": 2560.0,
+    "cagr": 0.64,
+    "loan": 3170.0,
+    "rankDelta": -9
   },
   {
     "rank": 215,
@@ -2809,7 +4744,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 312.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 15091.0,
+    "eqt": 54918.0,
+    "dLong": 7600.0,
+    "dShort": 1985.0,
+    "de": 0.17,
+    "receivable": 8098.0,
+    "cagr": 4.27,
+    "loan": 13340.0,
+    "rankDelta": -21
   },
   {
     "rank": 216,
@@ -2822,7 +4766,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 20113.0,
+    "eqt": 237127.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 244252.0,
+    "cagr": 0.1,
+    "loan": 27027.0,
+    "rankDelta": -57
   },
   {
     "rank": 217,
@@ -2835,7 +4788,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 115.4,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 23387.0,
+    "eqt": 31363.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 30913.0,
+    "cagr": 0.43,
+    "loan": 0.0,
+    "rankDelta": 20
   },
   {
     "rank": 218,
@@ -2848,7 +4810,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1226.7,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 40447.0,
+    "eqt": 37581.0,
+    "dLong": 0.0,
+    "dShort": 30309.0,
+    "de": 0.81,
+    "receivable": 17151.0,
+    "cagr": 2.04,
+    "loan": 1480.0,
+    "rankDelta": 11
   },
   {
     "rank": 219,
@@ -2861,7 +4832,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 28281.0,
+    "eqt": 54435.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 54284.0,
+    "cagr": 0.18,
+    "loan": 0.0,
+    "rankDelta": -32
   },
   {
     "rank": 220,
@@ -2874,7 +4854,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 229.6,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18870.0,
+    "eqt": 58124.0,
+    "dLong": 9085.0,
+    "dShort": 45.0,
+    "de": 0.16,
+    "receivable": 66262.0,
+    "cagr": 0.66,
+    "loan": 0,
+    "rankDelta": 96
   },
   {
     "rank": 221,
@@ -2887,7 +4876,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 23,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 27316.0,
+    "eqt": 50852.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 21853.0,
+    "cagr": 0.16,
+    "loan": 0.0,
+    "rankDelta": -53
   },
   {
     "rank": 222,
@@ -2900,7 +4898,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.1,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 32743.0,
+    "eqt": 120415.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 119534.0,
+    "cagr": 0.08,
+    "loan": 8012.0,
+    "rankDelta": 1
   },
   {
     "rank": 223,
@@ -2913,7 +4920,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 112.9,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 34733.0,
+    "eqt": -8953.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 9600.0,
+    "cagr": 0.43,
+    "loan": 42536.0,
+    "rankDelta": 13
   },
   {
     "rank": 224,
@@ -2926,7 +4942,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -163
   },
   {
     "rank": 225,
@@ -2939,7 +4964,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 340.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 21813.0,
+    "eqt": 27698.0,
+    "dLong": 0.0,
+    "dShort": 2311.0,
+    "de": 0.08,
+    "receivable": 958.0,
+    "cagr": 0.8,
+    "loan": 198.0,
+    "rankDelta": 0
   },
   {
     "rank": 226,
@@ -2952,7 +4986,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 118.6,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 21033.0,
+    "eqt": 131854.0,
+    "dLong": 0.0,
+    "dShort": 4057.0,
+    "de": 0.03,
+    "receivable": 10083.0,
+    "cagr": 0.13,
+    "loan": 37683.0,
+    "rankDelta": -22
   },
   {
     "rank": 227,
@@ -2965,7 +5008,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 454.7,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 30145.0,
+    "eqt": 36043.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 51560.0,
+    "cagr": 1.11,
+    "loan": 12782.0,
+    "rankDelta": 7
   },
   {
     "rank": 228,
@@ -2978,7 +5030,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 150.6,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5763.0,
+    "eqt": 77354.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 76057.0,
+    "cagr": 0.5,
+    "loan": 0,
+    "rankDelta": -8
   },
   {
     "rank": 229,
@@ -2991,7 +5052,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 251.3,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 14933.0,
+    "eqt": 21043.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 324736.0,
+    "cagr": 0.7,
+    "loan": 0.0,
+    "rankDelta": -10
   },
   {
     "rank": 230,
@@ -3004,7 +5074,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 10617.0,
+    "eqt": 43595.0,
+    "dLong": 0.0,
+    "dShort": 4445.0,
+    "de": 0.1,
+    "receivable": 8979.0,
+    "cagr": 2.71,
+    "loan": 0.0,
+    "rankDelta": 58
   },
   {
     "rank": 231,
@@ -3017,7 +5096,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 256.5,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 620.0,
+    "eqt": 25669.0,
+    "dLong": 0.0,
+    "dShort": 406307.0,
+    "de": 15.83,
+    "receivable": 3646.0,
+    "cagr": 4.72,
+    "loan": 8428.0,
+    "rankDelta": 7
   },
   {
     "rank": 232,
@@ -3030,7 +5118,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 685.4,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 21143.0,
+    "eqt": 32174.0,
+    "dLong": 2642.0,
+    "dShort": 12226.0,
+    "de": 0.46,
+    "receivable": 1508.0,
+    "cagr": 1.71,
+    "loan": 0,
+    "rankDelta": 50
   },
   {
     "rank": 233,
@@ -3043,7 +5140,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 5249.4,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 31238.0,
+    "eqt": 13470.0,
+    "dLong": 3262.0,
+    "dShort": 33476.0,
+    "de": 2.73,
+    "receivable": 2439.0,
+    "cagr": 0.07,
+    "loan": 0.0,
+    "rankDelta": 210
   },
   {
     "rank": 234,
@@ -3056,7 +5162,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 170.3,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 32208.0,
+    "eqt": 79930.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 305273.0,
+    "cagr": 0.54,
+    "loan": 0.0,
+    "rankDelta": -19
   },
   {
     "rank": 235,
@@ -3069,7 +5184,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 116.3,
     "experience": 19,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 12003.0,
+    "eqt": 16187.0,
+    "dLong": 99.0,
+    "dShort": 151585.0,
+    "de": 9.37,
+    "receivable": 56966.0,
+    "cagr": 0.22,
+    "loan": 102929.0,
+    "rankDelta": 16
   },
   {
     "rank": 236,
@@ -3082,7 +5206,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 207.2,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2025.0,
+    "eqt": 49285.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 9002.0,
+    "cagr": 0.91,
+    "loan": 0.0,
+    "rankDelta": 5
   },
   {
     "rank": 237,
@@ -3095,7 +5228,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -48.2,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 53080.0,
+    "eqt": 213281.0,
+    "dLong": 0.0,
+    "dShort": 1769.0,
+    "de": 0.01,
+    "receivable": 207639.0,
+    "cagr": 0.1,
+    "loan": 2100.0,
+    "rankDelta": -21
   },
   {
     "rank": 238,
@@ -3108,7 +5250,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 293.3,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 16505.0,
+    "eqt": 56140.0,
+    "dLong": 4000.0,
+    "dShort": 1668.0,
+    "de": 0.1,
+    "receivable": 1900.0,
+    "cagr": 0.56,
+    "loan": 4400.0,
+    "rankDelta": 15
   },
   {
     "rank": 239,
@@ -3121,7 +5272,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -58.9,
     "experience": 18,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 16249.0,
+    "eqt": 27339.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 44814.0,
+    "cagr": 0.08,
+    "loan": 671.0,
+    "rankDelta": -18
   },
   {
     "rank": 240,
@@ -3134,7 +5294,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 457.7,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 24732.0,
+    "eqt": 35213.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 50412.0,
+    "cagr": 1.12,
+    "loan": 8556.0,
+    "rankDelta": 33
   },
   {
     "rank": 241,
@@ -3147,7 +5316,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -38.9,
     "experience": 19,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 22937.0,
+    "eqt": 37905.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 168836.0,
+    "cagr": 0.12,
+    "loan": 0.0,
+    "rankDelta": -44
   },
   {
     "rank": 242,
@@ -3160,7 +5338,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 52.3,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 29701.0,
+    "eqt": 1689740.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 1683794.0,
+    "cagr": 0.13,
+    "loan": 0.0,
+    "rankDelta": -67
   },
   {
     "rank": 243,
@@ -3173,7 +5360,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 26644.6,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 25848.0,
+    "eqt": 9491.0,
+    "dLong": 5215.0,
+    "dShort": 371995.0,
+    "de": 39.74,
+    "receivable": 369160.0,
+    "cagr": 2.4,
+    "loan": 450.0,
+    "rankDelta": 21
   },
   {
     "rank": 244,
@@ -3186,7 +5382,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 248.9,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 29266.0,
+    "eqt": -57395.0,
+    "dLong": 46132.0,
+    "dShort": 142664.0,
+    "de": -3.29,
+    "receivable": 115884.0,
+    "cagr": 0.13,
+    "loan": 75095.0,
+    "rankDelta": -35
   },
   {
     "rank": 245,
@@ -3199,7 +5404,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 169.8,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8029.0,
+    "eqt": 6092.0,
+    "dLong": 24979.0,
+    "dShort": 5343.0,
+    "de": 4.98,
+    "receivable": 246.0,
+    "cagr": 2.66,
+    "loan": 0,
+    "rankDelta": 15
   },
   {
     "rank": 246,
@@ -3212,7 +5426,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 178.5,
     "experience": 18,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 28295.0,
+    "eqt": 19706.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 34305.0,
+    "cagr": 0.56,
+    "loan": 207.0,
+    "rankDelta": 17
   },
   {
     "rank": 247,
@@ -3225,7 +5448,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 191.7,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 1467.0,
+    "eqt": 107922.0,
+    "dLong": 15190.0,
+    "dShort": 4090.0,
+    "de": 0.18,
+    "receivable": 11562.0,
+    "cagr": 0.24,
+    "loan": 6818.0,
+    "rankDelta": -29
   },
   {
     "rank": 248,
@@ -3238,7 +5470,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -21.7,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 35587.0,
+    "eqt": -122105.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 1654.0,
+    "cagr": 0.16,
+    "loan": 51533.0,
+    "rankDelta": 59
   },
   {
     "rank": 249,
@@ -3251,7 +5492,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 246.5,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 25345.0,
+    "eqt": 28139.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 0.0,
+    "cagr": 0.71,
+    "loan": 0.0,
+    "rankDelta": -10
   },
   {
     "rank": 250,
@@ -3264,7 +5514,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 168.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 28179.0,
+    "eqt": 19190.0,
+    "dLong": 350.0,
+    "dShort": 8181.0,
+    "de": 0.44,
+    "receivable": 20325.0,
+    "cagr": 0.13,
+    "loan": 0.0,
+    "rankDelta": -33
   },
   {
     "rank": 251,
@@ -3277,7 +5536,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 31.6,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2757.0,
+    "eqt": 14733.0,
+    "dLong": 497.0,
+    "dShort": 5401.0,
+    "de": 0.4,
+    "receivable": 532.0,
+    "cagr": 4.98,
+    "loan": 0.0,
+    "rankDelta": -69
   },
   {
     "rank": 252,
@@ -3290,7 +5558,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 55.1,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 23552.0,
+    "eqt": 59490.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 62062.0,
+    "cagr": 0.31,
+    "loan": 0.0,
+    "rankDelta": -17
   },
   {
     "rank": 253,
@@ -3303,7 +5580,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -31
   },
   {
     "rank": 254,
@@ -3316,7 +5602,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 12.1,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1237.0,
+    "eqt": 16882.0,
+    "dLong": 0.0,
+    "dShort": 767.0,
+    "de": 0.05,
+    "receivable": 17245.0,
+    "cagr": 0.22,
+    "loan": 0.0,
+    "rankDelta": -21
   },
   {
     "rank": 255,
@@ -3329,7 +5624,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -70.3,
     "experience": 19,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 21328.0,
+    "eqt": 43381.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 42022.0,
+    "cagr": 0.06,
+    "loan": 0.0,
+    "rankDelta": -54
   },
   {
     "rank": 256,
@@ -3342,7 +5646,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 114.5,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7892.0,
+    "eqt": 16889.0,
+    "dLong": 0.0,
+    "dShort": 17033.0,
+    "de": 1.01,
+    "receivable": 7339.0,
+    "cagr": 0.91,
+    "loan": 10095.0,
+    "rankDelta": 9
   },
   {
     "rank": 257,
@@ -3355,7 +5668,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -7.2,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 22387.0,
+    "eqt": 56779.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 60435.0,
+    "cagr": 0.19,
+    "loan": 16747.0,
+    "rankDelta": -10
   },
   {
     "rank": 258,
@@ -3368,7 +5690,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1280.8,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 9710.0,
+    "eqt": 25809.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 71786.0,
+    "cagr": 2.76,
+    "loan": 0,
+    "rankDelta": 191
   },
   {
     "rank": 259,
@@ -3381,7 +5712,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 4092.0,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 20433.0,
+    "eqt": 27254.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 114422.0,
+    "cagr": 8.38,
+    "loan": 59990.0,
+    "rankDelta": 175
   },
   {
     "rank": 260,
@@ -3394,7 +5734,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 23903.0,
+    "eqt": 55171.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 59726.0,
+    "cagr": 0.27,
+    "loan": 575.0,
+    "rankDelta": -54
   },
   {
     "rank": 261,
@@ -3407,7 +5756,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -55.7,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7281.0,
+    "eqt": 136556.0,
+    "dLong": 0.0,
+    "dShort": 451.0,
+    "de": 0.0,
+    "receivable": 120572.0,
+    "cagr": 0.09,
+    "loan": 0.0,
+    "rankDelta": -70
   },
   {
     "rank": 262,
@@ -3420,7 +5778,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 191.5,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 24944.0,
+    "eqt": 41765.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 14155.0,
+    "cagr": 0.02,
+    "loan": -3514.0,
+    "rankDelta": -55
   },
   {
     "rank": 263,
@@ -3433,7 +5800,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1448.1,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 34824.0,
+    "eqt": 6113.0,
+    "dLong": 50700.0,
+    "dShort": 2284.0,
+    "de": 8.67,
+    "receivable": 15344.0,
+    "cagr": 5.09,
+    "loan": 0,
+    "rankDelta": 35
   },
   {
     "rank": 264,
@@ -3446,7 +5822,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8040.0,
+    "eqt": 15158.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 27714.0,
+    "cagr": 0.11,
+    "loan": 0,
+    "rankDelta": 139
   },
   {
     "rank": 265,
@@ -3459,7 +5844,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 25.2,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8838.0,
+    "eqt": 18748.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 5776.0,
+    "cagr": 0.22,
+    "loan": 0,
+    "rankDelta": -16
   },
   {
     "rank": 266,
@@ -3472,7 +5866,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 198.4,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 15998.0,
+    "eqt": 127914.0,
+    "dLong": 32153.0,
+    "dShort": 48533.0,
+    "de": 0.63,
+    "receivable": 19644.0,
+    "cagr": 507.18,
+    "loan": 3895.0,
+    "rankDelta": -93
   },
   {
     "rank": 267,
@@ -3485,7 +5888,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 21,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 15.0,
+    "eqt": 19622.0,
+    "dLong": 0.0,
+    "dShort": 10223.0,
+    "de": 0.52,
+    "receivable": 16296.0,
+    "cagr": 0.13,
+    "loan": 0.0,
+    "rankDelta": 2
   },
   {
     "rank": 268,
@@ -3498,7 +5910,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 6
   },
   {
     "rank": 269,
@@ -3511,7 +5932,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 203.1,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 11901.0,
+    "eqt": 49340.0,
+    "dLong": 0.0,
+    "dShort": 562.0,
+    "de": 0.01,
+    "receivable": 5892.0,
+    "cagr": 0.33,
+    "loan": 0.0,
+    "rankDelta": -3
   },
   {
     "rank": 270,
@@ -3524,7 +5954,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2131.5,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 9238.0,
+    "eqt": 23979.0,
+    "dLong": 0.0,
+    "dShort": 599.0,
+    "de": 0.02,
+    "receivable": 259.0,
+    "cagr": 4.35,
+    "loan": 0,
+    "rankDelta": 190
   },
   {
     "rank": 271,
@@ -3537,7 +5976,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2.9,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 18990.0,
+    "eqt": 5017.0,
+    "dLong": 7668.0,
+    "dShort": 395.0,
+    "de": 1.61,
+    "receivable": 404.0,
+    "cagr": 0.28,
+    "loan": 364425.0,
+    "rankDelta": -39
   },
   {
     "rank": 272,
@@ -3550,7 +5998,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 551.4,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18975.0,
+    "eqt": 29681.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 21440.0,
+    "cagr": 0.43,
+    "loan": 481.0,
+    "rankDelta": -11
   },
   {
     "rank": 273,
@@ -3563,7 +6020,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 123.9,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8821.0,
+    "eqt": 68276.0,
+    "dLong": 136920.0,
+    "dShort": 34236.0,
+    "de": 2.51,
+    "receivable": 7324.0,
+    "cagr": 0.03,
+    "loan": 166568.0,
+    "rankDelta": -107
   },
   {
     "rank": 274,
@@ -3576,7 +6042,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -35.3,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 153.0,
+    "eqt": 102438.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 27449.0,
+    "cagr": 0.13,
+    "loan": 0.0,
+    "rankDelta": 2
   },
   {
     "rank": 275,
@@ -3589,7 +6064,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 96.8,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 15808.0,
+    "eqt": 7598.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 305941.0,
+    "cagr": 8.69,
+    "loan": 614.0,
+    "rankDelta": 0
   },
   {
     "rank": 276,
@@ -3602,7 +6086,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.0,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4773.0,
+    "eqt": 14405.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 12200.0,
+    "cagr": 0.33,
+    "loan": 1135.0,
+    "rankDelta": -49
   },
   {
     "rank": 277,
@@ -3615,7 +6108,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 35.9,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 21332.0,
+    "eqt": 53894.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 61482.0,
+    "cagr": 0.27,
+    "loan": 2947.0,
+    "rankDelta": 10
   },
   {
     "rank": 278,
@@ -3628,7 +6130,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -26.9,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 21828.0,
+    "eqt": 13964.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 67125.0,
+    "cagr": 0.15,
+    "loan": 40159.0,
+    "rankDelta": -95
   },
   {
     "rank": 279,
@@ -3641,7 +6152,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 8822.7,
     "experience": 23,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 20717.0,
+    "eqt": 278642.0,
+    "dLong": 0.0,
+    "dShort": 871.0,
+    "de": 0.0,
+    "receivable": 267696.0,
+    "cagr": 5.11,
+    "loan": 12733.0,
+    "rankDelta": -24
   },
   {
     "rank": 280,
@@ -3654,7 +6174,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 250.9,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 15108.0,
+    "eqt": 27574.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 611129.0,
+    "cagr": 0.7,
+    "loan": 0.0,
+    "rankDelta": -3
   },
   {
     "rank": 281,
@@ -3667,7 +6196,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 20472.0,
+    "eqt": 10972.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 64734.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 218
   },
   {
     "rank": 282,
@@ -3680,7 +6218,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 723.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 19768.0,
+    "eqt": -11038.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 13600.0,
+    "cagr": 1.65,
+    "loan": 6971.0,
+    "rankDelta": -1
   },
   {
     "rank": 283,
@@ -3693,7 +6240,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 493.3,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 21264.0,
+    "eqt": 17777.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 452718.0,
+    "cagr": 1.19,
+    "loan": 0.0,
+    "rankDelta": -5
   },
   {
     "rank": 284,
@@ -3706,7 +6262,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 12.7,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 14867.0,
+    "eqt": -8624.0,
+    "dLong": 19220.0,
+    "dShort": 78267.0,
+    "de": -11.3,
+    "receivable": 74000.0,
+    "cagr": 0.35,
+    "loan": 0.0,
+    "rankDelta": 6
   },
   {
     "rank": 285,
@@ -3719,7 +6284,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 79.1,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 16427.0,
+    "eqt": 14420.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 71405.0,
+    "cagr": 2.58,
+    "loan": 0,
+    "rankDelta": 140
   },
   {
     "rank": 286,
@@ -3732,7 +6306,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 469.7,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7535.0,
+    "eqt": 19261.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 28956.0,
+    "cagr": 1.14,
+    "loan": 1787.0,
+    "rankDelta": -133
   },
   {
     "rank": 287,
@@ -3745,7 +6328,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.0,
     "experience": 19,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4331.0,
+    "eqt": 16634.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 20285.0,
+    "cagr": 0.17,
+    "loan": 1544.0,
+    "rankDelta": 2
   },
   {
     "rank": 288,
@@ -3758,7 +6350,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -27.3,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 43.0,
+    "eqt": 32017.0,
+    "dLong": 0.0,
+    "dShort": 4223.0,
+    "de": 0.13,
+    "receivable": 22537.0,
+    "cagr": 0.15,
+    "loan": 0.0,
+    "rankDelta": -31
   },
   {
     "rank": 289,
@@ -3771,7 +6372,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 16692.0,
+    "eqt": 105155.0,
+    "dLong": 12899.0,
+    "dShort": 2163.0,
+    "de": 0.14,
+    "receivable": 111684.0,
+    "cagr": 0.12,
+    "loan": 4645.0,
+    "rankDelta": -61
   },
   {
     "rank": 290,
@@ -3784,7 +6394,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 3015.9,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 835.0,
+    "eqt": 136122.0,
+    "dLong": 2756.0,
+    "dShort": 7870.0,
+    "de": 0.08,
+    "receivable": 141745.0,
+    "cagr": 20.3,
+    "loan": 0,
+    "rankDelta": -5
   },
   {
     "rank": 291,
@@ -3797,7 +6416,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 474.8,
     "experience": 18,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 34983.0,
+    "dLong": 0.0,
+    "dShort": 7536.0,
+    "de": 0.22,
+    "receivable": 3075.0,
+    "cagr": 0.51,
+    "loan": -1607.0,
+    "rankDelta": -5
   },
   {
     "rank": 292,
@@ -3810,7 +6438,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 14945.0,
+    "eqt": 17453.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 16083.0,
+    "cagr": 0.32,
+    "loan": 0.0,
+    "rankDelta": -52
   },
   {
     "rank": 293,
@@ -3823,7 +6460,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 55.4,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 39100.0,
+    "eqt": 4395.0,
+    "dLong": 0.0,
+    "dShort": 16961.0,
+    "de": 3.86,
+    "receivable": 1130.0,
+    "cagr": 0.31,
+    "loan": 152.0,
+    "rankDelta": 66
   },
   {
     "rank": 294,
@@ -3836,7 +6482,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 132.5,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18225.0,
+    "eqt": 81307.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 93.0,
+    "cagr": 0.08,
+    "loan": 1231.0,
+    "rankDelta": -48
   },
   {
     "rank": 295,
@@ -3849,7 +6504,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2343.3,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18520.0,
+    "eqt": 26438.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 26297.0,
+    "cagr": 4.89,
+    "loan": 6327.0,
+    "rankDelta": 195
   },
   {
     "rank": 296,
@@ -3862,7 +6526,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5500.0,
+    "eqt": 12766.0,
+    "dLong": 12090.0,
+    "dShort": 31655.0,
+    "de": 3.43,
+    "receivable": 335.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 204
   },
   {
     "rank": 297,
@@ -3875,7 +6548,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 177.2,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1688.0,
+    "eqt": 81699.0,
+    "dLong": 0.0,
+    "dShort": 392.0,
+    "de": 0.0,
+    "receivable": 205.0,
+    "cagr": 0.92,
+    "loan": 200.0,
+    "rankDelta": -105
   },
   {
     "rank": 298,
@@ -3888,7 +6570,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 157.5,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": -1842.0,
+    "eqt": 23237.0,
+    "dLong": 0.0,
+    "dShort": 8090.0,
+    "de": 0.35,
+    "receivable": 121.0,
+    "cagr": 0.4,
+    "loan": 4109.0,
+    "rankDelta": 19
   },
   {
     "rank": 299,
@@ -3901,7 +6592,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 48642.0,
+    "eqt": 46948.0,
+    "dLong": 0.0,
+    "dShort": 155169.0,
+    "de": 3.31,
+    "receivable": 2035.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 0
   },
   {
     "rank": 300,
@@ -3914,7 +6614,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.5,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 15799.0,
+    "eqt": 14526.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 14783.0,
+    "cagr": 0.2,
+    "loan": 0,
+    "rankDelta": -7
   },
   {
     "rank": 301,
@@ -3927,7 +6636,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2326.8,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18915.0,
+    "eqt": 10138.0,
+    "dLong": 0.0,
+    "dShort": 750.0,
+    "de": 0.07,
+    "receivable": 985.0,
+    "cagr": 2.3,
+    "loan": 12168.0,
+    "rankDelta": 155
   },
   {
     "rank": 302,
@@ -3940,7 +6658,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 16927.0,
+    "eqt": 68194.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 86527.0,
+    "cagr": 0.09,
+    "loan": 12736.0,
+    "rankDelta": -21
   },
   {
     "rank": 303,
@@ -3953,7 +6680,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 281.7,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 19466.0,
+    "eqt": 12122.0,
+    "dLong": 31000.0,
+    "dShort": 201750.0,
+    "de": 19.2,
+    "receivable": 41417.0,
+    "cagr": 0.26,
+    "loan": 6703.0,
+    "rankDelta": 69
   },
   {
     "rank": 304,
@@ -3966,7 +6702,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -1
   },
   {
     "rank": 305,
@@ -3979,7 +6724,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 552.9,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4760.0,
+    "eqt": 55693.0,
+    "dLong": 0.0,
+    "dShort": 50.0,
+    "de": 0.0,
+    "receivable": 36965.0,
+    "cagr": 0.26,
+    "loan": 5300.0,
+    "rankDelta": 7
   },
   {
     "rank": 306,
@@ -3992,7 +6746,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 123.2,
     "experience": 18,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 11573.0,
+    "eqt": 23033.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 23396.0,
+    "cagr": 0.45,
+    "loan": 0.0,
+    "rankDelta": 18
   },
   {
     "rank": 307,
@@ -4005,7 +6768,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 682.1,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6068.0,
+    "eqt": 20084.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 35305.0,
+    "cagr": 1.56,
+    "loan": 0,
+    "rankDelta": 79
   },
   {
     "rank": 308,
@@ -4018,7 +6790,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 34.2,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 8329.0,
+    "eqt": 11801.0,
+    "dLong": 3118.0,
+    "dShort": 1504.0,
+    "de": 0.39,
+    "receivable": 2087.0,
+    "cagr": 0.54,
+    "loan": 6967.0,
+    "rankDelta": -2
   },
   {
     "rank": 309,
@@ -4031,7 +6812,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 43.1,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 14925.0,
+    "eqt": 1336.0,
+    "dLong": 37530.0,
+    "dShort": 76758.0,
+    "de": 85.54,
+    "receivable": 71351.0,
+    "cagr": 0.04,
+    "loan": 35105.0,
+    "rankDelta": -108
   },
   {
     "rank": 310,
@@ -4044,7 +6834,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 301.9,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 21754.0,
+    "eqt": 25239.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 1300.0,
+    "cagr": 0.08,
+    "loan": 3105.0,
+    "rankDelta": 5
   },
   {
     "rank": 311,
@@ -4057,7 +6856,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 503.2,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 9109.0,
+    "eqt": 11048.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 19235.0,
+    "cagr": 1.21,
+    "loan": 0,
+    "rankDelta": 0
   },
   {
     "rank": 312,
@@ -4070,7 +6878,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 23.6,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 14901.0,
+    "eqt": 1346.0,
+    "dLong": 0.0,
+    "dShort": 11282.0,
+    "de": 8.38,
+    "receivable": 10902.0,
+    "cagr": 0.17,
+    "loan": 793.0,
+    "rankDelta": -15
   },
   {
     "rank": 313,
@@ -4083,7 +6900,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 141.7,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 18627.0,
+    "eqt": 8485.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 145.0,
+    "cagr": 0.48,
+    "loan": 0.0,
+    "rankDelta": 0
   },
   {
     "rank": 314,
@@ -4096,7 +6922,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 111.9,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1057.0,
+    "eqt": 34103.0,
+    "dLong": 0.0,
+    "dShort": 175.0,
+    "de": 0.01,
+    "receivable": 30516.0,
+    "cagr": 0.22,
+    "loan": 0,
+    "rankDelta": 15
   },
   {
     "rank": 315,
@@ -4109,7 +6944,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 55.7,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 12777.0,
+    "eqt": 11825.0,
+    "dLong": 0.0,
+    "dShort": 4346.0,
+    "de": 0.37,
+    "receivable": 2524.0,
+    "cagr": 2.76,
+    "loan": 2985.0,
+    "rankDelta": 49
   },
   {
     "rank": 316,
@@ -4122,7 +6966,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -15.1,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 13416.0,
+    "eqt": 24933.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 54492.0,
+    "cagr": 0.17,
+    "loan": 11106.0,
+    "rankDelta": 0
   },
   {
     "rank": 317,
@@ -4135,7 +6988,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 18.7,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6755.0,
+    "eqt": 12664.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 145182.0,
+    "cagr": 0.24,
+    "loan": 0.0,
+    "rankDelta": 33
   },
   {
     "rank": 318,
@@ -4148,7 +7010,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1416.5,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5290.0,
+    "eqt": 36917.0,
+    "dLong": 0.0,
+    "dShort": 15856.0,
+    "de": 0.43,
+    "receivable": 25085.0,
+    "cagr": 1.18,
+    "loan": 0,
+    "rankDelta": -131
   },
   {
     "rank": 319,
@@ -4161,7 +7032,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -62
   },
   {
     "rank": 320,
@@ -4174,7 +7054,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 58.3,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8985.0,
+    "eqt": 38400.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 40105.0,
+    "cagr": 0.32,
+    "loan": 0.0,
+    "rankDelta": -28
   },
   {
     "rank": 321,
@@ -4187,7 +7076,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 38.4,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7650.0,
+    "eqt": 34901.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 12262.0,
+    "cagr": 0.28,
+    "loan": 0.0,
+    "rankDelta": 9
   },
   {
     "rank": 322,
@@ -4200,7 +7098,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -50.1,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 11814.0,
+    "eqt": 14387.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 13156.0,
+    "cagr": 0.1,
+    "loan": 10913.0,
+    "rankDelta": 25
   },
   {
     "rank": 323,
@@ -4213,7 +7120,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -7.7,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 9906.0,
+    "eqt": 57182.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 54365.0,
+    "cagr": 0.18,
+    "loan": 3322.0,
+    "rankDelta": 60
   },
   {
     "rank": 324,
@@ -4226,7 +7142,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 84.1,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 46104.0,
+    "eqt": 115903.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 114172.0,
+    "cagr": 0.08,
+    "loan": 7800.0,
+    "rankDelta": -133
   },
   {
     "rank": 325,
@@ -4239,7 +7164,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 5527.9,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 11818.0,
+    "eqt": 11173.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 15621.0,
+    "cagr": 11.26,
+    "loan": 10575.0,
+    "rankDelta": 73
   },
   {
     "rank": 326,
@@ -4252,7 +7186,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1035.4,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 48.0,
+    "eqt": 4403.0,
+    "dLong": 0.0,
+    "dShort": 100772.0,
+    "de": 22.89,
+    "receivable": 35.0,
+    "cagr": 320.48,
+    "loan": 269.0,
+    "rankDelta": 9
   },
   {
     "rank": 327,
@@ -4265,7 +7208,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 151.9,
     "experience": 20,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 10311.0,
+    "eqt": 17073.0,
+    "dLong": 0.0,
+    "dShort": 178.0,
+    "de": 0.01,
+    "receivable": 404.0,
+    "cagr": 0.5,
+    "loan": 100.0,
+    "rankDelta": -2
   },
   {
     "rank": 328,
@@ -4278,7 +7230,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 455.9,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5811.0,
+    "eqt": 19284.0,
+    "dLong": 22890.0,
+    "dShort": 455.0,
+    "de": 1.21,
+    "receivable": 2247.0,
+    "cagr": 0.58,
+    "loan": 0.0,
+    "rankDelta": 97
   },
   {
     "rank": 329,
@@ -4291,7 +7252,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 109.7,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7952.0,
+    "eqt": 22099.0,
+    "dLong": 0.0,
+    "dShort": 88641.0,
+    "de": 4.01,
+    "receivable": 1960.0,
+    "cagr": 0.42,
+    "loan": 0.0,
+    "rankDelta": 36
   },
   {
     "rank": 330,
@@ -4304,7 +7274,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 19667.0,
+    "dLong": 0.0,
+    "dShort": 483.0,
+    "de": 0.02,
+    "receivable": 0.0,
+    "cagr": 1.13,
+    "loan": 0.0,
+    "rankDelta": 31
   },
   {
     "rank": 331,
@@ -4317,7 +7296,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -2.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 13534.0,
+    "eqt": 10159.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 14461.0,
+    "cagr": 0.2,
+    "loan": 0,
+    "rankDelta": 6
   },
   {
     "rank": 332,
@@ -4330,7 +7318,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 92.9,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3010.0,
+    "eqt": 11599.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 20221.0,
+    "cagr": 0.39,
+    "loan": 0.0,
+    "rankDelta": 47
   },
   {
     "rank": 333,
@@ -4343,7 +7340,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 99.5,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1594.0,
+    "eqt": 46201.0,
+    "dLong": 1.0,
+    "dShort": 6048.0,
+    "de": 0.13,
+    "receivable": 16281.0,
+    "cagr": 0.02,
+    "loan": 0.0,
+    "rankDelta": 19
   },
   {
     "rank": 334,
@@ -4356,7 +7362,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 143.4,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7812.0,
+    "eqt": 34296.0,
+    "dLong": 11490.0,
+    "dShort": 17255.0,
+    "de": 0.84,
+    "receivable": 15.0,
+    "cagr": 0.16,
+    "loan": 11788.0,
+    "rankDelta": -12
   },
   {
     "rank": 335,
@@ -4369,7 +7384,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 9279.0,
+    "eqt": 11748.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 670570.0,
+    "cagr": 0.16,
+    "loan": 2448.0,
+    "rankDelta": -9
   },
   {
     "rank": 336,
@@ -4382,7 +7406,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 10
   },
   {
     "rank": 337,
@@ -4395,7 +7428,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 183.3,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 985.0,
+    "eqt": 22093.0,
+    "dLong": 0.0,
+    "dShort": 952.0,
+    "de": 0.04,
+    "receivable": 1049.0,
+    "cagr": 7.51,
+    "loan": 2091.0,
+    "rankDelta": 14
   },
   {
     "rank": 338,
@@ -4408,7 +7450,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -53
   },
   {
     "rank": 339,
@@ -4421,7 +7472,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 496.7,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7680.0,
+    "eqt": 44036.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 8175.0,
+    "cagr": 0.37,
+    "loan": 7257.0,
+    "rankDelta": 9
   },
   {
     "rank": 340,
@@ -4434,7 +7494,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 99.4,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 10167.0,
+    "eqt": 13585.0,
+    "dLong": 0.0,
+    "dShort": 277.0,
+    "de": 0.02,
+    "receivable": 11105.0,
+    "cagr": 1.19,
+    "loan": 64.0,
+    "rankDelta": -6
   },
   {
     "rank": 341,
@@ -4447,7 +7516,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 203.4,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2161.0,
+    "eqt": 67331.0,
+    "dLong": 3037.0,
+    "dShort": 6848.0,
+    "de": 0.15,
+    "receivable": 1529.0,
+    "cagr": 0.5,
+    "loan": 0,
+    "rankDelta": 74
   },
   {
     "rank": 342,
@@ -4460,7 +7538,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.5,
     "experience": 20,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 637.0,
+    "eqt": 16239.0,
+    "dLong": -4922.0,
+    "dShort": 824822.0,
+    "de": 50.49,
+    "receivable": 247244.0,
+    "cagr": 0.02,
+    "loan": 3550.0,
+    "rankDelta": -111
   },
   {
     "rank": 343,
@@ -4473,7 +7560,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1.6,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 10136.0,
+    "eqt": 11539.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 30468.0,
+    "cagr": 63.13,
+    "loan": 0.0,
+    "rankDelta": 44
   },
   {
     "rank": 344,
@@ -4486,7 +7582,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -36.0,
     "experience": 20,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8340.0,
+    "eqt": 101290.0,
+    "dLong": 0.0,
+    "dShort": 297.0,
+    "de": 0.0,
+    "receivable": 95534.0,
+    "cagr": 0.13,
+    "loan": 0.0,
+    "rankDelta": -98
   },
   {
     "rank": 345,
@@ -4499,7 +7604,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 104.7,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 281.0,
+    "eqt": 60501.0,
+    "dLong": 2196.0,
+    "dShort": 172.0,
+    "de": 0.04,
+    "receivable": 27411.0,
+    "cagr": 0.15,
+    "loan": 0.0,
+    "rankDelta": 10
   },
   {
     "rank": 346,
@@ -4512,7 +7626,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 399.3,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6380.0,
+    "eqt": 11309.0,
+    "dLong": 0.0,
+    "dShort": 345.0,
+    "de": 0.03,
+    "receivable": 1145.0,
+    "cagr": 4.4,
+    "loan": 0,
+    "rankDelta": 130
   },
   {
     "rank": 347,
@@ -4525,7 +7648,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 39.0,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 10567.0,
+    "eqt": 17938.0,
+    "dLong": 0.0,
+    "dShort": 69618.0,
+    "de": 3.88,
+    "receivable": 10083.0,
+    "cagr": 0.03,
+    "loan": 129.0,
+    "rankDelta": -67
   },
   {
     "rank": 348,
@@ -4538,7 +7670,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -17.7,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6925.0,
+    "eqt": 10085.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 8677.0,
+    "cagr": 0.16,
+    "loan": 0,
+    "rankDelta": -25
   },
   {
     "rank": 349,
@@ -4551,7 +7692,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 27.2,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8521.0,
+    "eqt": 18220.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 38828.0,
+    "cagr": 0.25,
+    "loan": 0.0,
+    "rankDelta": 40
   },
   {
     "rank": 350,
@@ -4564,7 +7714,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 12.1,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 10386.0,
+    "eqt": 49877.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 209876.0,
+    "cagr": 0.22,
+    "loan": 4719.0,
+    "rankDelta": 49
   },
   {
     "rank": 351,
@@ -4577,7 +7736,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 7324.4,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 78.0,
+    "eqt": 10371.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 9388.0,
+    "cagr": 14.85,
+    "loan": 37.0,
+    "rankDelta": 134
   },
   {
     "rank": 352,
@@ -4590,7 +7758,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 106.0,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6696.0,
+    "eqt": 36175.0,
+    "dLong": 0.0,
+    "dShort": 2799.0,
+    "de": 0.08,
+    "receivable": 27030.0,
+    "cagr": 0.08,
+    "loan": 0,
+    "rankDelta": 59
   },
   {
     "rank": 353,
@@ -4603,7 +7780,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -154
   },
   {
     "rank": 354,
@@ -4616,7 +7802,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8433.0,
+    "eqt": 65215.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 64563.0,
+    "cagr": 1.07,
+    "loan": 9640.0,
+    "rankDelta": 41
   },
   {
     "rank": 355,
@@ -4629,7 +7824,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 83.3,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 9321.0,
+    "eqt": 13664.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 16339.0,
+    "cagr": 0.37,
+    "loan": 985.0,
+    "rankDelta": -36
   },
   {
     "rank": 356,
@@ -4642,7 +7846,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 14667.0,
+    "eqt": -5069.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 655004.0,
+    "cagr": 0.05,
+    "loan": 0.0,
+    "rankDelta": -105
   },
   {
     "rank": 357,
@@ -4655,7 +7868,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.0,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7954.0,
+    "eqt": 12431.0,
+    "dLong": 0.0,
+    "dShort": 566.0,
+    "de": 0.05,
+    "receivable": 4179.0,
+    "cagr": 0.5,
+    "loan": 0.0,
+    "rankDelta": 25
   },
   {
     "rank": 358,
@@ -4668,7 +7890,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -51
   },
   {
     "rank": 359,
@@ -4681,7 +7912,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3703.0,
+    "eqt": 504994.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 508822.0,
+    "cagr": 0.03,
+    "loan": 0,
+    "rankDelta": 47
   },
   {
     "rank": 360,
@@ -4694,7 +7934,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1755.8,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8621.0,
+    "eqt": 4651.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 13856.0,
+    "cagr": 1.56,
+    "loan": 10289.0,
+    "rankDelta": 3
   },
   {
     "rank": 361,
@@ -4707,7 +7956,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 87.1,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2879.0,
+    "eqt": 19797.0,
+    "dLong": 0.0,
+    "dShort": 6010.0,
+    "de": 0.3,
+    "receivable": 11402.0,
+    "cagr": 2.65,
+    "loan": 5145.0,
+    "rankDelta": 40
   },
   {
     "rank": 362,
@@ -4720,7 +7978,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1129.2,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6545.0,
+    "eqt": 83295.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 79722.0,
+    "cagr": 2.46,
+    "loan": 1054.0,
+    "rankDelta": -6
   },
   {
     "rank": 363,
@@ -4733,7 +8000,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 19.1,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4508.0,
+    "eqt": 10425.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 331418.0,
+    "cagr": 0.42,
+    "loan": 70.0,
+    "rankDelta": 74
   },
   {
     "rank": 364,
@@ -4746,7 +8022,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 128.4,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1606.0,
+    "eqt": 35849.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 33055.0,
+    "cagr": 0.46,
+    "loan": 0.0,
+    "rankDelta": -43
   },
   {
     "rank": 365,
@@ -4759,7 +8044,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 70.8,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 835.0,
+    "eqt": 10.0,
+    "dLong": 0.0,
+    "dShort": 25518.0,
+    "de": 2551.8,
+    "receivable": 25333.0,
+    "cagr": 0.34,
+    "loan": 550.0,
+    "rankDelta": 5
   },
   {
     "rank": 366,
@@ -4772,7 +8066,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8526.0,
+    "eqt": 11631.0,
+    "dLong": 258.0,
+    "dShort": 900.0,
+    "de": 0.1,
+    "receivable": 5744.0,
+    "cagr": 0.35,
+    "loan": 1459.0,
+    "rankDelta": 1
   },
   {
     "rank": 367,
@@ -4785,7 +8088,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1562.9,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8161.0,
+    "eqt": 10805.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 10132.0,
+    "cagr": 3.33,
+    "loan": 0,
+    "rankDelta": 108
   },
   {
     "rank": 368,
@@ -4798,7 +8110,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -62.4,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8170.0,
+    "eqt": 13623.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 16833.0,
+    "cagr": 0.08,
+    "loan": 2022.0,
+    "rankDelta": -6
   },
   {
     "rank": 369,
@@ -4811,7 +8132,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1329.0,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 74.0,
+    "eqt": 20574.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 21580.0,
+    "cagr": 2.86,
+    "loan": 0.0,
+    "rankDelta": 78
   },
   {
     "rank": 370,
@@ -4824,7 +8154,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 3.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3972.0,
+    "eqt": 58124.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 57076.0,
+    "cagr": 0.21,
+    "loan": 116.0,
+    "rankDelta": 3
   },
   {
     "rank": 371,
@@ -4837,7 +8176,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 98.4,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5738.0,
+    "eqt": 38294.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 75923.0,
+    "cagr": 0.4,
+    "loan": 0.0,
+    "rankDelta": 5
   },
   {
     "rank": 372,
@@ -4850,7 +8198,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -53.0,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 8084.0,
+    "eqt": 10729.0,
+    "dLong": 0.0,
+    "dShort": 55.0,
+    "de": 0.01,
+    "receivable": 0.0,
+    "cagr": 0.09,
+    "loan": 0,
+    "rankDelta": -74
   },
   {
     "rank": 373,
@@ -4863,7 +8220,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7712.0,
+    "eqt": 12434.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 28482.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 129
   },
   {
     "rank": 374,
@@ -4876,7 +8242,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3767.0,
+    "eqt": 17336.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 16984.0,
+    "cagr": 0.86,
+    "loan": 0,
+    "rankDelta": 23
   },
   {
     "rank": 375,
@@ -4889,7 +8264,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3373.0,
+    "eqt": 14033.0,
+    "dLong": 0.0,
+    "dShort": 24407.0,
+    "de": 1.74,
+    "receivable": 16424.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 128
   },
   {
     "rank": 376,
@@ -4902,7 +8286,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 310.7,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2638.0,
+    "eqt": 15425.0,
+    "dLong": 0.0,
+    "dShort": 162.0,
+    "de": 0.01,
+    "receivable": 11129.0,
+    "cagr": 1.85,
+    "loan": 0,
+    "rankDelta": 91
   },
   {
     "rank": 377,
@@ -4915,7 +8308,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -70.6,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5081.0,
+    "eqt": 106400.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 101483.0,
+    "cagr": 0.06,
+    "loan": 310.0,
+    "rankDelta": -300
   },
   {
     "rank": 378,
@@ -4928,7 +8330,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 68.9,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3702.0,
+    "eqt": 32936.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 0.0,
+    "cagr": 0.2,
+    "loan": 7403.0,
+    "rankDelta": -45
   },
   {
     "rank": 379,
@@ -4941,7 +8352,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 14.7,
     "experience": 23,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3039.0,
+    "eqt": 14469.0,
+    "dLong": 0.0,
+    "dShort": 530.0,
+    "de": 0.04,
+    "receivable": 10091.0,
+    "cagr": 0.62,
+    "loan": 1230.0,
+    "rankDelta": 5
   },
   {
     "rank": 380,
@@ -4954,7 +8374,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 253.3,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6134.0,
+    "eqt": 23244.0,
+    "dLong": 2974.0,
+    "dShort": 156.0,
+    "de": 0.13,
+    "receivable": 296.0,
+    "cagr": 0.91,
+    "loan": 6467.0,
+    "rankDelta": 22
   },
   {
     "rank": 381,
@@ -4967,7 +8396,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -4
   },
   {
     "rank": 382,
@@ -4980,7 +8418,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4291.0,
+    "eqt": 29734.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 30348.0,
+    "cagr": 24.77,
+    "loan": 867.0,
+    "rankDelta": -87
   },
   {
     "rank": 383,
@@ -4993,7 +8440,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -41.5,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5867.0,
+    "eqt": 10235.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 10534.0,
+    "cagr": 0.12,
+    "loan": 55.0,
+    "rankDelta": -2
   },
   {
     "rank": 384,
@@ -5006,7 +8462,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 9233.0,
+    "eqt": 12360.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 2386.0,
+    "cagr": 7.29,
+    "loan": 176.0,
+    "rankDelta": -116
   },
   {
     "rank": 385,
@@ -5019,7 +8484,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 34.0,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4230.0,
+    "eqt": 2705.0,
+    "dLong": 0.0,
+    "dShort": 7295.0,
+    "de": 2.7,
+    "receivable": 0.0,
+    "cagr": 0.27,
+    "loan": 360.0,
+    "rankDelta": -32
   },
   {
     "rank": 386,
@@ -5032,7 +8506,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 117.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 211.0,
+    "eqt": 13149.0,
+    "dLong": 1390.0,
+    "dShort": 2756.0,
+    "de": 0.32,
+    "receivable": 6605.0,
+    "cagr": 0.27,
+    "loan": 6535.0,
+    "rankDelta": -27
   },
   {
     "rank": 387,
@@ -5045,7 +8528,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 289.6,
     "experience": 23,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5942.0,
+    "eqt": 16711.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 3094.0,
+    "cagr": 0.78,
+    "loan": 0.0,
+    "rankDelta": -13
   },
   {
     "rank": 388,
@@ -5058,7 +8550,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -96.6,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1450.0,
+    "eqt": 228964.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 233449.0,
+    "cagr": 0.01,
+    "loan": 10545.0,
+    "rankDelta": -39
   },
   {
     "rank": 389,
@@ -5071,7 +8572,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 3
   },
   {
     "rank": 390,
@@ -5084,7 +8594,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2591.2,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 477.0,
+    "eqt": 28638.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 107095.0,
+    "cagr": 5.38,
+    "loan": 0,
+    "rankDelta": -121
   },
   {
     "rank": 391,
@@ -5097,7 +8616,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 274.0,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4935.0,
+    "eqt": 830.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 2329.0,
+    "cagr": 0.75,
+    "loan": 0,
+    "rankDelta": 23
   },
   {
     "rank": 392,
@@ -5110,7 +8638,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 116.5,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4871.0,
+    "eqt": 38385.0,
+    "dLong": 0.0,
+    "dShort": 4192.0,
+    "de": 0.11,
+    "receivable": 1211.0,
+    "cagr": 0.22,
+    "loan": 3352.0,
+    "rankDelta": -60
   },
   {
     "rank": 393,
@@ -5123,7 +8660,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -55.8,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4359.0,
+    "eqt": -2580.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 1128697.0,
+    "cagr": 0.09,
+    "loan": 2546.0,
+    "rankDelta": -27
   },
   {
     "rank": 394,
@@ -5136,7 +8682,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 893.0,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5778.0,
+    "eqt": 11588.0,
+    "dLong": 0.0,
+    "dShort": 2506.0,
+    "de": 0.22,
+    "receivable": 165.0,
+    "cagr": 17.66,
+    "loan": 3470.0,
+    "rankDelta": 110
   },
   {
     "rank": 395,
@@ -5149,7 +8704,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1.7,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 163281.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 161200.0,
+    "cagr": 0.2,
+    "loan": 0.0,
+    "rankDelta": -90
   },
   {
     "rank": 396,
@@ -5162,7 +8726,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -13.3,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6016.0,
+    "eqt": 23766.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 21986.0,
+    "cagr": 0.17,
+    "loan": 0.0,
+    "rankDelta": -8
   },
   {
     "rank": 397,
@@ -5175,7 +8748,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2881.9,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5369.0,
+    "eqt": 760.0,
+    "dLong": 0.0,
+    "dShort": 21039.0,
+    "de": 27.68,
+    "receivable": 21663.0,
+    "cagr": 5.96,
+    "loan": 0,
+    "rankDelta": 45
   },
   {
     "rank": 398,
@@ -5188,7 +8770,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 81
   },
   {
     "rank": 399,
@@ -5201,7 +8792,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 1
   },
   {
     "rank": 400,
@@ -5214,7 +8814,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 95.2,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 541.0,
+    "eqt": 89813.0,
+    "dLong": 0.0,
+    "dShort": 9973.0,
+    "de": 0.11,
+    "receivable": 38664.0,
+    "cagr": 0.04,
+    "loan": 0.0,
+    "rankDelta": -69
   },
   {
     "rank": 401,
@@ -5227,7 +8836,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.8,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5582.0,
+    "eqt": 1631.0,
+    "dLong": 5700.0,
+    "dShort": 12028.0,
+    "de": 10.87,
+    "receivable": 6250.0,
+    "cagr": 0.25,
+    "loan": 13000.0,
+    "rankDelta": 23
   },
   {
     "rank": 402,
@@ -5240,7 +8858,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 63.9,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5314.0,
+    "eqt": 81835.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 83633.0,
+    "cagr": 0.33,
+    "loan": 619.0,
+    "rankDelta": 11
   },
   {
     "rank": 403,
@@ -5253,7 +8880,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -76
   },
   {
     "rank": 404,
@@ -5266,7 +8902,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2528.6,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5685.0,
+    "eqt": 184.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 8200.0,
+    "cagr": 5.26,
+    "loan": 0,
+    "rankDelta": -8
   },
   {
     "rank": 405,
@@ -5279,7 +8924,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 291.7,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 896.0,
+    "eqt": 25385.0,
+    "dLong": 0.0,
+    "dShort": 1412.0,
+    "de": 0.06,
+    "receivable": 4110.0,
+    "cagr": 0.2,
+    "loan": 2633.0,
+    "rankDelta": -25
   },
   {
     "rank": 406,
@@ -5292,7 +8946,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -44.7,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3162.0,
+    "eqt": 15517.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 139291.0,
+    "cagr": 0.11,
+    "loan": 0.0,
+    "rankDelta": -62
   },
   {
     "rank": 407,
@@ -5305,7 +8968,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -55.7,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4262.0,
+    "eqt": 11148.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 10567.0,
+    "cagr": 0.09,
+    "loan": 7300.0,
+    "rankDelta": -29
   },
   {
     "rank": 408,
@@ -5318,7 +8990,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 3530.3,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1595.0,
+    "eqt": 20298.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 1763.0,
+    "cagr": 7.26,
+    "loan": 1211.0,
+    "rankDelta": 38
   },
   {
     "rank": 409,
@@ -5331,7 +9012,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 96.7,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 880.0,
+    "dLong": 0.0,
+    "dShort": 19937.0,
+    "de": 22.66,
+    "receivable": 3604.0,
+    "cagr": 0.07,
+    "loan": 2935.0,
+    "rankDelta": -34
   },
   {
     "rank": 410,
@@ -5344,7 +9034,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3779.0,
+    "eqt": 103991.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 106528.0,
+    "cagr": 0.02,
+    "loan": 500.0,
+    "rankDelta": -41
   },
   {
     "rank": 411,
@@ -5357,7 +9056,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 31.6,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4717.0,
+    "eqt": 10364.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 1715.0,
+    "cagr": 0.19,
+    "loan": 0.0,
+    "rankDelta": 16
   },
   {
     "rank": 412,
@@ -5370,7 +9078,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1000.4,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2099.0,
+    "eqt": 23737.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 24393.0,
+    "cagr": 2.2,
+    "loan": 11040.0,
+    "rankDelta": -18
   },
   {
     "rank": 413,
@@ -5383,7 +9100,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -37.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": true
+    "napka": true,
+    "cost": 4932.0,
+    "eqt": 12986.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 20020.0,
+    "cagr": 0.13,
+    "loan": 20.0,
+    "rankDelta": -6
   },
   {
     "rank": 414,
@@ -5396,7 +9122,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 137.9,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4769.0,
+    "eqt": 22698.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 22163.0,
+    "cagr": 0.48,
+    "loan": 895.0,
+    "rankDelta": -24
   },
   {
     "rank": 415,
@@ -5409,7 +9144,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 20.0,
     "experience": 8,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4341.0,
+    "eqt": 1695.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 69273.0,
+    "cagr": 0.24,
+    "loan": 156.0,
+    "rankDelta": 16
   },
   {
     "rank": 416,
@@ -5422,7 +9166,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 12277.0,
+    "eqt": 130988.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 148385.0,
+    "cagr": 0.45,
+    "loan": 0.0,
+    "rankDelta": -220
   },
   {
     "rank": 417,
@@ -5435,7 +9188,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 40526.0,
+    "eqt": 236722.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 187810.0,
+    "cagr": 0.0,
+    "loan": 7000.0,
+    "rankDelta": -5
   },
   {
     "rank": 418,
@@ -5448,7 +9210,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1.7,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5594.0,
+    "eqt": 10083.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 17209.0,
+    "cagr": 0.2,
+    "loan": 3972.0,
+    "rankDelta": -104
   },
   {
     "rank": 419,
@@ -5461,7 +9232,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -34
   },
   {
     "rank": 420,
@@ -5474,7 +9254,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 106.8,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 23.0,
+    "eqt": 11087.0,
+    "dLong": 5.0,
+    "dShort": 349.0,
+    "de": 0.03,
+    "receivable": 284.0,
+    "cagr": 0.09,
+    "loan": 0.0,
+    "rankDelta": 14
   },
   {
     "rank": 421,
@@ -5487,7 +9276,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -69.6,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 78.0,
+    "eqt": 14606.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 27821.0,
+    "cagr": 0.06,
+    "loan": 0,
+    "rankDelta": 33
   },
   {
     "rank": 422,
@@ -5500,7 +9298,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -82
   },
   {
     "rank": 423,
@@ -5513,7 +9320,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 56.3,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1858.0,
+    "eqt": 18691.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 19083.0,
+    "cagr": 0.31,
+    "loan": 0.0,
+    "rankDelta": 16
   },
   {
     "rank": 424,
@@ -5526,7 +9342,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 978.0,
+    "eqt": 25535.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 31409.0,
+    "cagr": 0.15,
+    "loan": 22269.0,
+    "rankDelta": -5
   },
   {
     "rank": 425,
@@ -5539,7 +9364,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 83.8,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2091.0,
+    "eqt": 18313.0,
+    "dLong": 0.0,
+    "dShort": 620.0,
+    "de": 0.03,
+    "receivable": 3504.0,
+    "cagr": 0.13,
+    "loan": 11390.0,
+    "rankDelta": -15
   },
   {
     "rank": 426,
@@ -5552,7 +9386,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3125.0,
+    "eqt": 336.0,
+    "dLong": 0.0,
+    "dShort": 10543.0,
+    "de": 31.38,
+    "receivable": 10473.0,
+    "cagr": 0,
+    "loan": 115.0,
+    "rankDelta": 79
   },
   {
     "rank": 427,
@@ -5565,7 +9408,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 88.5,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1534.0,
+    "eqt": 11968.0,
+    "dLong": 0.0,
+    "dShort": 1770.0,
+    "de": 0.15,
+    "receivable": 10604.0,
+    "cagr": 0.07,
+    "loan": 0,
+    "rankDelta": 44
   },
   {
     "rank": 428,
@@ -5578,7 +9430,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 5875.0,
+    "eqt": -15665.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 3309.0,
+    "cagr": 0.15,
+    "loan": 28860.0,
+    "rankDelta": -7
   },
   {
     "rank": 429,
@@ -5591,7 +9452,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -88
   },
   {
     "rank": 430,
@@ -5604,7 +9474,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 6823.5,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 13139.0,
+    "eqt": 12783.0,
+    "dLong": 1.0,
+    "dShort": 14308.0,
+    "de": 1.12,
+    "receivable": 5786.0,
+    "cagr": 0.03,
+    "loan": 1785.0,
+    "rankDelta": -62
   },
   {
     "rank": 431,
@@ -5617,7 +9496,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -23
   },
   {
     "rank": 432,
@@ -5630,7 +9518,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -12
   },
   {
     "rank": 433,
@@ -5643,7 +9540,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 10
   },
   {
     "rank": 434,
@@ -5656,7 +9562,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 230.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2616.0,
+    "eqt": 10199.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 68298.0,
+    "cagr": 0.09,
+    "loan": 344.0,
+    "rankDelta": 7
   },
   {
     "rank": 435,
@@ -5669,7 +9584,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -58.6,
     "experience": 12,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2731.0,
+    "eqt": 200135.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 391440.0,
+    "cagr": 0.08,
+    "loan": 0.0,
+    "rankDelta": -19
   },
   {
     "rank": 436,
@@ -5682,7 +9606,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2117.0,
+    "eqt": 13725.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 24008.0,
+    "cagr": 2.41,
+    "loan": 0.0,
+    "rankDelta": -45
   },
   {
     "rank": 437,
@@ -5695,7 +9628,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 405.4,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2220.0,
+    "eqt": 14231.0,
+    "dLong": 0.0,
+    "dShort": 819.0,
+    "de": 0.06,
+    "receivable": 1107.0,
+    "cagr": 1.01,
+    "loan": 0,
+    "rankDelta": -98
   },
   {
     "rank": 438,
@@ -5708,7 +9650,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 800.7,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 4497.0,
+    "eqt": 12497.0,
+    "dLong": 6780.0,
+    "dShort": 467.0,
+    "de": 0.58,
+    "receivable": 25.0,
+    "cagr": 1.68,
+    "loan": 1483.0,
+    "rankDelta": -5
   },
   {
     "rank": 439,
@@ -5721,7 +9672,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 100.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1835.0,
+    "eqt": 0.0,
+    "dLong": 0.0,
+    "dShort": 14987.0,
+    "de": 0,
+    "receivable": 8381.0,
+    "cagr": 0.59,
+    "loan": 0,
+    "rankDelta": 27
   },
   {
     "rank": 440,
@@ -5734,7 +9694,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1681.0,
+    "eqt": 12863.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 44204.0,
+    "cagr": 0.43,
+    "loan": 0,
+    "rankDelta": 25
   },
   {
     "rank": 441,
@@ -5747,7 +9716,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 244.5,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3590.0,
+    "eqt": 10172.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 10107.0,
+    "cagr": 0.69,
+    "loan": 0,
+    "rankDelta": 31
   },
   {
     "rank": 442,
@@ -5760,7 +9738,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 7146.0,
+    "eqt": 97602.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 105402.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 64
   },
   {
     "rank": 443,
@@ -5773,7 +9760,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -75.9,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2050.0,
+    "eqt": 34388.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 37823.0,
+    "cagr": 0.05,
+    "loan": 18146.0,
+    "rankDelta": -40
   },
   {
     "rank": 444,
@@ -5786,7 +9782,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 85.1,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1890.0,
+    "eqt": 43696.0,
+    "dLong": 0.0,
+    "dShort": 2231.0,
+    "de": 0.05,
+    "receivable": 27750.0,
+    "cagr": 0.28,
+    "loan": 0,
+    "rankDelta": -16
   },
   {
     "rank": 445,
@@ -5799,7 +9804,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -87.7,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1954.0,
+    "eqt": 10012.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 10486.0,
+    "cagr": 0.02,
+    "loan": 0,
+    "rankDelta": -135
   },
   {
     "rank": 446,
@@ -5812,7 +9826,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 145.3,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1677.0,
+    "eqt": 10070.0,
+    "dLong": 3986.0,
+    "dShort": 357.0,
+    "de": 0.43,
+    "receivable": 236.0,
+    "cagr": 2.35,
+    "loan": 0,
+    "rankDelta": 17
   },
   {
     "rank": 447,
@@ -5825,7 +9848,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -9
   },
   {
     "rank": 448,
@@ -5838,7 +9870,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.4,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2040.0,
+    "eqt": 29862.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 29780.0,
+    "cagr": 0.26,
+    "loan": 0,
+    "rankDelta": -26
   },
   {
     "rank": 449,
@@ -5851,7 +9892,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 36.3,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1650.0,
+    "eqt": 10385.0,
+    "dLong": 0.0,
+    "dShort": 92.0,
+    "de": 0.01,
+    "receivable": 117.0,
+    "cagr": 30.77,
+    "loan": 0,
+    "rankDelta": 21
   },
   {
     "rank": 450,
@@ -5864,7 +9914,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 9,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1664.0,
+    "eqt": 11311.0,
+    "dLong": 0.0,
+    "dShort": 555.0,
+    "de": 0.05,
+    "receivable": 415.0,
+    "cagr": 0.4,
+    "loan": 200.0,
+    "rankDelta": 1
   },
   {
     "rank": 451,
@@ -5877,7 +9936,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1333.0,
+    "eqt": 12293.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 31546.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 56
   },
   {
     "rank": 452,
@@ -5890,7 +9958,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 44
   },
   {
     "rank": 453,
@@ -5903,7 +9980,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 2701.7,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1582.0,
+    "eqt": 16043.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 20713.0,
+    "cagr": 5.6,
+    "loan": 3200.0,
+    "rankDelta": -23
   },
   {
     "rank": 454,
@@ -5916,7 +10002,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -34.3,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1133.0,
+    "eqt": 11346.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 12626.0,
+    "cagr": 0.13,
+    "loan": 723.0,
+    "rankDelta": -9
   },
   {
     "rank": 455,
@@ -5929,7 +10024,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -99.1,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1314.0,
+    "eqt": 47418.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 111534.0,
+    "cagr": 0.0,
+    "loan": 0,
+    "rankDelta": 9
   },
   {
     "rank": 456,
@@ -5942,7 +10046,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -297
   },
   {
     "rank": 457,
@@ -5955,7 +10068,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 5
   },
   {
     "rank": 458,
@@ -5968,7 +10090,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 112.7,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1571.0,
+    "eqt": 13623.0,
+    "dLong": 0.0,
+    "dShort": 530.0,
+    "de": 0.04,
+    "receivable": 731.0,
+    "cagr": 14.9,
+    "loan": 0.0,
+    "rankDelta": -18
   },
   {
     "rank": 459,
@@ -5981,7 +10112,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 150.2,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 254.0,
+    "eqt": 18934.0,
+    "dLong": 14000.0,
+    "dShort": 50378.0,
+    "de": 3.4,
+    "receivable": 73060.0,
+    "cagr": 0.1,
+    "loan": 0,
+    "rankDelta": -23
   },
   {
     "rank": 460,
@@ -5994,7 +10134,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 20.0,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 418.0,
+    "eqt": 9906.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 16711.0,
+    "cagr": 0.24,
+    "loan": 0.0,
+    "rankDelta": -37
   },
   {
     "rank": 461,
@@ -6007,7 +10156,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -44
   },
   {
     "rank": 462,
@@ -6020,7 +10178,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 101.3,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 93.0,
+    "eqt": 13647.0,
+    "dLong": 70.0,
+    "dShort": 26.0,
+    "de": 0.01,
+    "receivable": 86.0,
+    "cagr": 0.02,
+    "loan": 198.0,
+    "rankDelta": -5
   },
   {
     "rank": 463,
@@ -6033,7 +10200,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 204.7,
     "experience": 13,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 59.0,
+    "eqt": 19061.0,
+    "dLong": 288.0,
+    "dShort": 133.0,
+    "de": 0.02,
+    "receivable": 346.0,
+    "cagr": 0.01,
+    "loan": 0.0,
+    "rankDelta": -3
   },
   {
     "rank": 464,
@@ -6046,7 +10222,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 44
   },
   {
     "rank": 465,
@@ -6059,7 +10244,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 114.9,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1244.0,
+    "eqt": 10005.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 12250.0,
+    "cagr": 0.43,
+    "loan": 0,
+    "rankDelta": -13
   },
   {
     "rank": 466,
@@ -6072,7 +10266,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -89.0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 646.0,
+    "eqt": 14152.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 13942.0,
+    "cagr": 0.02,
+    "loan": 0,
+    "rankDelta": -34
   },
   {
     "rank": 467,
@@ -6085,7 +10288,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 133.9,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 60.0,
+    "eqt": 2900.0,
+    "dLong": 5591.0,
+    "dShort": 10023.0,
+    "de": 5.38,
+    "receivable": 0.0,
+    "cagr": 4.88,
+    "loan": 2622.0,
+    "rankDelta": -14
   },
   {
     "rank": 468,
@@ -6098,7 +10310,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 90.9,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 667.0,
+    "eqt": -667.0,
+    "dLong": 4908.0,
+    "dShort": 10569.0,
+    "de": -23.2,
+    "receivable": 275.0,
+    "cagr": 0.64,
+    "loan": 0,
+    "rankDelta": 24
   },
   {
     "rank": 469,
@@ -6111,7 +10332,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -64
   },
   {
     "rank": 470,
@@ -6124,7 +10354,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -378
   },
   {
     "rank": 471,
@@ -6137,7 +10376,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -22
   },
   {
     "rank": 472,
@@ -6150,7 +10398,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 10,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2.0,
+    "eqt": 10317.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 9739.0,
+    "cagr": 0,
+    "loan": 0.0,
+    "rankDelta": 37
   },
   {
     "rank": 473,
@@ -6163,7 +10420,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -116
   },
   {
     "rank": 474,
@@ -6176,7 +10442,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -225
   },
   {
     "rank": 475,
@@ -6189,7 +10464,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 353.2,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 722.0,
+    "eqt": 36600.0,
+    "dLong": 5967.0,
+    "dShort": 71886.0,
+    "de": 2.13,
+    "receivable": 51731.0,
+    "cagr": 0.63,
+    "loan": 0,
+    "rankDelta": -179
   },
   {
     "rank": 476,
@@ -6202,7 +10486,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -18
   },
   {
     "rank": 477,
@@ -6215,7 +10508,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -18
   },
   {
     "rank": 478,
@@ -6228,7 +10530,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -107
   },
   {
     "rank": 479,
@@ -6241,7 +10552,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -82.8,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 714.0,
+    "eqt": 12115.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 12446.0,
+    "cagr": 0.03,
+    "loan": 0.0,
+    "rankDelta": -1
   },
   {
     "rank": 480,
@@ -6254,7 +10574,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -25
   },
   {
     "rank": 481,
@@ -6267,7 +10596,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -13
   },
   {
     "rank": 482,
@@ -6280,7 +10618,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -78.0,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 519.0,
+    "eqt": 13824.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 4402.0,
+    "cagr": 0.04,
+    "loan": 653.0,
+    "rankDelta": -5
   },
   {
     "rank": 483,
@@ -6293,7 +10640,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -94.8,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 6553.0,
+    "eqt": 42588.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 41933.0,
+    "cagr": 0.01,
+    "loan": 0.0,
+    "rankDelta": -10
   },
   {
     "rank": 484,
@@ -6306,7 +10662,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 85.2,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 66749.0,
+    "eqt": -81761.0,
+    "dLong": 185194.0,
+    "dShort": 152600.0,
+    "de": -4.13,
+    "receivable": 14784.0,
+    "cagr": 0.0,
+    "loan": 665602.0,
+    "rankDelta": -55
   },
   {
     "rank": 485,
@@ -6319,7 +10684,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 2203.0,
+    "eqt": 0.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0,
+    "receivable": 3543.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 25
   },
   {
     "rank": 486,
@@ -6332,7 +10706,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -41.2,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1763.0,
+    "eqt": 21191.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 21179.0,
+    "cagr": 0.12,
+    "loan": 11.0,
+    "rankDelta": -214
   },
   {
     "rank": 487,
@@ -6345,7 +10728,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -18
   },
   {
     "rank": 488,
@@ -6358,7 +10750,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -188
   },
   {
     "rank": 489,
@@ -6371,7 +10772,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1833.3,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1278.0,
+    "eqt": 13121.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 13760.0,
+    "cagr": 0.0,
+    "loan": 0,
+    "rankDelta": -185
   },
   {
     "rank": 490,
@@ -6384,7 +10794,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1466.7,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 45.0,
+    "eqt": 11103.0,
+    "dLong": 30.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 3030.0,
+    "cagr": 3.13,
+    "loan": 0,
+    "rankDelta": 4
   },
   {
     "rank": 491,
@@ -6397,7 +10816,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -8
   },
   {
     "rank": 492,
@@ -6410,7 +10838,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 11,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 82.0,
+    "eqt": 4217.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 8483.0,
+    "cagr": 0.0,
+    "loan": 3565.0,
+    "rankDelta": -18
   },
   {
     "rank": 493,
@@ -6423,7 +10860,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1282.0,
+    "eqt": 8707.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 7914.0,
+    "cagr": 0.06,
+    "loan": 0.0,
+    "rankDelta": -5
   },
   {
     "rank": 494,
@@ -6436,7 +10882,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 17
   },
   {
     "rank": 495,
@@ -6449,7 +10904,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -157
   },
   {
     "rank": 496,
@@ -6462,7 +10926,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -457
   },
   {
     "rank": 497,
@@ -6475,7 +10948,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 1328.0,
     "experience": 16,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 73.0,
+    "eqt": 14779.0,
+    "dLong": 0.0,
+    "dShort": 95481.0,
+    "de": 6.46,
+    "receivable": 1.0,
+    "cagr": 0.0,
+    "loan": 0.0,
+    "rankDelta": 15
   },
   {
     "rank": 498,
@@ -6488,7 +10970,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 16490.0,
+    "eqt": -5565.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 713.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 15
   },
   {
     "rank": 499,
@@ -6501,7 +10992,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 17.0,
+    "eqt": 11782.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 12667.0,
+    "cagr": 0.0,
+    "loan": 0,
+    "rankDelta": -154
   },
   {
     "rank": 500,
@@ -6514,7 +11014,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 10010.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 10000.0,
+    "cagr": 0,
+    "loan": 0.0,
+    "rankDelta": 14
   },
   {
     "rank": 501,
@@ -6527,7 +11036,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 14
   },
   {
     "rank": 502,
@@ -6540,7 +11058,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -18
   },
   {
     "rank": 503,
@@ -6553,7 +11080,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -10
   },
   {
     "rank": 504,
@@ -6566,7 +11102,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 168.8,
     "experience": 17,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 17669.0,
+    "eqt": 4315.0,
+    "dLong": 417.0,
+    "dShort": 32718.0,
+    "de": 7.68,
+    "receivable": 1003.0,
+    "cagr": 0.0,
+    "loan": 0.0,
+    "rankDelta": -251
   },
   {
     "rank": 505,
@@ -6579,7 +11124,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 506,
@@ -6592,7 +11146,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 507,
@@ -6605,7 +11168,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 508,
@@ -6618,7 +11190,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 509,
@@ -6631,7 +11212,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 510,
@@ -6644,7 +11234,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 511,
@@ -6657,7 +11256,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 512,
@@ -6670,7 +11278,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 513,
@@ -6683,7 +11300,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 514,
@@ -6696,7 +11322,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 515,
@@ -6709,7 +11344,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 516,
@@ -6722,7 +11366,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 517,
@@ -6735,7 +11388,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 11
   },
   {
     "rank": 518,
@@ -6748,7 +11410,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 28.0,
+    "eqt": 108770.0,
+    "dLong": 0.0,
+    "dShort": 9109.0,
+    "de": 0.08,
+    "receivable": 117552.0,
+    "cagr": 0.0,
+    "loan": 0,
+    "rankDelta": -396
   },
   {
     "rank": 519,
@@ -6761,7 +11432,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 10
   },
   {
     "rank": 520,
@@ -6774,7 +11454,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3.0,
+    "eqt": 12074.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 12409.0,
+    "cagr": 0.0,
+    "loan": 0,
+    "rankDelta": -177
   },
   {
     "rank": 521,
@@ -6787,7 +11476,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 9
   },
   {
     "rank": 522,
@@ -6800,7 +11498,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 4,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 12315.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 13842.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 9
   },
   {
     "rank": 523,
@@ -6813,7 +11520,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 38.0,
+    "eqt": 70.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 35742.0,
+    "cagr": 0.0,
+    "loan": 0,
+    "rankDelta": -42
   },
   {
     "rank": 524,
@@ -6826,7 +11542,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 151.0,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 12900.0,
+    "eqt": 16243.0,
+    "dLong": 13756.0,
+    "dShort": 3366.0,
+    "de": 1.05,
+    "receivable": 551.0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 8
   },
   {
     "rank": 525,
@@ -6839,7 +11564,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 8
   },
   {
     "rank": 526,
@@ -6852,7 +11586,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -242
   },
   {
     "rank": 527,
@@ -6865,7 +11608,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 14,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 27.0,
+    "eqt": 120000.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 129390.0,
+    "cagr": 0.0,
+    "loan": 0.0,
+    "rankDelta": -40
   },
   {
     "rank": 528,
@@ -6878,7 +11630,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 6
   },
   {
     "rank": 529,
@@ -6891,7 +11652,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 15,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 416.0,
+    "eqt": 10775.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 9740.0,
+    "cagr": 0,
+    "loan": 9334.0,
+    "rankDelta": 6
   },
   {
     "rank": 530,
@@ -6904,7 +11674,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 39.0,
+    "eqt": 11836.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 12212.0,
+    "cagr": 0.0,
+    "loan": 0,
+    "rankDelta": -194
   },
   {
     "rank": 531,
@@ -6917,7 +11696,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 5
   },
   {
     "rank": 532,
@@ -6930,7 +11718,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 971.0,
+    "eqt": 13359.0,
+    "dLong": 1695.0,
+    "dShort": 309.0,
+    "de": 0.15,
+    "receivable": 13.0,
+    "cagr": 0.0,
+    "loan": 486.0,
+    "rankDelta": 5
   },
   {
     "rank": 533,
@@ -6943,7 +11740,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 6,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 0.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0,
+    "receivable": 11262.0,
+    "cagr": 0.0,
+    "loan": 623.0,
+    "rankDelta": 5
   },
   {
     "rank": 534,
@@ -6956,7 +11762,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -48
   },
   {
     "rank": 535,
@@ -6969,7 +11784,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": -142
   },
   {
     "rank": 536,
@@ -6982,7 +11806,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 3
   },
   {
     "rank": 537,
@@ -6995,7 +11828,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 113.0,
     "experience": 18,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 20922.0,
+    "dLong": 0.0,
+    "dShort": 230.0,
+    "de": 0.01,
+    "receivable": 7131.0,
+    "cagr": 0.0,
+    "loan": 0.0,
+    "rankDelta": 3
   },
   {
     "rank": 538,
@@ -7008,7 +11850,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 120.9,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1607.0,
+    "eqt": 33851.0,
+    "dLong": 0.0,
+    "dShort": 209.0,
+    "de": 0.01,
+    "receivable": 26992.0,
+    "cagr": 0.0,
+    "loan": 2600.0,
+    "rankDelta": 3
   },
   {
     "rank": 539,
@@ -7021,7 +11872,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 0.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0,
+    "receivable": 0.0,
+    "cagr": 0.0,
+    "loan": 0.0,
+    "rankDelta": 3
   },
   {
     "rank": 540,
@@ -7034,7 +11894,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 124.6,
     "experience": 7,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0.0,
+    "eqt": 24071.0,
+    "dLong": 7325.0,
+    "dShort": 1478.0,
+    "de": 0.37,
+    "receivable": 104.0,
+    "cagr": 0.0,
+    "loan": 1250.0,
+    "rankDelta": 3
   },
   {
     "rank": 541,
@@ -7047,7 +11916,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 3
   },
   {
     "rank": 542,
@@ -7060,7 +11938,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -100.0,
     "experience": 3,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 805.0,
+    "eqt": -1773.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 4130.0,
+    "cagr": 0.0,
+    "loan": 0,
+    "rankDelta": -53
   },
   {
     "rank": 543,
@@ -7073,7 +11960,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 2
   },
   {
     "rank": 544,
@@ -7086,7 +11982,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 0,
     "experience": 0,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 0,
+    "eqt": 0,
+    "dLong": 0,
+    "dShort": 0,
+    "de": 0,
+    "receivable": 0,
+    "cagr": 0,
+    "loan": 0,
+    "rankDelta": 2
   },
   {
     "rank": 545,
@@ -7099,7 +12004,16 @@ export const ratingData: RatingCompany[] = [
     "growthRate": 471.7,
     "experience": 5,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 1721.0,
+    "eqt": 50283.0,
+    "dLong": 4090.0,
+    "dShort": 280.0,
+    "de": 0.09,
+    "receivable": 43568.0,
+    "cagr": -1.39,
+    "loan": 44.0,
+    "rankDelta": -290
   },
   {
     "rank": 546,
@@ -7112,6 +12026,15 @@ export const ratingData: RatingCompany[] = [
     "growthRate": -2644.0,
     "experience": 2,
     "capitalAttraction": "none",
-    "napka": false
+    "napka": false,
+    "cost": 3006.0,
+    "eqt": 69353.0,
+    "dLong": 0.0,
+    "dShort": 0.0,
+    "de": 0.0,
+    "receivable": 66898.0,
+    "cagr": -5.09,
+    "loan": 799.0,
+    "rankDelta": -64
   },
 ];

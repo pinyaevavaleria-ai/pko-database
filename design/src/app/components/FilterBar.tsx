@@ -1,61 +1,42 @@
 import { useRef, useState, useEffect } from 'react';
-import { TabId } from './TabBar';
-import { FinanceMode, FinanceYear } from './FinanceTable';
 import { ChevronDown, ChevronUp, X, Search } from 'lucide-react';
 
 // ── Filter interfaces ────────────────────────────────────────────
 
 export type SortDirection = 'desc' | 'asc';
 
+export type Preset = 'overview' | 'capital';
+
 export interface RatingFilters {
+  // ── Сквозные ──
   sortDir: SortDirection;
-  revenueFrom: string;
-  revenueTo: string;
-  profitFrom: string;
-  profitTo: string;
-  debtLoadTo: string;
-  capitalPublic: boolean;
-  capitalCorporate: boolean;
-  capitalNone: boolean;
   napka: 'ignore' | 'yes' | 'no';
   experienceFrom: string;
   experienceTo: string;
-}
-
-export interface FinanceFilters {
-  sortDir: SortDirection;
+  capitalPublic: boolean;
+  capitalCorporate: boolean;
+  capitalNone: boolean;
+  // ── Overview метрики ──
   revenueFrom: string;
   revenueTo: string;
   profitFrom: string;
   profitTo: string;
-  ebitdaFrom: string;
-  ebitdaTo: string;
-  debtLoadFrom: string;
-  debtLoadTo: string;
-}
-
-export interface InvestmentFilters {
-  status: 'all' | 'open' | 'closed' | 'paused';
-  reliability: 'all' | 'A' | 'B' | 'C' | 'D';
-  maxRate: number;
+  // ── Отдельные поповеры ──
+  deFrom: string;
+  deTo: string;
+  growthRateFrom: string;
+  growthRateTo: string;
+  cagrFrom: string;
+  cagrTo: string;
 }
 
 interface FilterBarProps {
-  activeTab: TabId;
   searchQuery: string;
   onSearchChange: (v: string) => void;
   ratingFilters: RatingFilters;
   onRatingFiltersChange: (f: RatingFilters) => void;
-  ratingPreset: 'overview' | 'pl' | 'balance' | 'capital';
-  onRatingPresetChange: (p: 'overview' | 'pl' | 'balance' | 'capital') => void;
-  financeFilters: FinanceFilters;
-  onFinanceFiltersChange: (f: FinanceFilters) => void;
-  financeMode: FinanceMode;
-  onFinanceModeChange: (m: FinanceMode) => void;
-  financeYear: FinanceYear;
-  onFinanceYearChange: (y: FinanceYear) => void;
-  investmentFilters: InvestmentFilters;
-  onInvestmentFiltersChange: (f: InvestmentFilters) => void;
+  preset: Preset;
+  onPresetChange: (p: Preset) => void;
 }
 
 // ── Hooks ────────────────────────────────────────────
@@ -80,7 +61,7 @@ function useClickOutside(ref: React.RefObject<HTMLElement | null>, handler: () =
 // ── Shared primitives ────────────────────────────────────────────
 
 function Divider() {
-  return <div style={{ width: '1px', height: '22px', background: '#e5e7eb', flexShrink: 0 }} />;
+  return <div style={{ width: '1px', height: '22px', background: 'rgba(255,255,255,0.08)', flexShrink: 0 }} />;
 }
 
 // Generic Popover Button
@@ -110,12 +91,12 @@ function PopoverFilter({
           alignItems: 'center',
           gap: '6px',
           padding: '6px 12px',
-          borderRadius: '8px',
-          border: `1px solid ${isActive || open ? '#111' : '#e5e7eb'}`,
-          background: isActive ? '#f9fafb' : '#fff',
+          borderRadius: '20px',
+          border: `1px solid ${open ? 'rgba(13,240,230,0.3)' : isActive ? 'rgba(13,240,230,0.2)' : 'rgba(255,255,255,0.12)'}`,
+          background: open ? 'rgba(13,240,230,0.06)' : isActive ? 'rgba(13,240,230,0.04)' : 'transparent',
           fontSize: '13px',
           fontWeight: 500,
-          color: isActive || open ? '#111' : '#374151',
+          color: isActive || open ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
           cursor: 'pointer',
           outline: 'none',
           whiteSpace: 'nowrap',
@@ -128,8 +109,8 @@ function PopoverFilter({
             width: '16px',
             height: '16px',
             borderRadius: '50%',
-            background: '#111',
-            color: '#fff',
+            background: '#0DF0E6',
+            color: '#0a0f15',
             fontSize: '10px',
             display: 'inline-flex',
             alignItems: 'center',
@@ -140,9 +121,9 @@ function PopoverFilter({
           </span>
         )}
         {open ? (
-          <ChevronUp style={{ width: '14px', height: '14px', color: isActive || open ? '#111' : '#9ca3af' }} />
+          <ChevronUp style={{ width: '14px', height: '14px', color: isActive || open ? '#0DF0E6' : 'rgba(255,255,255,0.3)' }} />
         ) : (
-          <ChevronDown style={{ width: '14px', height: '14px', color: isActive || open ? '#111' : '#9ca3af' }} />
+          <ChevronDown style={{ width: '14px', height: '14px', color: isActive || open ? '#0DF0E6' : 'rgba(255,255,255,0.3)' }} />
         )}
       </button>
 
@@ -152,10 +133,10 @@ function PopoverFilter({
             position: 'absolute',
             top: 'calc(100% + 6px)',
             ...(align === 'right' ? { right: 0 } : { left: 0 }),
-            background: '#fff',
+            background: '#1a2230',
             borderRadius: '12px',
-            border: '1px solid #e5e7eb',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
             padding: '12px',
             display: 'flex',
             flexDirection: 'column',
@@ -176,39 +157,14 @@ function CustomRadio({ checked, label, onChange }: { checked: boolean; label: st
   return (
     <label onClick={onChange} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '6px 4px' }}>
       <div style={{
-        width: '18px', height: '18px', borderRadius: '50%', border: `1.5px solid ${checked ? '#111' : '#d1d5db'}`,
+        width: '18px', height: '18px', borderRadius: '50%', border: `1.5px solid ${checked ? '#0DF0E6' : 'rgba(255,255,255,0.2)'}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center'
       }}>
-        {checked && <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#111' }} />}
+        {checked && <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#0DF0E6' }} />}
       </div>
-      <span style={{ fontSize: '13px', color: checked ? '#111' : '#374151', fontWeight: checked ? 500 : 400 }}>
+      <span style={{ fontSize: '13px', color: checked ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: checked ? 500 : 400 }}>
         {label}
       </span>
-    </label>
-  );
-}
-
-// Checkbox Option
-function CustomCheckbox({ checked, label, color, onChange }: { checked: boolean; label: string; color?: string; onChange: () => void }) {
-  return (
-    <label onClick={onChange} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '6px 4px' }}>
-      <div style={{
-        width: '18px', height: '18px', borderRadius: '4px', border: `1.5px solid ${checked ? '#111' : '#d1d5db'}`,
-        backgroundColor: checked ? '#111' : '#fff',
-        display: 'flex', alignItems: 'center', justifyContent: 'center'
-      }}>
-        {checked && (
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        )}
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-        {color && <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: color }} />}
-        <span style={{ fontSize: '13px', color: checked ? '#111' : '#374151', fontWeight: checked ? 500 : 400 }}>
-          {label}
-        </span>
-      </div>
     </label>
   );
 }
@@ -216,8 +172,9 @@ function CustomCheckbox({ checked, label, color, onChange }: { checked: boolean;
 // Range Inputs inside Popover
 function RangeInputs({ fromVal, toVal, onFromChange, onToChange }: { fromVal: string; toVal: string; onFromChange: (v: string) => void; onToChange: (v: string) => void }) {
   const inputStyle: React.CSSProperties = {
-    width: '100px', padding: '8px 10px', borderRadius: '8px', border: '1px solid #e5e7eb',
-    fontSize: '13px', color: '#111', outline: 'none', fontFamily: 'inherit'
+    width: '100px', padding: '8px 10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)',
+    fontSize: '13px', color: '#fff', outline: 'none', fontFamily: 'inherit',
+    background: 'rgba(255,255,255,0.04)'
   };
 
   return (
@@ -225,237 +182,287 @@ function RangeInputs({ fromVal, toVal, onFromChange, onToChange }: { fromVal: st
       <input
         type="number" value={fromVal} onChange={e => onFromChange(e.target.value)}
         placeholder="от" style={inputStyle}
-        onFocus={e => e.currentTarget.style.borderColor = '#111'}
-        onBlur={e => e.currentTarget.style.borderColor = '#e5e7eb'}
+        onFocus={e => e.currentTarget.style.borderColor = '#0DF0E6'}
+        onBlur={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
       />
-      <span style={{ color: '#9ca3af' }}>—</span>
+      <span style={{ color: 'rgba(255,255,255,0.3)' }}>—</span>
       <input
         type="number" value={toVal} onChange={e => onToChange(e.target.value)}
         placeholder="до" style={inputStyle}
-        onFocus={e => e.currentTarget.style.borderColor = '#111'}
-        onBlur={e => e.currentTarget.style.borderColor = '#e5e7eb'}
+        onFocus={e => e.currentTarget.style.borderColor = '#0DF0E6'}
+        onBlur={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
       />
       {(fromVal || toVal) && (
         <button
           onClick={() => { onFromChange(''); onToChange(''); }}
-          style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          <X style={{ width: '14px', height: '14px', color: '#6b7280' }} />
+          <X style={{ width: '14px', height: '14px', color: 'rgba(255,255,255,0.4)' }} />
         </button>
       )}
     </div>
   );
 }
 
-// ── Main Component ───────────────────────────────────────────────
+// ── Filter section label ─────────────────────────────────────────
+const SECTION_LABEL: React.CSSProperties = {
+  fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.4)', marginBottom: '8px',
+  textTransform: 'uppercase', letterSpacing: '0.05em',
+};
 
-export function FilterBar({
-  activeTab,
-  searchQuery, onSearchChange,
-  ratingFilters, onRatingFiltersChange,
-  ratingPreset, onRatingPresetChange,
-  financeFilters, onFinanceFiltersChange,
-  financeMode, onFinanceModeChange,
-  financeYear, onFinanceYearChange,
-}: FilterBarProps) {
+function SectionDivider() {
+  return <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', margin: '4px 0' }} />;
+}
 
-  const setR = (patch: Partial<RatingFilters>) => onRatingFiltersChange({ ...ratingFilters, ...patch });
-  const setF = (patch: Partial<FinanceFilters>) => onFinanceFiltersChange({ ...financeFilters, ...patch });
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '4px 0 2px', marginTop: '4px' }}>
+      {children}
+    </div>
+  );
+}
 
-  const presets = [
-    { id: 'overview', label: 'Рейтинг ПКО-300' },
-    { id: 'pl', label: 'P&L' },
-    { id: 'balance', label: 'Баланс' },
-    { id: 'capital', label: 'Привлечение капитала' },
-  ] as const;
+// Count active filters for badge
+function countActiveFilters(f: RatingFilters): number {
+  let n = 0;
+  if (f.sortDir !== 'desc') n++;
+  if (f.napka !== 'ignore') n++;
+  if (f.experienceFrom !== '' || f.experienceTo !== '') n++;
+  const allCap = f.capitalPublic && f.capitalCorporate && f.capitalNone;
+  if (!allCap) n++;
+  if (f.revenueFrom !== '' || f.revenueTo !== '') n++;
+  if (f.profitFrom !== '' || f.profitTo !== '') n++;
+  if (f.cagrFrom !== '' || f.cagrTo !== '') n++;
+  if (f.growthRateFrom !== '' || f.growthRateTo !== '') n++;
+  if (f.deFrom !== '' || f.deTo !== '') n++;
+  return n;
+}
+
+// ── Unified Filter Popover ──────────────────────────────────────
+function FilterPopover({ f, setR }: { f: RatingFilters; setR: (p: Partial<RatingFilters>) => void }) {
+  const activeCount = countActiveFilters(f);
 
   return (
-    <div style={{
-      background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '12px 32px',
-      display: 'flex', flexDirection: 'column', gap: '12px'
-    }}>
-
-      {/* ── РЕЙТИНГ ────────────────────────────────────────────── */}
-      {activeTab === 'rating' && (
-        <>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {presets.map(p => (
-              <button
-                key={p.id}
-                onClick={() => onRatingPresetChange(p.id)}
-                style={{
-                  padding: '8px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: p.id === ratingPreset ? 500 : 400,
-                  background: p.id === ratingPreset ? '#111' : '#f9fafb',
-                  color: p.id === ratingPreset ? '#fff' : '#6b7280',
-                  border: '1px solid', borderColor: p.id === ratingPreset ? '#111' : '#f0f0f0',
-                  cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap'
-                }}
-              >
-                {p.label}
-              </button>
-            ))}
-
-            <div style={{ flex: 1 }} />
-
-            <div style={{ position: 'relative' }}>
-              <Search
-                style={{
-                  position: 'absolute',
-                  left: '10px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: '14px',
-                  height: '14px',
-                  color: '#9ca3af',
-                }}
-              />
-              <input
-                type="text"
-                placeholder="Поиск по названию или ИНН..."
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                style={{
-                  paddingLeft: '32px',
-                  paddingRight: '12px',
-                  paddingTop: '7px',
-                  paddingBottom: '7px',
-                  width: '240px',
-                  borderRadius: '8px',
-                  border: '1px solid #e5e7eb',
-                  fontSize: '13px',
-                  background: '#fff',
-                  color: '#111',
-                  outline: 'none',
-                }}
-              />
-            </div>
-
-            <PopoverFilter label="Фильтры" isActive={ratingFilters.revenueFrom !== '' || ratingFilters.revenueTo !== '' || ratingFilters.profitFrom !== '' || ratingFilters.profitTo !== '' || ratingFilters.napka !== 'ignore' || ratingFilters.experienceFrom !== '' || ratingFilters.experienceTo !== '' || ratingFilters.sortDir !== 'desc'} align="right">
-              <div style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '12px', minWidth: '260px' }}>
-                <div>
-                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Сортировка</div>
-                  <CustomRadio checked={ratingFilters.sortDir === 'desc'} label="По убыванию" onChange={() => setR({ sortDir: 'desc' })} />
-                  <CustomRadio checked={ratingFilters.sortDir === 'asc'} label="По возрастанию" onChange={() => setR({ sortDir: 'asc' })} />
-                </div>
-                <Divider />
-                <div>
-                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Выручка + пр. доходы, тыс ₽</div>
-                  <RangeInputs fromVal={ratingFilters.revenueFrom} toVal={ratingFilters.revenueTo} onFromChange={v => setR({ revenueFrom: v })} onToChange={v => setR({ revenueTo: v })} />
-                </div>
-                <Divider />
-                <div>
-                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Чистая прибыль, тыс ₽</div>
-                  <RangeInputs fromVal={ratingFilters.profitFrom} toVal={ratingFilters.profitTo} onFromChange={v => setR({ profitFrom: v })} onToChange={v => setR({ profitTo: v })} />
-                </div>
-                <Divider />
-                <div>
-                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Член НАПКА</div>
-                  <CustomRadio checked={ratingFilters.napka === 'ignore'} label="Не учитывать" onChange={() => setR({ napka: 'ignore' })} />
-                  <CustomRadio checked={ratingFilters.napka === 'yes'} label="Да" onChange={() => setR({ napka: 'yes' })} />
-                  <CustomRadio checked={ratingFilters.napka === 'no'} label="Нет" onChange={() => setR({ napka: 'no' })} />
-                </div>
-                <Divider />
-                <div>
-                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Работает на рынке, лет</div>
-                  <RangeInputs fromVal={ratingFilters.experienceFrom} toVal={ratingFilters.experienceTo} onFromChange={v => setR({ experienceFrom: v })} onToChange={v => setR({ experienceTo: v })} />
-                </div>
-              </div>
-            </PopoverFilter>
-          </div>
-
-          {/* Active filter chips */}
-          {(() => {
-            const f = ratingFilters;
-            const hasChips = f.sortDir !== 'desc' || f.revenueFrom !== '' || f.revenueTo !== '' || f.profitFrom !== '' || f.profitTo !== '' || f.napka !== 'ignore' || f.experienceFrom !== '' || f.experienceTo !== '';
-            if (!hasChips) return null;
-            const chipStyle: React.CSSProperties = {
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              padding: '6px 12px', background: '#f4f4f5', borderRadius: '100px',
-              fontSize: '13px', fontWeight: 500, color: '#111'
-            };
-            const btnStyle: React.CSSProperties = { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' };
-            return (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                {f.sortDir !== 'desc' && (
-                  <div style={chipStyle}>Сорт: По возрастанию<button onClick={() => setR({ sortDir: 'desc' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
-                )}
-                {(f.revenueFrom !== '' || f.revenueTo !== '') && (
-                  <div style={chipStyle}>Выручка: {f.revenueFrom || '∞'} — {f.revenueTo || '∞'}<button onClick={() => setR({ revenueFrom: '', revenueTo: '' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
-                )}
-                {(f.profitFrom !== '' || f.profitTo !== '') && (
-                  <div style={chipStyle}>Прибыль: {f.profitFrom || '∞'} — {f.profitTo || '∞'}<button onClick={() => setR({ profitFrom: '', profitTo: '' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
-                )}
-                {f.napka !== 'ignore' && (
-                  <div style={chipStyle}>НАПКА: {f.napka === 'yes' ? 'Да' : 'Нет'}<button onClick={() => setR({ napka: 'ignore' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
-                )}
-                {(f.experienceFrom !== '' || f.experienceTo !== '') && (
-                  <div style={chipStyle}>Стаж: {f.experienceFrom || '∞'} — {f.experienceTo || '∞'} лет<button onClick={() => setR({ experienceFrom: '', experienceTo: '' })} style={btnStyle}><X style={{ width: '14px', height: '14px', color: '#6b7280' }} /></button></div>
-                )}
-              </div>
-            );
-          })()}
-        </>
-      )}
-
-      {/* ── ФИНАНСЫ ────────────────────────────────────────────── */}
-      {activeTab === 'finance' && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          <PopoverFilter label="Показать" isActive={false}>
-            <CustomRadio checked={financeMode === 'capital'} label="Структура капитала" onChange={() => onFinanceModeChange('capital')} />
-            <CustomRadio checked={financeMode === 'pl'} label="Доходы и расходы" onChange={() => onFinanceModeChange('pl')} />
-            <CustomRadio checked={financeMode === 'assets'} label="Активы и долги" onChange={() => onFinanceModeChange('assets')} />
-          </PopoverFilter>
-
-          <PopoverFilter label={`Год`} isActive={false}>
-            {[2024, 2023, 2022, 2021, 2020].map(y => (
-              <CustomRadio key={y} checked={financeYear === y} label={String(y)} onChange={() => onFinanceYearChange(y as FinanceYear)} />
-            ))}
-          </PopoverFilter>
-
-          <PopoverFilter label="Выручка + пр. доходы" isActive={!!financeFilters.revenueFrom || !!financeFilters.revenueTo}>
-            <RangeInputs fromVal={financeFilters.revenueFrom} toVal={financeFilters.revenueTo} onFromChange={v => setF({ revenueFrom: v })} onToChange={v => setF({ revenueTo: v })} />
-          </PopoverFilter>
-
-          <PopoverFilter label="Чистая прибыль" isActive={!!financeFilters.profitFrom || !!financeFilters.profitTo}>
-            <RangeInputs fromVal={financeFilters.profitFrom} toVal={financeFilters.profitTo} onFromChange={v => setF({ profitFrom: v })} onToChange={v => setF({ profitTo: v })} />
-          </PopoverFilter>
-
-          <PopoverFilter label="EBITDA" isActive={!!financeFilters.ebitdaFrom || !!financeFilters.ebitdaTo}>
-            <RangeInputs fromVal={financeFilters.ebitdaFrom} toVal={financeFilters.ebitdaTo} onFromChange={v => setF({ ebitdaFrom: v })} onToChange={v => setF({ ebitdaTo: v })} />
-          </PopoverFilter>
-
-          <PopoverFilter label="Долговая нагрузка" isActive={!!financeFilters.debtLoadFrom || !!financeFilters.debtLoadTo}>
-            <RangeInputs fromVal={financeFilters.debtLoadFrom} toVal={financeFilters.debtLoadTo} onFromChange={v => setF({ debtLoadFrom: v })} onToChange={v => setF({ debtLoadTo: v })} />
-          </PopoverFilter>
-
-          <PopoverFilter label="Сортировка" isActive={financeFilters.sortDir !== 'desc'}>
-            <CustomRadio checked={financeFilters.sortDir === 'desc'} label="По убыванию" onChange={() => setF({ sortDir: 'desc' })} />
-            <CustomRadio checked={financeFilters.sortDir === 'asc'} label="По возрастанию" onChange={() => setF({ sortDir: 'asc' })} />
-          </PopoverFilter>
-
-          {(financeFilters.sortDir !== 'desc' || financeFilters.revenueFrom || financeFilters.revenueTo || financeFilters.profitFrom || financeFilters.profitTo || financeFilters.ebitdaFrom || financeFilters.ebitdaTo || financeFilters.debtLoadFrom || financeFilters.debtLoadTo) ? (
-            <>
-              <Divider />
-              <button
-                onClick={() => setF({ sortDir: 'desc', revenueFrom: '', revenueTo: '', profitFrom: '', profitTo: '', ebitdaFrom: '', ebitdaTo: '', debtLoadFrom: '', debtLoadTo: '' })}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px', color: '#6b7280',
-                  background: 'none', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '6px 10px', cursor: 'pointer', whiteSpace: 'nowrap'
-                }}
-              >
-                <X style={{ width: '14px', height: '14px' }} /> Сбросить
-              </button>
-            </>
-          ) : null}
+    <PopoverFilter label="Фильтры" isActive={activeCount > 0} activeCount={activeCount} align="right">
+      <div style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '280px', maxHeight: '70vh', overflowY: 'auto' }}>
+        {/* ── Общие фильтры ── */}
+        <SectionHeader>Общие</SectionHeader>
+        <div>
+          <div style={SECTION_LABEL}>Сортировка</div>
+          <CustomRadio checked={f.sortDir === 'desc'} label="По убыванию" onChange={() => setR({ sortDir: 'desc' })} />
+          <CustomRadio checked={f.sortDir === 'asc'} label="По возрастанию" onChange={() => setR({ sortDir: 'asc' })} />
         </div>
-      )}
+        <SectionDivider />
+        <div>
+          <div style={SECTION_LABEL}>Член НАПКА</div>
+          <CustomRadio checked={f.napka === 'ignore'} label="Не учитывать" onChange={() => setR({ napka: 'ignore' })} />
+          <CustomRadio checked={f.napka === 'yes'} label="Да" onChange={() => setR({ napka: 'yes' })} />
+          <CustomRadio checked={f.napka === 'no'} label="Нет" onChange={() => setR({ napka: 'no' })} />
+        </div>
+        <SectionDivider />
+        <div>
+          <div style={SECTION_LABEL}>Работает на рынке, лет</div>
+          <RangeInputs fromVal={f.experienceFrom} toVal={f.experienceTo} onFromChange={v => setR({ experienceFrom: v })} onToChange={v => setR({ experienceTo: v })} />
+        </div>
+        <SectionDivider />
+        <div>
+          <div style={SECTION_LABEL}>Привлечение капитала</div>
+          {[
+            { key: 'capitalPublic' as const, label: 'Публичное (облигации/займы)' },
+            { key: 'capitalCorporate' as const, label: 'Корпоративное' },
+            { key: 'capitalNone' as const, label: 'Нет данных' },
+          ].map(({ key, label }) => (
+            <label key={key} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '5px 4px' }}>
+              <div
+                onClick={() => setR({ [key]: !f[key] })}
+                style={{
+                  width: '18px', height: '18px', borderRadius: '4px',
+                  border: `1.5px solid ${f[key] ? '#0DF0E6' : 'rgba(255,255,255,0.2)'}`,
+                  background: f[key] ? '#0DF0E6' : 'transparent',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}
+              >
+                {f[key] && <span style={{ color: '#0a0f15', fontSize: '12px', lineHeight: 1 }}>✓</span>}
+              </div>
+              <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>{label}</span>
+            </label>
+          ))}
+        </div>
 
-      {/* ── ИНВЕСТИЦИИ ──────────��───────────────────────────────── */}
-      {activeTab === 'investment' && (
-        <span style={{ fontSize: '13px', color: '#9ca3af' }}>
-          Выберите тип инструмента в таблице ниже
-        </span>
-      )}
+        {/* ── Метрики ── */}
+        <SectionDivider />
+        <SectionHeader>Метрики</SectionHeader>
+        <div>
+          <div style={SECTION_LABEL}>Выручка + пр. доходы, тыс ₽</div>
+          <RangeInputs fromVal={f.revenueFrom} toVal={f.revenueTo} onFromChange={v => setR({ revenueFrom: v })} onToChange={v => setR({ revenueTo: v })} />
+        </div>
+        <SectionDivider />
+        <div>
+          <div style={SECTION_LABEL}>Чистая прибыль, тыс ₽</div>
+          <RangeInputs fromVal={f.profitFrom} toVal={f.profitTo} onFromChange={v => setR({ profitFrom: v })} onToChange={v => setR({ profitTo: v })} />
+        </div>
+        <SectionDivider />
+        <div>
+          <div style={SECTION_LABEL}>Темпы роста (CAGR), %</div>
+          <RangeInputs fromVal={f.cagrFrom} toVal={f.cagrTo} onFromChange={v => setR({ cagrFrom: v })} onToChange={v => setR({ cagrTo: v })} />
+        </div>
+        <SectionDivider />
+        <div>
+          <div style={SECTION_LABEL}>Рост фин. активов за 5 лет, %</div>
+          <RangeInputs fromVal={f.growthRateFrom} toVal={f.growthRateTo} onFromChange={v => setR({ growthRateFrom: v })} onToChange={v => setR({ growthRateTo: v })} />
+        </div>
+        <SectionDivider />
+        <div>
+          <div style={SECTION_LABEL}>D/E коэффициент</div>
+          <RangeInputs fromVal={f.deFrom} toVal={f.deTo} onFromChange={v => setR({ deFrom: v })} onToChange={v => setR({ deTo: v })} />
+        </div>
+      </div>
+    </PopoverFilter>
+  );
+}
+
+// ── Preset Tabs (снаружи карточки) ──────────────────────────────
+
+const PRESETS: { id: Preset; label: string }[] = [
+  { id: 'overview', label: 'Рейтинг ПКО-300' },
+  { id: 'capital', label: 'Привлечение капитала' },
+];
+
+export function PresetTabs({ preset, onPresetChange }: { preset: Preset; onPresetChange: (p: Preset) => void }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      {PRESETS.map(p => (
+        <button
+          key={p.id}
+          onClick={() => onPresetChange(p.id)}
+          style={{
+            padding: '8px 14px', borderRadius: '20px', fontSize: '13px', fontWeight: p.id === preset ? 600 : 400,
+            background: p.id === preset ? 'rgba(13,240,230,0.1)' : 'transparent',
+            color: p.id === preset ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
+            border: '1px solid', borderColor: p.id === preset ? 'rgba(13,240,230,0.3)' : 'rgba(255,255,255,0.12)',
+            cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap'
+          }}
+        >
+          {p.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ── Search + Filters (внутри карточки) ──────────────────────────
+
+interface SearchFilterBarProps {
+  searchQuery: string;
+  onSearchChange: (v: string) => void;
+  ratingFilters: RatingFilters;
+  onRatingFiltersChange: (f: RatingFilters) => void;
+  preset: Preset;
+}
+
+export function SearchFilterBar({
+  searchQuery, onSearchChange,
+  ratingFilters, onRatingFiltersChange,
+  preset,
+}: SearchFilterBarProps) {
+
+  const setR = (patch: Partial<RatingFilters>) => onRatingFiltersChange({ ...ratingFilters, ...patch });
+  const f = ratingFilters;
+
+  const showFilters = preset === 'overview';
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Поиск */}
+        <div style={{ position: 'relative', flex: 1, maxWidth: '360px' }}>
+          <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: 'rgba(255,255,255,0.3)' }} />
+          <input
+            type="text"
+            placeholder="Поиск компании"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            style={{
+              paddingLeft: '36px', paddingRight: '12px', paddingTop: '9px', paddingBottom: '9px',
+              width: '100%', borderRadius: '8px',
+              border: '1px solid rgba(255,255,255,0.10)',
+              fontSize: '13px', background: 'rgba(255,255,255,0.04)', color: '#fff',
+              outline: 'none', boxSizing: 'border-box',
+            }}
+          />
+        </div>
+
+        {/* Фильтры */}
+        {showFilters && (
+          <FilterPopover f={f} setR={setR} />
+        )}
+      </div>
+
+      {/* Active filter chips */}
+      {showFilters && (() => {
+        const allActiveCount = countActiveFilters(f);
+        if (allActiveCount === 0) return null;
+        const chipStyle: React.CSSProperties = {
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          padding: '6px 12px', background: 'rgba(13,240,230,0.06)', borderRadius: '100px',
+          fontSize: '13px', fontWeight: 500, color: '#0DF0E6',
+          border: '1px solid rgba(13,240,230,0.15)'
+        };
+        const btnStyle: React.CSSProperties = { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' };
+        const xIcon = <X style={{ width: '14px', height: '14px', color: 'rgba(255,255,255,0.4)' }} />;
+        const allCap = f.capitalPublic && f.capitalCorporate && f.capitalNone;
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            {f.sortDir !== 'desc' && (
+              <div style={chipStyle}>Сорт: По возрастанию<button onClick={() => setR({ sortDir: 'desc' })} style={btnStyle}>{xIcon}</button></div>
+            )}
+            {f.napka !== 'ignore' && (
+              <div style={chipStyle}>НАПКА: {f.napka === 'yes' ? 'Да' : 'Нет'}<button onClick={() => setR({ napka: 'ignore' })} style={btnStyle}>{xIcon}</button></div>
+            )}
+            {(f.experienceFrom !== '' || f.experienceTo !== '') && (
+              <div style={chipStyle}>Стаж: {f.experienceFrom || '∞'} — {f.experienceTo || '∞'} лет<button onClick={() => setR({ experienceFrom: '', experienceTo: '' })} style={btnStyle}>{xIcon}</button></div>
+            )}
+            {!allCap && (
+              <div style={chipStyle}>
+                Капитал: {[f.capitalPublic && 'Публ.', f.capitalCorporate && 'Корп.', f.capitalNone && 'Нет'].filter(Boolean).join(', ')}
+                <button onClick={() => setR({ capitalPublic: true, capitalCorporate: true, capitalNone: true })} style={btnStyle}>{xIcon}</button>
+              </div>
+            )}
+            {(f.revenueFrom !== '' || f.revenueTo !== '') && (
+              <div style={chipStyle}>Выручка: {f.revenueFrom || '∞'} — {f.revenueTo || '∞'}<button onClick={() => setR({ revenueFrom: '', revenueTo: '' })} style={btnStyle}>{xIcon}</button></div>
+            )}
+            {(f.profitFrom !== '' || f.profitTo !== '') && (
+              <div style={chipStyle}>Прибыль: {f.profitFrom || '∞'} — {f.profitTo || '∞'}<button onClick={() => setR({ profitFrom: '', profitTo: '' })} style={btnStyle}>{xIcon}</button></div>
+            )}
+            {(f.cagrFrom !== '' || f.cagrTo !== '') && (
+              <div style={chipStyle}>CAGR: {f.cagrFrom || '∞'} — {f.cagrTo || '∞'}%<button onClick={() => setR({ cagrFrom: '', cagrTo: '' })} style={btnStyle}>{xIcon}</button></div>
+            )}
+            {(f.growthRateFrom !== '' || f.growthRateTo !== '') && (
+              <div style={chipStyle}>Рост фин. акт.: {f.growthRateFrom || '∞'} — {f.growthRateTo || '∞'}%<button onClick={() => setR({ growthRateFrom: '', growthRateTo: '' })} style={btnStyle}>{xIcon}</button></div>
+            )}
+            {(f.deFrom !== '' || f.deTo !== '') && (
+              <div style={chipStyle}>D/E: {f.deFrom || '0'} — {f.deTo || '∞'}<button onClick={() => setR({ deFrom: '', deTo: '' })} style={btnStyle}>{xIcon}</button></div>
+            )}
+          </div>
+        );
+      })()}
+    </div>
+  );
+}
+
+// ── Legacy wrapper (kept for backward compat) ───────────────────
+
+export function FilterBar({
+  searchQuery, onSearchChange,
+  ratingFilters, onRatingFiltersChange,
+  preset, onPresetChange,
+}: FilterBarProps) {
+  return (
+    <div style={{
+      background: '#0a0f15', padding: '12px 32px',
+      position: 'sticky', top: 0, zIndex: 40,
+    }}>
+      <PresetTabs preset={preset} onPresetChange={onPresetChange} />
     </div>
   );
 }

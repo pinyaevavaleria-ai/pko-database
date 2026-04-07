@@ -1,31 +1,17 @@
 import { useState } from 'react';
-import * as Tooltip from '@radix-ui/react-tooltip';
-import { ArrowUp, ArrowDown, ArrowUpDown } from 'lucide-react';
+import { ArrowUp, ArrowDown, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { RatingCompany } from '../data/ratingData';
 import { logoMap } from '../data/logoMap';
+
+const PAGE_SIZE = 100;
 
 interface RatingTableProps {
   companies: RatingCompany[];
 }
 
-const CAPITAL_CONFIG = {
-  public: {
-    color: '#22c55e',
-    label: 'Публичное привлечение: облигации / займы через сайт',
-  },
-  corporate: {
-    color: '#3b82f6',
-    label: 'Инвестируется материнской структурой',
-  },
-  none: {
-    color: '#d1d5db',
-    label: 'Нет данных о привлечении капитала',
-  },
-};
-
 const AVATAR_COLORS = [
-  '#18181b', '#292524', '#1e3a5f', '#1a3a2a', '#3b1f1f',
-  '#1f2d3b', '#2d1f3b', '#1f3b2d', '#3b2d1f', '#1f1f3b',
+  '#00B2AA', '#0060B9', '#4326BA', '#00B982', '#0DF0E6',
+  '#0078d4', '#6B3FA0', '#00a67d', '#008c84', '#0052a3',
 ];
 
 function Avatar({ name, rank, inn }: { name: string; rank: number; inn: string }) {
@@ -41,8 +27,8 @@ function Avatar({ name, rank, inn }: { name: string; rank: number; inn: string }
           width: '32px',
           height: '32px',
           borderRadius: '6px',
-          background: '#fff',
-          border: '1px solid #f0f0f0',
+          background: 'rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.08)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -92,7 +78,7 @@ function RankBadge({ rank }: { rank: number }) {
       style={{
         fontSize: '13px',
         fontWeight: 500,
-        color: '#374151',
+        color: 'rgba(255,255,255,0.7)',
       }}
     >
       {rank}
@@ -100,60 +86,20 @@ function RankBadge({ rank }: { rank: number }) {
   );
 }
 
-function CapitalDot({ type }: { type: 'public' | 'corporate' | 'none' }) {
-  const cfg = CAPITAL_CONFIG[type];
-  return (
-    <Tooltip.Provider delayDuration={150}>
-      <Tooltip.Root>
-        <Tooltip.Trigger asChild>
-          <div
-            style={{
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              background: cfg.color,
-              cursor: 'help',
-              flexShrink: 0,
-            }}
-          />
-        </Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Content
-            side="top"
-            sideOffset={6}
-            style={{
-              background: '#18181b',
-              color: '#fff',
-              fontSize: '12px',
-              padding: '6px 12px',
-              borderRadius: '8px',
-              maxWidth: '240px',
-              lineHeight: '1.5',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
-              zIndex: 100,
-            }}
-          >
-            {cfg.label}
-            <Tooltip.Arrow style={{ fill: '#18181b' }} />
-          </Tooltip.Content>
-        </Tooltip.Portal>
-      </Tooltip.Root>
-    </Tooltip.Provider>
-  );
-}
-
 const TH_STYLE: React.CSSProperties = {
   textAlign: 'left',
-  padding: '0 6px',
-  height: '36px',
-  fontSize: '11px',
-  color: '#9ca3af',
-  fontWeight: 500,
-  whiteSpace: 'nowrap',
-  background: '#F9FAFB',
-  borderBottom: '1px solid #f0f0f0',
+  padding: '4px 6px',
+  height: '40px',
+  fontSize: '10px',
+  color: 'rgba(255,255,255,0.4)',
+  fontWeight: 400,
+  whiteSpace: 'normal',
+  lineHeight: '1.3',
+  background: '#111920',
+  borderBottom: '1px solid rgba(255,255,255,0.04)',
   userSelect: 'none',
-  letterSpacing: '0.025em',
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
   position: 'sticky',
   top: 0,
   zIndex: 10,
@@ -162,66 +108,68 @@ const TH_STYLE: React.CSSProperties = {
 const TD_STYLE: React.CSSProperties = {
   textAlign: 'left',
   padding: '0 6px',
-  height: '52px',
+  height: '44px',
   fontSize: '12px',
-  color: '#111827',
+  color: '#fff',
   verticalAlign: 'middle',
   whiteSpace: 'nowrap',
 };
 
 export function RatingTable({ companies }: RatingTableProps) {
+  const [page, setPage] = useState(0);
   const fmt = (n: number) => Math.abs(n).toLocaleString('ru-RU');
 
+  const totalPages = Math.ceil(companies.length / PAGE_SIZE);
+  const pagedCompanies = companies.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
+  // Reset page if companies change and page is out of bounds
+  if (page >= totalPages && totalPages > 0) setPage(0);
+
+  const colWidths = ['7%', '5%', '3%', '23%', '24%', '20%', '10%'];
+  const colHeaders = ['№', 'YoY', '', 'Компания', 'Выручка + пр. доходы, тыс ₽', 'Чистая прибыль, тыс ₽', 'Стаж, лет'];
+  const colAligns: ('left' | 'right' | 'center')[] = ['left', 'center', 'left', 'left', 'right', 'right', 'right'];
+
   return (
-    <div
-      style={{
-        background: '#fff',
-        borderRadius: '12px',
-        border: '1px solid #f0f0f0',
-        boxShadow: '0 1px 8px rgba(0,0,0,0.04)',
-        overflow: 'hidden',
-      }}
-    >
-      <div style={{ overflowX: 'auto', overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+    <div>
+        <table style={{ width: '100%', minWidth: '830px', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
           <colgroup>
-            <col style={{ width: '7%' }} />   {/* № */}
-            <col style={{ width: '3%' }} />   {/* logo */}
-            <col style={{ width: '22%' }} />  {/* Компания */}
-            <col style={{ width: '18%' }} />  {/* Выручка */}
-            <col style={{ width: '18%' }} />  {/* Прибыль */}
-            <col style={{ width: '16%' }} />  {/* Темп роста */}
-            <col style={{ width: '8%' }} />   {/* Стаж */}
-            <col style={{ width: '8%' }} />   {/* Капитал */}
+            {colWidths.map((w, i) => (
+              <col key={i} style={{ width: w }} />
+            ))}
           </colgroup>
           <thead>
             <tr>
-              <th style={TH_STYLE}><div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>№ <ArrowUpDown size={10} color="#d1d5db" /></div></th>
-              <th style={{ ...TH_STYLE, padding: 0 }} />
-              <th style={TH_STYLE}><div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>Компания <ArrowUpDown size={10} color="#d1d5db" /></div></th>
-              <th style={{ ...TH_STYLE, textAlign: 'right' }}><div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '3px' }}>Выручка + пр. доходы, тыс ₽ <ArrowUpDown size={10} color="#d1d5db" /></div></th>
-              <th style={{ ...TH_STYLE, textAlign: 'right' }}><div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '3px' }}>Чистая прибыль, тыс ₽ <ArrowUpDown size={10} color="#d1d5db" /></div></th>
-              <th style={{ ...TH_STYLE, textAlign: 'right' }}><div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '3px' }}>Рост фин. активов за 5 лет, % <ArrowUpDown size={10} color="#d1d5db" /></div></th>
-              <th style={{ ...TH_STYLE, textAlign: 'right' }}><div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '3px' }}>Стаж, лет <ArrowUpDown size={10} color="#d1d5db" /></div></th>
-              <th style={{ ...TH_STYLE, textAlign: 'center' }}><div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '3px' }}>Капитал</div></th>
+              {colHeaders.map((h, i) => (
+                <th key={i} style={{ ...TH_STYLE, textAlign: colAligns[i], ...(h === '' ? { padding: 0 } : {}), ...(i === 0 ? { paddingLeft: '20px' } : {}), ...(i === colHeaders.length - 1 ? { paddingRight: '20px' } : {}) }}>
+                  {h && (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: colAligns[i] === 'right' ? 'flex-end' : colAligns[i] === 'center' ? 'center' : 'flex-start', gap: '3px' }}>
+                      {h} <ArrowUpDown size={10} color="#d1d5db" />
+                    </div>
+                  )}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {companies.map((company, idx) => {
-              const isUp = company.yearChange >= 0;
-              const isLast = idx === companies.length - 1;
+            {pagedCompanies.map((company, idx) => {
+              const delta = company.rankDelta;
+              const isLast = idx === pagedCompanies.length - 1;
+              const rowBg = idx % 2 === 1 ? 'rgba(255,255,255,0.015)' : 'transparent';
               return (
                 <tr
                   key={company.rank}
-                  style={{
-                    borderBottom: isLast ? 'none' : '1px solid #f7f7f7',
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.background = '#fafafa')}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  style={{ borderBottom: isLast ? 'none' : '1px solid rgba(255,255,255,0.04)', background: rowBg }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(13,240,230,0.04)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = rowBg)}
                 >
-                  <td style={TD_STYLE}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <RankBadge rank={company.rank} />
+                  {/* № */}
+                  <td style={{ ...TD_STYLE, paddingLeft: '20px' }}>
+                    <RankBadge rank={company.rank} />
+                  </td>
+
+                  {/* Динамика YoY */}
+                  <td style={{ ...TD_STYLE, textAlign: 'center' }}>
+                    {delta !== 0 ? (
                       <span
                         style={{
                           display: 'inline-flex',
@@ -229,38 +177,36 @@ export function RatingTable({ companies }: RatingTableProps) {
                           gap: '2px',
                           fontSize: '11px',
                           fontWeight: 600,
-                          color: isUp ? '#16a34a' : '#dc2626',
+                          color: delta > 0 ? '#0DF0E6' : '#ef4444',
                         }}
                       >
-                        {isUp
+                        {delta > 0
                           ? <ArrowUp style={{ width: '10px', height: '10px' }} />
                           : <ArrowDown style={{ width: '10px', height: '10px' }} />}
-                        {Math.abs(company.yearChange)}%
+                        {Math.abs(delta)}
                       </span>
-                    </div>
+                    ) : (
+                      <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>—</span>
+                    )}
                   </td>
 
+                  {/* Logo */}
                   <td style={{ ...TD_STYLE, padding: 0 }}>
                     <Avatar name={company.name} rank={company.rank} inn={company.inn} />
                   </td>
 
+                  {/* Компания */}
                   <td style={{ ...TD_STYLE, fontWeight: 500, overflow: 'hidden' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: 0, gap: '1px' }}>
                       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{company.name}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         {company.city && (
-                          <span style={{ fontSize: '11px', fontWeight: 400, color: '#9ca3af', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          <span style={{ fontSize: '11px', fontWeight: 400, color: 'rgba(255,255,255,0.4)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                             {company.city}
                           </span>
                         )}
                         {company.napka && (
-                          <span style={{
-                            fontSize: '9px',
-                            fontWeight: 500,
-                            color: '#9ca3af',
-                            flexShrink: 0,
-                            lineHeight: '14px',
-                          }}>
+                          <span style={{ fontSize: '9px', fontWeight: 500, color: 'rgba(255,255,255,0.4)', flexShrink: 0, lineHeight: '14px' }}>
                             · НАПКА
                           </span>
                         )}
@@ -268,47 +214,83 @@ export function RatingTable({ companies }: RatingTableProps) {
                     </div>
                   </td>
 
-                  <td style={{ ...TD_STYLE, color: '#374151', textAlign: 'right' }}>
+                  {/* Выручка */}
+                  <td style={{ ...TD_STYLE, color: 'rgba(255,255,255,0.7)', textAlign: 'right' }}>
                     {fmt(company.revenue)}
                   </td>
 
-                  <td
-                    style={{
-                      ...TD_STYLE,
-                      textAlign: 'right',
-                      fontWeight: 500,
-                      color: company.profit >= 0 ? '#16a34a' : '#dc2626',
-                    }}
-                  >
+                  {/* Прибыль */}
+                  <td style={{ ...TD_STYLE, textAlign: 'right', fontWeight: 500, color: company.profit >= 0 ? '#0DF0E6' : '#ef4444' }}>
                     {company.profit < 0 ? `−${fmt(company.profit)}` : fmt(company.profit)}
                   </td>
 
-                  <td
-                    style={{
-                      ...TD_STYLE,
-                      textAlign: 'right',
-                      color: company.growthRate > 20 ? '#16a34a' : company.growthRate >= 0 ? '#d97706' : '#dc2626',
-                      fontWeight: 500,
-                    }}
-                  >
-                    {company.growthRate > 0 ? '+' : ''}{company.growthRate}
-                  </td>
-
-                  <td style={{ ...TD_STYLE, color: '#374151', textAlign: 'right' }}>
+                  {/* Стаж */}
+                  <td style={{ ...TD_STYLE, color: 'rgba(255,255,255,0.7)', textAlign: 'right', paddingRight: '20px' }}>
                     {company.experience}
-                  </td>
-
-                  <td style={{ ...TD_STYLE, textAlign: 'center' }}>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <CapitalDot type={company.capitalAttraction} />
-                    </div>
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
-      </div>
+      {totalPages > 1 && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '12px 16px',
+          borderTop: '1px solid rgba(255,255,255,0.04)',
+          fontSize: '13px',
+          color: 'rgba(255,255,255,0.4)',
+        }}>
+          <span>
+            {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, companies.length)} из {companies.length}
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              disabled={page === 0}
+              onClick={() => setPage(p => p - 1)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                width: '32px', height: '32px', borderRadius: '6px',
+                border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', cursor: page === 0 ? 'default' : 'pointer',
+                opacity: page === 0 ? 0.4 : 1,
+              }}
+            >
+              <ChevronLeft style={{ width: '16px', height: '16px', color: 'rgba(255,255,255,0.7)' }} />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  minWidth: '32px', height: '32px', borderRadius: '6px',
+                  border: i === page ? '1px solid #0DF0E6' : '1px solid rgba(255,255,255,0.08)',
+                  background: i === page ? 'rgba(13,240,230,0.1)' : 'transparent',
+                  color: i === page ? '#0DF0E6' : 'rgba(255,255,255,0.5)',
+                  fontSize: '13px', fontWeight: 500, cursor: 'pointer',
+                  padding: '0 8px',
+                }}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              disabled={page === totalPages - 1}
+              onClick={() => setPage(p => p + 1)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                width: '32px', height: '32px', borderRadius: '6px',
+                border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', cursor: page === totalPages - 1 ? 'default' : 'pointer',
+                opacity: page === totalPages - 1 ? 0.4 : 1,
+              }}
+            >
+              <ChevronRight style={{ width: '16px', height: '16px', color: 'rgba(255,255,255,0.7)' }} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { ArrowUp, ArrowDown, ArrowUpDown, ExternalLink } from 'lucide-react';
 import { bonds, siteLoans, corporates, allInvestments, Bond, SiteLoan, Corporate, AllInvestment } from '../data/investmentData';
 import { ratingData } from '../data/ratingData';
+import { logoMap } from '../data/logoMap';
 
 // Lookup: company name → rank in ПКО-300
 const pkoRankMap = new Map<string, number>();
+const pkoInnMap = new Map<string, string>();
 for (const c of ratingData) {
   if (!pkoRankMap.has(c.name)) pkoRankMap.set(c.name, c.rank);
+  if (!pkoInnMap.has(c.name)) pkoInnMap.set(c.name, c.inn);
 }
 // Aliases for names that differ between investmentData and ratingData
 const ALIASES: Record<string, string> = {
@@ -19,23 +22,76 @@ const ALIASES: Record<string, string> = {
   'АктивБизнесКонсалт': 'АБК',
   'Столичная Сервисная Компания': 'Столичное АВД',
 };
-function getPkoRank(companyName: string): number | null {
-  if (pkoRankMap.has(companyName)) return pkoRankMap.get(companyName)!;
-  if (ALIASES[companyName] && pkoRankMap.has(ALIASES[companyName])) return pkoRankMap.get(ALIASES[companyName])!;
-  for (const [name, rank] of pkoRankMap) {
-    if (name.includes(companyName) || companyName.includes(name)) return rank;
+function resolveCompanyName(companyName: string): string | null {
+  if (pkoRankMap.has(companyName)) return companyName;
+  if (ALIASES[companyName] && pkoRankMap.has(ALIASES[companyName])) return ALIASES[companyName];
+  for (const [name] of pkoRankMap) {
+    if (name.includes(companyName) || companyName.includes(name)) return name;
   }
   return null;
+}
+
+function getPkoRank(companyName: string): number | null {
+  const resolved = resolveCompanyName(companyName);
+  return resolved ? pkoRankMap.get(resolved)! : null;
+}
+
+function getPkoInn(companyName: string): string | null {
+  const resolved = resolveCompanyName(companyName);
+  return resolved ? pkoInnMap.get(resolved) ?? null : null;
+}
+
+const AVATAR_COLORS = [
+  '#00B2AA', '#0060B9', '#4326BA', '#00B982', '#0DF0E6',
+  '#0078d4', '#6B3FA0', '#00a67d', '#008c84', '#0052a3',
+];
+
+function CompanyLogo({ name }: { name: string }) {
+  const inn = getPkoInn(name);
+  const logoFile = inn ? logoMap[inn] : null;
+  const [imgError, setImgError] = useState(false);
+  const rank = getPkoRank(name) ?? 0;
+  const letter = name[0] ?? '?';
+  const bg = AVATAR_COLORS[(rank - 1) % AVATAR_COLORS.length];
+
+  if (logoFile && !imgError) {
+    return (
+      <div style={{
+        width: '28px', height: '28px', borderRadius: '6px',
+        background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexShrink: 0, overflow: 'hidden',
+      }}>
+        <img
+          src={`/logos/${logoFile}`}
+          alt={name}
+          onError={() => setImgError(true)}
+          style={{ maxWidth: '24px', maxHeight: '24px', objectFit: 'contain' }}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div style={{
+      width: '28px', height: '28px', borderRadius: '6px',
+      background: bg, color: '#fff',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      flexShrink: 0, fontSize: '12px', fontWeight: 700,
+    }}>
+      {letter}
+    </div>
+  );
 }
 
 export type InvestMode = 'bonds' | 'loans' | 'corporate' | 'all';
 
 // ── Shared styles ───────────────────────────────────────────��────
 const CARD: React.CSSProperties = {
-  background: '#fff',
+  background: '#111920',
   borderRadius: '12px',
-  border: '1px solid #f0f0f0',
-  boxShadow: '0 1px 8px rgba(0,0,0,0.04)',
+  border: '1px solid rgba(255,255,255,0.06)',
+  boxShadow: 'none',
   overflow: 'hidden',
 };
 
@@ -43,13 +99,14 @@ const TH: React.CSSProperties = {
   textAlign: 'left',
   padding: '0 14px',
   height: '36px',
-  fontSize: '12px',
-  color: '#9ca3af',
-  fontWeight: 500,
+  fontSize: '10px',
+  color: 'rgba(255,255,255,0.4)',
+  fontWeight: 400,
   whiteSpace: 'nowrap',
-  background: '#F9FAFB',
-  borderBottom: '1px solid #f0f0f0',
-  letterSpacing: '0.025em',
+  background: '#111920',
+  borderBottom: '1px solid rgba(255,255,255,0.04)',
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
   userSelect: 'none',
 };
 
@@ -57,7 +114,7 @@ const TD: React.CSSProperties = {
   padding: '0 14px',
   height: '46px',
   fontSize: '13px',
-  color: '#374151',
+  color: 'rgba(255,255,255,0.7)',
   verticalAlign: 'middle',
   whiteSpace: 'nowrap',
 };
@@ -65,7 +122,7 @@ const TD: React.CSSProperties = {
 const TD_NAME: React.CSSProperties = {
   ...TD,
   fontWeight: 600,
-  color: '#111827',
+  color: '#fff',
   minWidth: '160px',
 };
 
@@ -84,14 +141,14 @@ function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
   ];
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <span style={{ fontSize: '12px', color: '#9ca3af' }}>Показать</span>
+      <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>Показать</span>
       <div
         style={{
           display: 'flex',
-          border: '1px solid #e5e7eb',
-          borderRadius: '8px',
+          border: '1px solid rgba(0,0,0,0.12)',
+          borderRadius: '20px',
           overflow: 'hidden',
-          background: '#fff',
+          background: 'rgba(255,255,255,0.04)',
         }}
       >
         {opts.map((opt, i) => {
@@ -104,17 +161,17 @@ function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
                 padding: '5px 13px',
                 fontSize: '12px',
                 fontWeight: active ? 600 : 400,
-                color: active ? '#fff' : '#374151',
-                background: active ? '#111' : '#fff',
+                color: active ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
+                background: active ? 'rgba(13,240,230,0.1)' : 'transparent',
                 border: 'none',
-                borderLeft: i === 0 ? 'none' : '1px solid #e5e7eb',
+                borderLeft: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.08)',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'background 0.12s, color 0.12s',
                 outline: 'none',
               }}
-              onMouseEnter={e => { if (!active) e.currentTarget.style.background = '#f9fafb'; }}
-              onMouseLeave={e => { if (!active) e.currentTarget.style.background = '#fff'; }}
+              onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+              onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent'; }}
             >
               {opt.label}
             </button>
@@ -138,9 +195,9 @@ function StatusBadge({ status }: { status: Bond['status'] }) {
         borderRadius: '4px',
         fontSize: '12px',
         fontWeight: 500,
-        background: '#fff',
-        color: '#18181b',
-        border: '1px solid #e4e4e7',
+        background: 'rgba(255,255,255,0.04)',
+        color: '#fff',
+        border: '1px solid rgba(255,255,255,0.08)',
       }}
     >
       <span
@@ -178,8 +235,8 @@ function RatingBadge({ rating }: { rating: string }) {
         fontSize: '12px',
         fontWeight: 600,
         color,
-        background: '#fff',
-        border: '1px solid #e4e4e7',
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.08)',
         whiteSpace: 'nowrap',
         letterSpacing: '0.5px'
       }}
@@ -191,17 +248,17 @@ function RatingBadge({ rating }: { rating: string }) {
 
 // ── Type badge ───────────────────────────────────────────────────
 const TYPE_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  Банк:                   { bg: '#fff', text: '#1e3a8a', border: '#e4e4e7' },
-  'Иностранный холдинг':  { bg: '#fff', text: '#581c87', border: '#e4e4e7' },
-  Секьюритизация:         { bg: '#fff', text: '#78350f', border: '#e4e4e7' },
-  ЗПИФ:                   { bg: '#fff', text: '#064e3b', border: '#e4e4e7' },
-  'Иностран��ая компания': { bg: '#fff', text: '#581c87', border: '#e4e4e7' },
-  'Финтех-группа':        { bg: '#fff', text: '#7c2d12', border: '#e4e4e7' },
-  'Контакт-центр/холдинг':{ bg: '#fff', text: '#0f172a', border: '#e4e4e7' },
+  Банк:                   { bg: 'rgba(96,165,250,0.1)', text: '#93c5fd', border: 'rgba(96,165,250,0.2)' },
+  'Иностранный холдинг':  { bg: 'rgba(192,132,252,0.1)', text: '#c4b5fd', border: 'rgba(192,132,252,0.2)' },
+  Секьюритизация:         { bg: 'rgba(251,191,36,0.1)', text: '#fcd34d', border: 'rgba(251,191,36,0.2)' },
+  ЗПИФ:                   { bg: 'rgba(52,211,153,0.1)', text: '#6ee7b7', border: 'rgba(52,211,153,0.2)' },
+  'Иностранная компания': { bg: 'rgba(192,132,252,0.1)', text: '#c4b5fd', border: 'rgba(192,132,252,0.2)' },
+  'Финтех-группа':        { bg: 'rgba(251,146,60,0.1)', text: '#fdba74', border: 'rgba(251,146,60,0.2)' },
+  'Контакт-центр/холдинг':{ bg: 'rgba(148,163,184,0.1)', text: '#cbd5e1', border: 'rgba(148,163,184,0.2)' },
 };
 
 function TypeBadge({ type }: { type: string }) {
-  const c = TYPE_COLORS[type] || { bg: '#fff', text: '#3f3f46', border: '#e4e4e7' };
+  const c = TYPE_COLORS[type] || { bg: 'rgba(148,163,184,0.1)', text: '#94a3b8', border: 'rgba(148,163,184,0.2)' };
   return (
     <span
       style={{
@@ -281,12 +338,12 @@ function BondsTable() {
         {sorted.map((b, idx) => (
           <tr
             key={b.isin + b.company + idx}
-            style={{ borderBottom: idx < sorted.length - 1 ? '1px solid #f7f7f7' : 'none' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#fafafa'; }}
+            style={{ borderBottom: idx < sorted.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
-            <td style={{ ...TD, color: '#6b7280', fontSize: '12px', fontWeight: 600, width: '60px' }}>{getPkoRank(b.company) ?? '—'}</td>
-            <td style={TD_NAME}>{b.company}</td>
+            <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600, width: '60px' }}>{getPkoRank(b.company) ?? '—'}</td>
+            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={b.company} />{b.company}</div></td>
             <td style={TD}><RatingBadge rating={b.rating} /></td>
             <td style={{ ...TD }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
@@ -294,7 +351,7 @@ function BondsTable() {
                 <span style={{ fontSize: '11px', color: '#9ca3af' }}>{b.repayment || '—'}</span>
               </div>
             </td>
-            <td style={{ ...TD, fontWeight: 600, color: '#111' }}>{b.coupon}</td>
+            <td style={{ ...TD, fontWeight: 600, color: '#fff' }}>{b.coupon}</td>
             <td style={TD}>
               {b.volume != null
                 ? <span style={{ fontWeight: 500 }}>{b.volume.toLocaleString('ru-RU')}</span>
@@ -325,12 +382,12 @@ function LoansTable() {
         {[...siteLoans].sort((a, b) => (getPkoRank(a.company) ?? 999) - (getPkoRank(b.company) ?? 999)).map((l, idx) => (
           <tr
             key={l.company}
-            style={{ borderBottom: idx < siteLoans.length - 1 ? '1px solid #f7f7f7' : 'none' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#fafafa'; }}
+            style={{ borderBottom: idx < siteLoans.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
-            <td style={{ ...TD, color: '#6b7280', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(l.company) ?? '—'}</td>
-            <td style={TD_NAME}>{l.company}</td>
+            <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(l.company) ?? '—'}</td>
+            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={l.company} />{l.company}</div></td>
             <td style={TD}>
               <TypeBadge type={l.type} />
             </td>
@@ -383,17 +440,17 @@ function CorporateTable() {
         {[...corporates].sort((a, b) => (getPkoRank(a.company) ?? 999) - (getPkoRank(b.company) ?? 999)).map((c, idx) => (
           <tr
             key={c.company}
-            style={{ borderBottom: idx < corporates.length - 1 ? '1px solid #f7f7f7' : 'none' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#fafafa'; }}
+            style={{ borderBottom: idx < corporates.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
-            <td style={{ ...TD, color: '#6b7280', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(c.company) ?? '—'}</td>
-            <td style={TD_NAME}>{c.company}</td>
-            <td style={{ ...TD, color: '#374151', maxWidth: '280px', whiteSpace: 'normal' }}>
+            <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(c.company) ?? '—'}</td>
+            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={c.company} />{c.company}</div></td>
+            <td style={{ ...TD, color: 'rgba(255,255,255,0.7)', maxWidth: '280px', whiteSpace: 'normal' }}>
               {c.founder}
             </td>
             <td style={TD}><TypeBadge type={c.structureType} /></td>
-            <td style={{ ...TD, color: '#6b7280', fontSize: '12px' }}>{c.details}</td>
+            <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px' }}>{c.details}</td>
           </tr>
         ))}
       </tbody>
@@ -403,9 +460,9 @@ function CorporateTable() {
 
 // ── ALL TABLE ────────────────────────────────────────────────────
 const INVEST_TYPE_META: Record<AllInvestment['type'], { label: string; emoji: string; bg: string; color: string; border: string }> = {
-  bonds:      { label: 'Облигации',     emoji: '📊', bg: '#fff', color: '#2563eb', border: '#e4e4e7' }, // Blue
-  'site-loan':{ label: 'Займы',         emoji: '🌐', bg: '#fff', color: '#059669', border: '#e4e4e7' }, // Emerald
-  corporate:  { label: 'Корпоративное', emoji: '🏛', bg: '#fff', color: '#7c3aed', border: '#e4e4e7' }, // Purple
+  bonds:      { label: 'Облигации',     emoji: '📊', bg: 'rgba(255,255,255,0.04)', color: '#2563eb', border: 'rgba(255,255,255,0.08)' }, // Blue
+  'site-loan':{ label: 'Займы',         emoji: '🌐', bg: 'rgba(255,255,255,0.04)', color: '#059669', border: 'rgba(255,255,255,0.08)' }, // Emerald
+  corporate:  { label: 'Корпоративное', emoji: '🏛', bg: 'rgba(255,255,255,0.04)', color: '#7c3aed', border: 'rgba(255,255,255,0.08)' }, // Purple
 };
 
 function AllTable() {
@@ -433,12 +490,12 @@ function AllTable() {
             return (
               <tr
                 key={r.company + r.type}
-                style={{ borderBottom: idx < filtered.length - 1 ? '1px solid #f7f7f7' : 'none' }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#fafafa'; }}
+                style={{ borderBottom: idx < filtered.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
               >
-                <td style={{ ...TD, color: '#6b7280', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(r.company) ?? '—'}</td>
-                <td style={TD_NAME}>{r.company}</td>
+                <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(r.company) ?? '—'}</td>
+                <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={r.company} />{r.company}</div></td>
                 <td style={TD}>
                   <span
                     style={{
@@ -458,8 +515,8 @@ function AllTable() {
                     {meta.label}
                   </span>
                 </td>
-                <td style={{ ...TD, fontWeight: 500, color: '#111' }}>{r.details}</td>
-                <td style={{ ...TD, color: '#6b7280', fontSize: '12px', maxWidth: '280px', whiteSpace: 'normal' }}>
+                <td style={{ ...TD, fontWeight: 500, color: '#fff' }}>{r.details}</td>
+                <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', maxWidth: '280px', whiteSpace: 'normal' }}>
                   {r.subDetails}
                 </td>
               </tr>
@@ -477,10 +534,10 @@ function InfoNote({ children }: { children: React.ReactNode }) {
     <div
       style={{
         padding: '10px 16px',
-        background: '#fafafa',
-        borderBottom: '1px solid #e4e4e7',
+        background: 'rgba(255,255,255,0.02)',
+        borderBottom: '1px solid rgba(255,255,255,0.04)',
         fontSize: '13px',
-        color: '#52525b',
+        color: 'rgba(255,255,255,0.5)',
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
@@ -507,8 +564,8 @@ export function InvestmentTable(_props: InvestmentTableProps) {
         <ModeSwitcher mode={mode} onChange={setMode} />
       </div>
 
-      {/* Table card */}
-      <div style={CARD}>
+      {/* Table content (карточка уже в App.tsx) */}
+      <div>
         {mode === 'bonds' && (
           <>
             <InfoNote>
@@ -566,14 +623,14 @@ export function InvestmentTable(_props: InvestmentTableProps) {
           gap: '20px',
           flexWrap: 'wrap',
           padding: '12px 16px',
-          background: '#fff',
+          background: 'rgba(255,255,255,0.04)',
           borderRadius: '10px',
-          border: '1px solid #f0f0f0',
+          border: '1px solid rgba(255,255,255,0.06)',
           fontSize: '12px',
-          color: '#6b7280',
+          color: 'rgba(255,255,255,0.4)',
         }}
       >
-        <span style={{ fontWeight: 500, color: '#374151' }}>Кружок в рейтинге:</span>
+        <span style={{ fontWeight: 500, color: 'rgba(255,255,255,0.7)' }}>Кружок в рейтинге:</span>
         <span>🟢 Публичное (облигации / займы физлицам)</span>
         <span>�� Корпоративное (банки, ЗПИФ, иностранные структуры)</span>
         <span>⚪ Нет данных</span>

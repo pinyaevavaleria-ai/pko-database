@@ -1,99 +1,121 @@
-import { BarChart3, Building2, TrendingUp } from 'lucide-react';
+import { Building2, BarChart3, TrendingUp } from 'lucide-react';
 
 export function HeroScreen() {
+  const spaceGrotesk = "'Space Grotesk', sans-serif";
+
   return (
-    <div style={{ background: '#09090b', color: '#fff', display: 'flex', flexDirection: 'column', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>
-      
+    <div style={{
+      background: '#0a0f15',
+      color: '#fff',
+      display: 'flex',
+      flexDirection: 'column',
+      fontFamily: 'Inter, sans-serif',
+      position: 'relative',
+      overflow: 'hidden',
+      flexShrink: 0,
+    }}>
+      {/* Glow effects */}
+      <div style={{
+        position: 'absolute', top: '-20%', right: '-10%', width: '60%', height: '120%',
+        background: 'radial-gradient(circle, rgba(0,185,177,0.12) 0%, transparent 60%)',
+        pointerEvents: 'none', zIndex: 1,
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '-30%', left: '-10%', width: '50%', height: '80%',
+        background: 'radial-gradient(circle, rgba(0,96,185,0.08) 0%, transparent 60%)',
+        pointerEvents: 'none', zIndex: 1,
+      }} />
+
       {/* Header */}
-      <header style={{ padding: '32px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10 }}>
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <a 
-            href="#" 
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              padding: '8px 16px', 
-              border: '1px solid rgba(255, 255, 255, 0.15)', 
-              borderRadius: '100px', 
-              fontSize: '15px', 
-              fontWeight: 700, 
-              color: '#fff', 
-              textDecoration: 'none', 
-              transition: 'all 0.2s' 
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)'; e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)'; e.currentTarget.style.backgroundColor = 'transparent' }}
-          >
-            ПКО-300
-          </a>
-          <a 
-            href="#" 
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              padding: '8px 16px', 
-              border: '1px solid rgba(255, 255, 255, 0.15)', 
-              borderRadius: '100px', 
-              fontSize: '14px', 
-              fontWeight: 600, 
-              color: 'rgba(255, 255, 255, 0.7)', 
-              textDecoration: 'none', 
-              transition: 'all 0.2s', 
-              letterSpacing: '-0.2px' 
-            }}
-            onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)'; e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)' }}
-            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)'; e.currentTarget.style.backgroundColor = 'transparent' }}
-          >
-            Тематические рейтинги
-          </a>
+      <header style={{ padding: '16px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10 }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {['ПКО-300', 'Тематические рейтинги'].map((label, i) => (
+            <a
+              key={label}
+              href="#"
+              style={{
+                display: 'flex', alignItems: 'center',
+                padding: '6px 14px',
+                border: `1px solid ${i === 0 ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'}`,
+                borderRadius: '2px',
+                fontSize: '11px',
+                fontWeight: i === 0 ? 600 : 400,
+                color: i === 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
+                textDecoration: 'none',
+                transition: 'all 0.2s',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase' as const,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(13,240,230,0.4)'; e.currentTarget.style.color = '#0DF0E6'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = i === 0 ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = i === 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)'; }}
+            >
+              {label}
+            </a>
+          ))}
         </nav>
       </header>
 
+      {/* Pyramid Background — на всю высоту */}
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '55%', zIndex: 1 }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #0a0f15 0%, transparent 40%, transparent 80%, #0a0f15 100%)', zIndex: 2 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #0a0f15 0%, transparent 10%, transparent 80%, #0a0f15 100%)', zIndex: 2 }} />
+        <img
+          src="https://images.unsplash.com/photo-1675012848706-ff1b1fd7c675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMGFuZCUyMHdoaXRlJTIwbW9kZXJuJTIwYXJjaGl0ZWN0dXJlfGVufDF8fHx8MTc3NDcxNDM5Nnww&ixlib=rb-4.1.0&q=80&w=1080"
+          alt="Architecture Background"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', opacity: 0.3, filter: 'grayscale(100%) contrast(1.2) brightness(0.7)' }}
+        />
+      </div>
+
       {/* Main Content */}
-      <main style={{ display: 'flex', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ flex: 1, padding: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10, maxWidth: '800px' }}>
-          <h1 style={{ fontSize: '72px', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-2.5px', marginBottom: '24px' }}>
+      <main style={{ display: 'flex', position: 'relative' }}>
+        <div style={{ flex: 1, padding: '24px 32px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10, maxWidth: '700px' }}>
+          <span style={{
+            fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em',
+            textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.4)',
+            marginBottom: '12px', fontFamily: spaceGrotesk,
+          }}>
+            Аналитическая платформа
+          </span>
+
+          <h1 style={{
+            fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
+            fontWeight: 800,
+            lineHeight: 1.05,
+            letterSpacing: '-0.02em',
+            marginBottom: '20px',
+            fontFamily: "'Inter', sans-serif",
+          }}>
             Главный рейтинг<br />коллекторских<br />агентств
           </h1>
-          <p style={{ fontSize: '20px', color: '#a1a1aa', lineHeight: 1.6, marginBottom: '64px', maxWidth: '600px' }}>
-            Единый дашборд с аналитикой ПКО-300. Оценка инвестиционной привлекател��ности, финансовой устойчивости и рыночных позиций.
+
+          <p style={{
+            fontSize: '15px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7,
+            marginBottom: '24px', maxWidth: '520px',
+          }}>
+            Единый дашборд с аналитикой ПКО-300. Оценка инвестиционной привлекательности, финансовой устойчивости и рыночных позиций.
           </p>
 
-          <div style={{ display: 'flex', gap: '48px', flexWrap: 'wrap' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', color: '#71717a' }}>
-                <Building2 size={18} /> <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Компаний</span>
+          <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
+            {[
+              { icon: Building2, label: 'Компаний', value: '540+' },
+              { icon: BarChart3, label: 'Данные', value: 'РСБУ 2024' },
+              { icon: TrendingUp, label: 'Динамика', value: 'за 5 лет' },
+            ].map(({ icon: Icon, label, value }) => (
+              <div key={label}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', color: 'rgba(255,255,255,0.3)' }}>
+                  <Icon size={14} />
+                  <span style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: '0.1em', fontFamily: spaceGrotesk }}>
+                    {label}
+                  </span>
+                </div>
+                <div style={{ fontSize: '24px', fontWeight: 700, letterSpacing: '-0.02em', fontFamily: spaceGrotesk }}>
+                  {value}
+                </div>
               </div>
-              <div style={{ fontSize: '36px', fontWeight: 700, letterSpacing: '-1px' }}>540+</div>
-            </div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', color: '#71717a' }}>
-                <BarChart3 size={18} /> <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Данные</span>
-              </div>
-              <div style={{ fontSize: '36px', fontWeight: 700, letterSpacing: '-1px' }}>РСБУ 2024</div>
-            </div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', color: '#71717a' }}>
-                <TrendingUp size={18} /> <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Динамика</span>
-              </div>
-              <div style={{ fontSize: '36px', fontWeight: 700, letterSpacing: '-1px' }}>за 5 лет</div>
-            </div>
+            ))}
           </div>
         </div>
-
-        {/* Right Graphic Background */}
-        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '55%', zIndex: 1 }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #09090b 0%, transparent 40%, transparent 80%, #09090b 100%)', zIndex: 2 }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #09090b 0%, transparent 20%, transparent 80%, #09090b 100%)', zIndex: 2 }} />
-          <img 
-            src="https://images.unsplash.com/photo-1675012848706-ff1b1fd7c675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMGFuZCUyMHdoaXRlJTIwbW9kZXJuJTIwYXJjaGl0ZWN0dXJlfGVufDF8fHx8MTc3NDcxNDM5Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-            alt="Architecture Background"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35, filter: 'grayscale(100%) contrast(1.2) brightness(0.8)' }}
-          />
-        </div>
       </main>
-
-      {/* No more gradient, just a clean cutoff */}
     </div>
   );
 }

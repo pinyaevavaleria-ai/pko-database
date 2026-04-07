@@ -15,8 +15,8 @@ export function TabBar({ activeTab, onTabChange }: TabBarProps) {
   return (
     <div
       style={{
-        background: '#fff',
-        borderBottom: '1px solid #f0f0f0',
+        background: '#111920',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
         padding: '0 32px',
         display: 'flex',
         alignItems: 'flex-end',
@@ -33,20 +33,20 @@ export function TabBar({ activeTab, onTabChange }: TabBarProps) {
               padding: '14px 20px 13px',
               fontSize: '14px',
               fontWeight: isActive ? 600 : 400,
-              color: isActive ? '#111' : '#6b7280',
+              color: isActive ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
               background: 'none',
               border: 'none',
-              borderBottom: isActive ? '2px solid #111' : '2px solid transparent',
+              borderBottom: isActive ? '2px solid #0DF0E6' : '2px solid transparent',
               cursor: 'pointer',
               transition: 'color 0.15s',
               outline: 'none',
               marginBottom: '-1px',
             }}
             onMouseEnter={e => {
-              if (!isActive) e.currentTarget.style.color = '#374151';
+              if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.7)';
             }}
             onMouseLeave={e => {
-              if (!isActive) e.currentTarget.style.color = '#6b7280';
+              if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.4)';
             }}
           >
             {tab.label}
