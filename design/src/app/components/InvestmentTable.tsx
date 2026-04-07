@@ -528,27 +528,6 @@ function AllTable() {
   );
 }
 
-// ── Note block ───────────────────────────────────────────────────
-function InfoNote({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        padding: '10px 16px',
-        background: 'rgba(255,255,255,0.02)',
-        borderBottom: '1px solid rgba(255,255,255,0.04)',
-        fontSize: '13px',
-        color: 'rgba(255,255,255,0.5)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-      }}
-    >
-      <span style={{ fontSize: '14px', color: '#a1a1aa' }}>ℹ️</span>
-      {children}
-    </div>
-  );
-}
-
 // ── Main export ──────────────────────────────────────────────────
 interface InvestmentTableProps {
   companies?: unknown[]; // kept for API compat, not used — data comes from investmentData
@@ -567,51 +546,27 @@ export function InvestmentTable(_props: InvestmentTableProps) {
       {/* Table content (карточка уже в App.tsx) */}
       <div>
         {mode === 'bonds' && (
-          <>
-            <InfoNote>
-              Показаны 13 выпусков от 10 компаний. Всего у этих компаний — 32 выпуска облигаций.
-              Финэква совмещает облигации и корпоративное финансирование.
-            </InfoNote>
-            <div style={{ overflowX: 'auto' }}>
-              <BondsTable />
-            </div>
-          </>
+          <div style={{ overflowX: 'auto' }}>
+            <BondsTable />
+          </div>
         )}
 
         {mode === 'loans' && (
-          <>
-            <InfoNote>
-              3 компании привлекают деньги от физических лиц напрямую через собственные сайты.
-            </InfoNote>
-            <div style={{ overflowX: 'auto' }}>
-              <LoansTable />
-            </div>
-          </>
+          <div style={{ overflowX: 'auto' }}>
+            <LoansTable />
+          </div>
         )}
 
         {mode === 'corporate' && (
-          <>
-            <InfoNote>
-              11 компаний финансируются через банки, иностранные ��олдинги или ЗПИФ.
-              Финэква присутствует в двух разделах: облигации + корпоративное.
-              Правило приоритета кружка в рейтинге: наличие публичного инструмента → 🟢, только корпоративное → 🔵.
-            </InfoNote>
-            <div style={{ overflowX: 'auto' }}>
-              <CorporateTable />
-            </div>
-          </>
+          <div style={{ overflowX: 'auto' }}>
+            <CorporateTable />
+          </div>
         )}
 
         {mode === 'all' && (
-          <>
-            <InfoNote>
-              23 компании с установленным способом привлечения капитала из 545 в реестре.
-              Финэква отображается дважды — в облигациях и корпоративных.
-            </InfoNote>
-            <div style={{ overflowX: 'auto' }}>
-              <AllTable />
-            </div>
-          </>
+          <div style={{ overflowX: 'auto' }}>
+            <AllTable />
+          </div>
         )}
       </div>
 
