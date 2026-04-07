@@ -569,30 +569,6 @@ export function InvestmentTable(_props: InvestmentTableProps) {
           </div>
         )}
       </div>
-
-      {/* Legend */}
-      <div
-        style={{
-          marginTop: '16px',
-          display: 'flex',
-          gap: '20px',
-          flexWrap: 'wrap',
-          padding: '12px 16px',
-          background: 'rgba(255,255,255,0.04)',
-          borderRadius: '10px',
-          border: '1px solid rgba(255,255,255,0.06)',
-          fontSize: '12px',
-          color: 'rgba(255,255,255,0.4)',
-        }}
-      >
-        <span style={{ fontWeight: 500, color: 'rgba(255,255,255,0.7)' }}>Кружок в рейтинге:</span>
-        <span>🟢 Публичное (облигации / займы физлицам)</span>
-        <span>�� Корпоративное (банки, ЗПИФ, иностранные структуры)</span>
-        <span>⚪ Нет данных</span>
-        <span style={{ marginLeft: 'auto', color: '#d1d5db' }}>
-          Приоритет: 🟢 → 🔵 → ⚪
-        </span>
-      </div>
     </div>
   );
 }

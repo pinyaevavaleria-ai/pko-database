@@ -64,91 +64,154 @@ function Divider() {
   return <div style={{ width: '1px', height: '22px', background: 'rgba(255,255,255,0.08)', flexShrink: 0 }} />;
 }
 
-// Generic Popover Button
-function PopoverFilter({
-  label,
-  isActive,
-  activeCount,
-  align = 'left',
-  children
+// Filter Drawer (slides from right)
+function FilterDrawer({
+  open,
+  onClose,
+  children,
 }: {
-  label: string;
-  isActive: boolean;
-  activeCount?: number;
-  align?: 'left' | 'right';
+  open: boolean;
+  onClose: () => void;
   children: React.ReactNode;
 }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useClickOutside(ref, () => setOpen(false));
+  // Lock body scroll when open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  if (!open) return null;
 
   return (
-    <div style={{ position: 'relative' }} ref={ref}>
-      <button
-        onClick={() => setOpen(!open)}
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={onClose}
         style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.5)',
+          zIndex: 300,
+        }}
+      />
+      {/* Drawer */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          width: '340px',
+          maxWidth: '90vw',
+          background: '#151c26',
+          borderLeft: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '-8px 0 32px rgba(0,0,0,0.4)',
+          zIndex: 301,
           display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          padding: '6px 12px',
-          borderRadius: '20px',
-          border: `1px solid ${open ? 'rgba(13,240,230,0.3)' : isActive ? 'rgba(13,240,230,0.2)' : 'rgba(255,255,255,0.12)'}`,
-          background: open ? 'rgba(13,240,230,0.06)' : isActive ? 'rgba(13,240,230,0.04)' : 'transparent',
-          fontSize: '13px',
-          fontWeight: 500,
-          color: isActive || open ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
-          cursor: 'pointer',
-          outline: 'none',
-          whiteSpace: 'nowrap',
-          transition: 'all 0.1s'
+          flexDirection: 'column',
         }}
       >
-        {label}
-        {activeCount !== undefined && activeCount > 0 && (
-          <span style={{
-            width: '16px',
-            height: '16px',
-            borderRadius: '50%',
-            background: '#0DF0E6',
-            color: '#0a0f15',
-            fontSize: '10px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 700,
-          }}>
-            {activeCount}
-          </span>
-        )}
-        {open ? (
-          <ChevronUp style={{ width: '14px', height: '14px', color: isActive || open ? '#0DF0E6' : 'rgba(255,255,255,0.3)' }} />
-        ) : (
-          <ChevronDown style={{ width: '14px', height: '14px', color: isActive || open ? '#0DF0E6' : 'rgba(255,255,255,0.3)' }} />
-        )}
-      </button>
+        {/* Header */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '16px 20px',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          flexShrink: 0,
+        }}>
+          <span style={{ fontSize: '15px', fontWeight: 600, color: '#fff' }}>Фильтры</span>
+          <button
+            onClick={onClose}
+            style={{
+              width: '28px', height: '28px', borderRadius: '6px',
+              background: 'rgba(255,255,255,0.06)', border: 'none',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            <X style={{ width: '16px', height: '16px', color: 'rgba(255,255,255,0.5)' }} />
+          </button>
+        </div>
 
-      {open && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 6px)',
-            ...(align === 'right' ? { right: 0 } : { left: 0 }),
-            background: '#1a2230',
-            borderRadius: '12px',
-            border: '1px solid rgba(255,255,255,0.08)',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
-            padding: '12px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-            zIndex: 200,
-            minWidth: 'max-content',
-          }}
-        >
+        {/* Scrollable content */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
           {children}
         </div>
+
+        {/* Fixed footer */}
+        <div style={{
+          padding: '12px 20px 16px',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          flexShrink: 0,
+        }}>
+          <button
+            onClick={onClose}
+            style={{
+              width: '100%',
+              padding: '12px 0',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#0DF0E6',
+              color: '#0a0f15',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            Применить
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// Filter toggle button
+function FilterToggleButton({
+  isActive,
+  activeCount,
+  onClick,
+}: {
+  isActive: boolean;
+  activeCount: number;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+        padding: '6px 12px',
+        borderRadius: '20px',
+        border: `1px solid ${isActive ? 'rgba(13,240,230,0.2)' : 'rgba(255,255,255,0.12)'}`,
+        background: isActive ? 'rgba(13,240,230,0.04)' : 'transparent',
+        fontSize: '13px',
+        fontWeight: 500,
+        color: isActive ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
+        cursor: 'pointer',
+        outline: 'none',
+        whiteSpace: 'nowrap',
+        transition: 'all 0.1s',
+      }}
+    >
+      Фильтры
+      {activeCount > 0 && (
+        <span style={{
+          width: '16px', height: '16px', borderRadius: '50%',
+          background: '#0DF0E6', color: '#0a0f15', fontSize: '10px',
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
+        }}>
+          {activeCount}
+        </span>
       )}
-    </div>
+      <ChevronDown style={{ width: '14px', height: '14px', color: isActive ? '#0DF0E6' : 'rgba(255,255,255,0.3)' }} />
+    </button>
   );
 }
 
@@ -238,13 +301,11 @@ function countActiveFilters(f: RatingFilters): number {
   return n;
 }
 
-// ── Unified Filter Popover ──────────────────────────────────────
-function FilterPopover({ f, setR }: { f: RatingFilters; setR: (p: Partial<RatingFilters>) => void }) {
-  const activeCount = countActiveFilters(f);
-
+// ── Unified Filter Panel ────────────────────────────────────────
+function FilterPanel({ f, setR, open, onClose }: { f: RatingFilters; setR: (p: Partial<RatingFilters>) => void; open: boolean; onClose: () => void }) {
   return (
-    <PopoverFilter label="Фильтры" isActive={activeCount > 0} activeCount={activeCount} align="right">
-      <div style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '280px', maxHeight: '70vh', overflowY: 'auto' }}>
+    <FilterDrawer open={open} onClose={onClose}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {/* ── Общие фильтры ── */}
         <SectionHeader>Общие</SectionHeader>
         <div>
@@ -303,7 +364,7 @@ function FilterPopover({ f, setR }: { f: RatingFilters; setR: (p: Partial<Rating
         </div>
         <SectionDivider />
         <div>
-          <div style={SECTION_LABEL}>Темпы роста (CAGR), %</div>
+          <div style={SECTION_LABEL}>Темпы роста (CAGR 5 лет), %</div>
           <RangeInputs fromVal={f.cagrFrom} toVal={f.cagrTo} onFromChange={v => setR({ cagrFrom: v })} onToChange={v => setR({ cagrTo: v })} />
         </div>
         <SectionDivider />
@@ -317,7 +378,7 @@ function FilterPopover({ f, setR }: { f: RatingFilters; setR: (p: Partial<Rating
           <RangeInputs fromVal={f.deFrom} toVal={f.deTo} onFromChange={v => setR({ deFrom: v })} onToChange={v => setR({ deTo: v })} />
         </div>
       </div>
-    </PopoverFilter>
+    </FilterDrawer>
   );
 }
 
@@ -368,8 +429,10 @@ export function SearchFilterBar({
 
   const setR = (patch: Partial<RatingFilters>) => onRatingFiltersChange({ ...ratingFilters, ...patch });
   const f = ratingFilters;
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const showFilters = preset === 'overview';
+  const activeCount = countActiveFilters(f);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -394,9 +457,14 @@ export function SearchFilterBar({
 
         {/* Фильтры */}
         {showFilters && (
-          <FilterPopover f={f} setR={setR} />
+          <FilterToggleButton isActive={activeCount > 0} activeCount={activeCount} onClick={() => setDrawerOpen(true)} />
         )}
       </div>
+
+      {/* Filter Drawer */}
+      {showFilters && (
+        <FilterPanel f={f} setR={setR} open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      )}
 
       {/* Active filter chips */}
       {showFilters && (() => {
