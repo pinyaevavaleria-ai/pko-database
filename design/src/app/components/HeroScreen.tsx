@@ -28,31 +28,45 @@ export function HeroScreen() {
 
       {/* Header */}
       <header style={{ padding: '16px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10 }}>
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {['ПКО-300', 'Тематические рейтинги'].map((label, i) => (
-            <a
-              key={label}
-              href="#"
-              style={{
-                display: 'flex', alignItems: 'center',
-                padding: '6px 14px',
-                border: `1px solid ${i === 0 ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'}`,
-                borderRadius: '2px',
-                fontSize: '11px',
-                fontWeight: i === 0 ? 600 : 400,
-                color: i === 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
-                textDecoration: 'none',
-                transition: 'all 0.2s',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase' as const,
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(13,240,230,0.4)'; e.currentTarget.style.color = '#0DF0E6'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = i === 0 ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = i === 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)'; }}
-            >
-              {label}
-            </a>
-          ))}
-        </nav>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          {/* Логотип РВ и ДП — слева */}
+          <div style={{ position: 'relative', height: '64px' }}>
+            <img src="/logo-rvdp.png" alt="Рынок Взыскания и Debt Price" style={{ height: '64px', opacity: 0.85 }} />
+            <a href="https://rvzrus.ru/" target="_blank" rel="noopener noreferrer" title="Рынок Взыскания" style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '100%' }} />
+            <a href="https://debtprice.market/" target="_blank" rel="noopener noreferrer" title="Debt Price" style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '100%' }} />
+          </div>
+          <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.12)' }} />
+          {/* Навигация */}
+          <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {['ПКО-300', 'Тематические рейтинги'].map((label, i) => (
+              <a
+                key={label}
+                href="#"
+                style={{
+                  display: 'flex', alignItems: 'center',
+                  padding: '6px 14px',
+                  border: `1px solid ${i === 0 ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'}`,
+                  borderRadius: '2px',
+                  fontSize: '11px',
+                  fontWeight: i === 0 ? 600 : 400,
+                  color: i === 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
+                  textDecoration: 'none',
+                  transition: 'all 0.2s',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase' as const,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(13,240,230,0.4)'; e.currentTarget.style.color = '#0DF0E6'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = i === 0 ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = i === 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)'; }}
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+        </div>
+        {/* Навигатор — справа */}
+        <a href="https://navigator.debt-tech.ru/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img src="/logo-navigator.png" alt="Навигатор" style={{ height: '96px', opacity: 0.9, transition: 'opacity 0.2s' }} onMouseEnter={e => { e.currentTarget.style.opacity = '1'; }} onMouseLeave={e => { e.currentTarget.style.opacity = '0.9'; }} />
+        </a>
       </header>
 
       {/* Pyramid Background — на всю высоту */}
@@ -95,10 +109,10 @@ export function HeroScreen() {
             Единый дашборд с аналитикой ПКО-300. Оценка инвестиционной привлекательности, финансовой устойчивости и рыночных позиций.
           </p>
 
-          <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
             {[
               { icon: Building2, label: 'Компаний', value: '540+' },
-              { icon: BarChart3, label: 'Данные', value: 'РСБУ 2024' },
+              { icon: BarChart3, label: 'Данные', value: 'ФНС 2026' },
               { icon: TrendingUp, label: 'Динамика', value: 'за 5 лет' },
             ].map(({ icon: Icon, label, value }) => (
               <div key={label}>

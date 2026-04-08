@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, X, Search } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { ChevronDown, ChevronUp, X, Search, GitCompareArrows } from 'lucide-react';
 
 // ── Filter interfaces ────────────────────────────────────────────
 
@@ -64,109 +65,126 @@ function Divider() {
   return <div style={{ width: '1px', height: '22px', background: 'rgba(255,255,255,0.08)', flexShrink: 0 }} />;
 }
 
-// Filter Drawer (slides from right)
-function FilterDrawer({
+// Filter dropdown panel (fixed, positioned near anchor button)
+function FilterDropdown({
   open,
   onClose,
+  anchorRef,
   children,
 }: {
   open: boolean;
   onClose: () => void;
+  anchorRef: React.RefObject<HTMLDivElement | null>;
   children: React.ReactNode;
 }) {
-  // Lock body scroll when open
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+
+  // Position below the anchor button, aligned to its right edge
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
+    if (!open || !anchorRef.current) return;
+    const rect = anchorRef.current.getBoundingClientRect();
+    if (isMobile) {
+      setPos({ top: 0, left: 0 });
     } else {
-      document.body.style.overflow = '';
+      const panelWidth = 380;
+      let left = rect.right - panelWidth;
+      if (left < 8) left = 8;
+      setPos({ top: rect.bottom + 8, left });
     }
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
+  }, [open, anchorRef, isMobile]);
+
+  // Close on click outside
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (
+        panelRef.current && !panelRef.current.contains(e.target as Node) &&
+        anchorRef.current && !anchorRef.current.contains(e.target as Node)
+      ) {
+        onClose();
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open, onClose, anchorRef]);
 
   if (!open) return null;
 
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(0,0,0,0.5)',
-          zIndex: 300,
-        }}
-      />
-      {/* Drawer */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: '340px',
-          maxWidth: '90vw',
-          background: '#151c26',
-          borderLeft: '1px solid rgba(255,255,255,0.08)',
-          boxShadow: '-8px 0 32px rgba(0,0,0,0.4)',
-          zIndex: 301,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        {/* Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '16px 20px',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-          flexShrink: 0,
-        }}>
-          <span style={{ fontSize: '15px', fontWeight: 600, color: '#fff' }}>Фильтры</span>
-          <button
-            onClick={onClose}
-            style={{
-              width: '28px', height: '28px', borderRadius: '6px',
-              background: 'rgba(255,255,255,0.06)', border: 'none',
-              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}
-          >
-            <X style={{ width: '16px', height: '16px', color: 'rgba(255,255,255,0.5)' }} />
-          </button>
-        </div>
-
-        {/* Scrollable content */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
-          {children}
-        </div>
-
-        {/* Fixed footer */}
-        <div style={{
-          padding: '12px 20px 16px',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-          flexShrink: 0,
-        }}>
-          <button
-            onClick={onClose}
-            style={{
-              width: '100%',
-              padding: '12px 0',
-              borderRadius: '8px',
-              border: 'none',
-              background: '#0DF0E6',
-              color: '#0a0f15',
-              fontSize: '14px',
-              fontWeight: 600,
-              cursor: 'pointer',
-            }}
-          >
-            Применить
-          </button>
-        </div>
+  return createPortal(
+    <div
+      ref={panelRef}
+      style={{
+        position: 'fixed',
+        top: isMobile ? 0 : pos.top,
+        left: isMobile ? 0 : pos.left,
+        width: isMobile ? '100vw' : '380px',
+        height: isMobile ? '100vh' : 'auto',
+        maxHeight: isMobile ? '100vh' : 'calc(100vh - ' + (pos.top + 20) + 'px)',
+        background: '#151c26',
+        border: isMobile ? 'none' : '1px solid rgba(255,255,255,0.10)',
+        borderRadius: isMobile ? 0 : '12px',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
+        zIndex: 301,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Header */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '14px 16px',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        flexShrink: 0,
+      }}>
+        <span style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Фильтры</span>
+        <button
+          onClick={onClose}
+          style={{
+            width: '26px', height: '26px', borderRadius: '6px',
+            background: 'rgba(255,255,255,0.06)', border: 'none',
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}
+        >
+          <X style={{ width: '14px', height: '14px', color: 'rgba(255,255,255,0.5)' }} />
+        </button>
       </div>
-    </>
+
+      {/* Scrollable content */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '14px 16px', minHeight: 0 }}>
+        {children}
+      </div>
+
+      {/* Footer */}
+      <div style={{
+        padding: '10px 16px 14px',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
+        flexShrink: 0,
+      }}>
+        <button
+          onClick={onClose}
+          style={{
+            width: '100%',
+            padding: '10px 0',
+            borderRadius: '8px',
+            border: 'none',
+            background: '#0DF0E6',
+            color: '#0a0f15',
+            fontSize: '13px',
+            fontWeight: 600,
+            cursor: 'pointer',
+          }}
+        >
+          Применить
+        </button>
+      </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -291,8 +309,6 @@ function countActiveFilters(f: RatingFilters): number {
   if (f.sortDir !== 'desc') n++;
   if (f.napka !== 'ignore') n++;
   if (f.experienceFrom !== '' || f.experienceTo !== '') n++;
-  const allCap = f.capitalPublic && f.capitalCorporate && f.capitalNone;
-  if (!allCap) n++;
   if (f.revenueFrom !== '' || f.revenueTo !== '') n++;
   if (f.profitFrom !== '' || f.profitTo !== '') n++;
   if (f.cagrFrom !== '' || f.cagrTo !== '') n++;
@@ -302,9 +318,9 @@ function countActiveFilters(f: RatingFilters): number {
 }
 
 // ── Unified Filter Panel ────────────────────────────────────────
-function FilterPanel({ f, setR, open, onClose }: { f: RatingFilters; setR: (p: Partial<RatingFilters>) => void; open: boolean; onClose: () => void }) {
+function FilterPanel({ f, setR, open, onClose, anchorRef }: { f: RatingFilters; setR: (p: Partial<RatingFilters>) => void; open: boolean; onClose: () => void; anchorRef: React.RefObject<HTMLDivElement | null> }) {
   return (
-    <FilterDrawer open={open} onClose={onClose}>
+    <FilterDropdown open={open} onClose={onClose} anchorRef={anchorRef}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {/* ── Общие фильтры ── */}
         <SectionHeader>Общие</SectionHeader>
@@ -324,30 +340,6 @@ function FilterPanel({ f, setR, open, onClose }: { f: RatingFilters; setR: (p: P
         <div>
           <div style={SECTION_LABEL}>Работает на рынке, лет</div>
           <RangeInputs fromVal={f.experienceFrom} toVal={f.experienceTo} onFromChange={v => setR({ experienceFrom: v })} onToChange={v => setR({ experienceTo: v })} />
-        </div>
-        <SectionDivider />
-        <div>
-          <div style={SECTION_LABEL}>Привлечение капитала</div>
-          {[
-            { key: 'capitalPublic' as const, label: 'Публичное (облигации/займы)' },
-            { key: 'capitalCorporate' as const, label: 'Корпоративное' },
-            { key: 'capitalNone' as const, label: 'Нет данных' },
-          ].map(({ key, label }) => (
-            <label key={key} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '5px 4px' }}>
-              <div
-                onClick={() => setR({ [key]: !f[key] })}
-                style={{
-                  width: '18px', height: '18px', borderRadius: '4px',
-                  border: `1.5px solid ${f[key] ? '#0DF0E6' : 'rgba(255,255,255,0.2)'}`,
-                  background: f[key] ? '#0DF0E6' : 'transparent',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                }}
-              >
-                {f[key] && <span style={{ color: '#0a0f15', fontSize: '12px', lineHeight: 1 }}>✓</span>}
-              </div>
-              <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>{label}</span>
-            </label>
-          ))}
         </div>
 
         {/* ── Метрики ── */}
@@ -378,7 +370,7 @@ function FilterPanel({ f, setR, open, onClose }: { f: RatingFilters; setR: (p: P
           <RangeInputs fromVal={f.deFrom} toVal={f.deTo} onFromChange={v => setR({ deFrom: v })} onToChange={v => setR({ deTo: v })} />
         </div>
       </div>
-    </FilterDrawer>
+    </FilterDropdown>
   );
 }
 
@@ -419,17 +411,22 @@ interface SearchFilterBarProps {
   ratingFilters: RatingFilters;
   onRatingFiltersChange: (f: RatingFilters) => void;
   preset: Preset;
+  compareMode?: boolean;
+  onCompareModeToggle?: () => void;
+  selectedCount?: number;
 }
 
 export function SearchFilterBar({
   searchQuery, onSearchChange,
   ratingFilters, onRatingFiltersChange,
   preset,
+  compareMode = false, onCompareModeToggle, selectedCount = 0,
 }: SearchFilterBarProps) {
 
   const setR = (patch: Partial<RatingFilters>) => onRatingFiltersChange({ ...ratingFilters, ...patch });
   const f = ratingFilters;
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const filterBtnRef = useRef<HTMLDivElement>(null);
 
   const showFilters = preset === 'overview';
   const activeCount = countActiveFilters(f);
@@ -455,15 +452,46 @@ export function SearchFilterBar({
           />
         </div>
 
+        {/* Сравнить */}
+        {showFilters && onCompareModeToggle && (
+          <button
+            onClick={onCompareModeToggle}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '6px',
+              padding: '6px 12px', borderRadius: '20px',
+              border: `1px solid ${compareMode ? 'rgba(13,240,230,0.4)' : 'rgba(255,255,255,0.12)'}`,
+              background: compareMode ? 'rgba(13,240,230,0.06)' : 'transparent',
+              fontSize: '13px', fontWeight: 500,
+              color: compareMode ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
+              cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap',
+              transition: 'all 0.1s',
+            }}
+          >
+            <GitCompareArrows style={{ width: '14px', height: '14px' }} />
+            Сравнить
+            {compareMode && selectedCount > 0 && (
+              <span style={{
+                width: '16px', height: '16px', borderRadius: '50%',
+                background: '#0DF0E6', color: '#0a0f15', fontSize: '10px',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
+              }}>
+                {selectedCount}
+              </span>
+            )}
+          </button>
+        )}
+
         {/* Фильтры */}
         {showFilters && (
-          <FilterToggleButton isActive={activeCount > 0} activeCount={activeCount} onClick={() => setDrawerOpen(true)} />
+          <div ref={filterBtnRef}>
+            <FilterToggleButton isActive={activeCount > 0} activeCount={activeCount} onClick={() => setDrawerOpen(!drawerOpen)} />
+          </div>
         )}
       </div>
 
-      {/* Filter Drawer */}
+      {/* Filter Dropdown (portal) */}
       {showFilters && (
-        <FilterPanel f={f} setR={setR} open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+        <FilterPanel f={f} setR={setR} open={drawerOpen} onClose={() => setDrawerOpen(false)} anchorRef={filterBtnRef} />
       )}
 
       {/* Active filter chips */}
@@ -478,7 +506,6 @@ export function SearchFilterBar({
         };
         const btnStyle: React.CSSProperties = { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' };
         const xIcon = <X style={{ width: '14px', height: '14px', color: 'rgba(255,255,255,0.4)' }} />;
-        const allCap = f.capitalPublic && f.capitalCorporate && f.capitalNone;
         return (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             {f.sortDir !== 'desc' && (
@@ -489,12 +516,6 @@ export function SearchFilterBar({
             )}
             {(f.experienceFrom !== '' || f.experienceTo !== '') && (
               <div style={chipStyle}>Стаж: {f.experienceFrom || '∞'} — {f.experienceTo || '∞'} лет<button onClick={() => setR({ experienceFrom: '', experienceTo: '' })} style={btnStyle}>{xIcon}</button></div>
-            )}
-            {!allCap && (
-              <div style={chipStyle}>
-                Капитал: {[f.capitalPublic && 'Публ.', f.capitalCorporate && 'Корп.', f.capitalNone && 'Нет'].filter(Boolean).join(', ')}
-                <button onClick={() => setR({ capitalPublic: true, capitalCorporate: true, capitalNone: true })} style={btnStyle}>{xIcon}</button>
-              </div>
             )}
             {(f.revenueFrom !== '' || f.revenueTo !== '') && (
               <div style={chipStyle}>Выручка: {f.revenueFrom || '∞'} — {f.revenueTo || '∞'}<button onClick={() => setR({ revenueFrom: '', revenueTo: '' })} style={btnStyle}>{xIcon}</button></div>

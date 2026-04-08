@@ -1,12 +1,25 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { ArrowUp, ArrowDown, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { RatingCompany } from '../data/ratingData';
 import { logoMap } from '../data/logoMap';
 
 const PAGE_SIZE = 100;
 
+export type ExtraColumn = {
+  key: string;
+  header: string;
+  format: (c: RatingCompany) => string;
+  color?: (c: RatingCompany) => string;
+};
+
 interface RatingTableProps {
   companies: RatingCompany[];
+  onCompanyClick?: (inn: string) => void;
+  compareMode?: boolean;
+  selectedInns?: Set<string>;
+  onToggleSelect?: (inn: string) => void;
+  maxSelected?: number;
+  extraColumns?: ExtraColumn[];
 }
 
 const AVATAR_COLORS = [
@@ -26,9 +39,8 @@ function Avatar({ name, rank, inn }: { name: string; rank: number; inn: string }
         style={{
           width: '32px',
           height: '32px',
-          borderRadius: '6px',
-          background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: '8px',
+          background: '#fff',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -88,13 +100,14 @@ function RankBadge({ rank }: { rank: number }) {
 
 const TH_STYLE: React.CSSProperties = {
   textAlign: 'left',
-  padding: '4px 6px',
-  height: '40px',
+  padding: '0 16px',
+  height: '48px',
   fontSize: '10px',
   color: 'rgba(255,255,255,0.4)',
   fontWeight: 400,
   whiteSpace: 'normal',
   lineHeight: '1.3',
+  verticalAlign: 'middle',
   background: '#111920',
   borderBottom: '1px solid rgba(255,255,255,0.04)',
   userSelect: 'none',
@@ -107,15 +120,16 @@ const TH_STYLE: React.CSSProperties = {
 
 const TD_STYLE: React.CSSProperties = {
   textAlign: 'left',
-  padding: '0 6px',
+  padding: '0 16px',
   height: '44px',
   fontSize: '12px',
   color: '#fff',
   verticalAlign: 'middle',
   whiteSpace: 'nowrap',
+  lineHeight: '1.4',
 };
 
-export function RatingTable({ companies }: RatingTableProps) {
+export function RatingTable({ companies, onCompanyClick, compareMode = false, selectedInns, onToggleSelect, maxSelected = 5, extraColumns = [] }: RatingTableProps) {
   const [page, setPage] = useState(0);
   const fmt = (n: number) => Math.abs(n).toLocaleString('ru-RU');
 
@@ -125,50 +139,189 @@ export function RatingTable({ companies }: RatingTableProps) {
   // Reset page if companies change and page is out of bounds
   if (page >= totalPages && totalPages > 0) setPage(0);
 
-  const colWidths = ['7%', '5%', '3%', '23%', '24%', '20%', '10%'];
-  const colHeaders = ['№', 'YoY', '', 'Компания', 'Выручка + пр. доходы, тыс ₽', 'Чистая прибыль, тыс ₽', 'Стаж, лет'];
-  const colAligns: ('left' | 'right' | 'center')[] = ['left', 'center', 'left', 'left', 'right', 'right', 'right'];
+  const hasExtra = extraColumns.length > 0;
+
+  // ── Sticky columns (fixed px widths) ──────────────────────────
+  // First N columns are sticky on horizontal scroll: №, YoY, Logo, Компания
+  // In compare mode, Checkbox is also sticky.
+  const stickyPx = compareMode
+    ? [40, 48, 48, 36, 180]   // [☑, №, YoY, Logo, Компания]
+    : [52, 52, 36, 190];      // [№, YoY, Logo, Компания]
+  const stickyCount = stickyPx.length;
+  // Cumulative left offsets for position: sticky
+  const stickyLeft: number[] = [];
+  stickyPx.forEach((w, i) => { stickyLeft.push(i === 0 ? 0 : stickyLeft[i - 1] + stickyPx[i - 1]); });
+  const stickyTotalPx = stickyLeft[stickyLeft.length - 1] + stickyPx[stickyPx.length - 1];
+
+  // ── Scrollable columns ────────────────────────────────────────
+  const scrollHeaders = ['Выручка + пр. доходы, тыс ₽', 'Чистая прибыль, тыс ₽', 'Стаж, лет', ...extraColumns.map(ec => ec.header)];
+  const scrollAligns: ('left' | 'right' | 'center')[] = ['right', 'right', 'right', ...extraColumns.map(() => 'right' as const)];
+  const scrollCount = scrollHeaders.length;
+  // Each scrollable column gets equal width of remaining space
+  const scrollColWidth = `${(100 / scrollCount).toFixed(1)}%`;
+
+  // ── All columns combined ──────────────────────────────────────
+  const stickyHeaders = compareMode
+    ? ['', '№', 'YoY', '', 'Компания']
+    : ['№', 'YoY', '', 'Компания'];
+  const stickyAligns: ('left' | 'right' | 'center')[] = compareMode
+    ? ['center', 'left', 'center', 'left', 'left']
+    : ['left', 'center', 'left', 'left'];
+  const colWidths = [...stickyPx.map(w => `${w}px`), ...scrollHeaders.map(() => scrollColWidth)];
+  const colHeaders = [...stickyHeaders, ...scrollHeaders];
+  const colAligns: ('left' | 'right' | 'center')[] = [...stickyAligns, ...scrollAligns];
+
+  // ── Scroll sync between sticky header and scrollable body ────
+  const headerRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const isSyncing = useRef(false);
+  const handleBodyScroll = useCallback(() => {
+    if (isSyncing.current) return;
+    isSyncing.current = true;
+    if (headerRef.current && bodyRef.current) {
+      headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
+    }
+    requestAnimationFrame(() => { isSyncing.current = false; });
+  }, []);
+
+  const tableMinWidth = hasExtra ? `${stickyTotalPx + scrollCount * 150}px` : '830px';
+  const colgroupEl = (
+    <colgroup>
+      {colWidths.map((w, i) => (
+        <col key={i} style={{ width: w }} />
+      ))}
+    </colgroup>
+  );
 
   return (
     <div>
-        <table style={{ width: '100%', minWidth: '830px', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
-          <colgroup>
-            {colWidths.map((w, i) => (
-              <col key={i} style={{ width: w }} />
-            ))}
-          </colgroup>
+      {/* ── Sticky header ── */}
+      <div
+        ref={headerRef}
+        style={{
+          position: 'sticky',
+          top: 56,
+          zIndex: 11,
+          background: '#111920',
+          overflowX: 'hidden',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
+        }}
+      >
+        <table style={{ width: '100%', minWidth: tableMinWidth, borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+          {colgroupEl}
           <thead>
             <tr>
-              {colHeaders.map((h, i) => (
-                <th key={i} style={{ ...TH_STYLE, textAlign: colAligns[i], ...(h === '' ? { padding: 0 } : {}), ...(i === 0 ? { paddingLeft: '20px' } : {}), ...(i === colHeaders.length - 1 ? { paddingRight: '20px' } : {}) }}>
-                  {h && (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: colAligns[i] === 'right' ? 'flex-end' : colAligns[i] === 'center' ? 'center' : 'flex-start', gap: '3px' }}>
-                      {h} <ArrowUpDown size={10} color="#d1d5db" />
-                    </div>
-                  )}
-                </th>
-              ))}
+              {colHeaders.map((h, i) => {
+                const isSticky = i < stickyCount;
+                return (
+                  <th key={i} style={{
+                    ...TH_STYLE,
+                    borderBottom: 'none',
+                    textAlign: colAligns[i],
+                    ...(h === '' ? { padding: 0 } : {}),
+                    ...(i === 0 ? { paddingLeft: compareMode ? '16px' : '32px' } : {}),
+                    ...(i === colHeaders.length - 1 ? { paddingRight: '32px' } : {}),
+                    ...(isSticky ? {
+                      position: 'sticky',
+                      left: `${stickyLeft[i]}px`,
+                      zIndex: 12,
+                      background: '#111920',
+                    } : {}),
+                  }}>
+                    {h && (
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: colAligns[i] === 'right' ? 'flex-end' : colAligns[i] === 'center' ? 'center' : 'flex-start', gap: '3px' }}>
+                        {h} <ArrowUpDown size={10} color="#d1d5db" />
+                      </div>
+                    )}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
+        </table>
+      </div>
+
+      {/* ── Scrollable body ── */}
+      <div ref={bodyRef} style={{ overflowX: 'auto' }} onScroll={handleBodyScroll}>
+        <table style={{ width: '100%', minWidth: tableMinWidth, borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+          {colgroupEl}
           <tbody>
             {pagedCompanies.map((company, idx) => {
               const delta = company.rankDelta;
               const isLast = idx === pagedCompanies.length - 1;
-              const rowBg = idx % 2 === 1 ? 'rgba(255,255,255,0.015)' : 'transparent';
+              const isSelected = selectedInns?.has(company.inn) ?? false;
+              const isDisabled = compareMode && !isSelected && (selectedInns?.size ?? 0) >= maxSelected;
+              const rowBg = isSelected ? 'rgba(13,240,230,0.06)' : idx % 2 === 1 ? 'rgba(255,255,255,0.015)' : 'transparent';
+              const cellBg = isSelected ? 'rgba(13,240,230,0.06)' : idx % 2 === 1 ? '#121a22' : '#111920';
+
+              // Helper: sticky td style for left-pinned columns
+              const stickyTd = (colIdx: number, extra?: React.CSSProperties): React.CSSProperties => ({
+                ...TD_STYLE,
+                position: 'sticky',
+                left: `${stickyLeft[colIdx]}px`,
+                zIndex: 2,
+                background: cellBg,
+                ...extra,
+              });
+
+              let si = 0; // sticky column index
+
               return (
                 <tr
                   key={company.rank}
-                  style={{ borderBottom: isLast ? 'none' : '1px solid rgba(255,255,255,0.04)', background: rowBg }}
-                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(13,240,230,0.04)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = rowBg)}
+                  style={{
+                    borderBottom: isLast ? 'none' : '1px solid rgba(255,255,255,0.04)',
+                    cursor: compareMode ? (isDisabled ? 'default' : 'pointer') : onCompanyClick ? 'pointer' : undefined,
+                    opacity: isDisabled ? 0.4 : 1,
+                  }}
+                  onClick={() => {
+                    if (compareMode) {
+                      if (!isDisabled) onToggleSelect?.(company.inn);
+                    } else {
+                      onCompanyClick?.(company.inn);
+                    }
+                  }}
+                  onMouseEnter={e => {
+                    if (!isDisabled) {
+                      const bg = isSelected ? 'rgba(13,240,230,0.08)' : 'rgba(13,240,230,0.04)';
+                      e.currentTarget.querySelectorAll('td').forEach(td => { (td as HTMLElement).style.background = bg; });
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.querySelectorAll('td').forEach((td, i) => {
+                      (td as HTMLElement).style.background = i < stickyCount ? cellBg : '';
+                    });
+                  }}
                 >
+                  {/* Checkbox (only in compare mode) */}
+                  {compareMode && (
+                    <td style={stickyTd(si++, { textAlign: 'center', padding: '0 4px 0 12px' })}>
+                      <div
+                        style={{
+                          width: '18px', height: '18px', borderRadius: '4px',
+                          border: `1.5px solid ${isSelected ? '#0DF0E6' : 'rgba(255,255,255,0.2)'}`,
+                          background: isSelected ? '#0DF0E6' : 'transparent',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          cursor: isDisabled ? 'default' : 'pointer',
+                          transition: 'all 0.1s',
+                        }}
+                      >
+                        {isSelected && (
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M2.5 6L5 8.5L9.5 3.5" stroke="#0a0f15" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </div>
+                    </td>
+                  )}
                   {/* № */}
-                  <td style={{ ...TD_STYLE, paddingLeft: '20px' }}>
+                  <td style={stickyTd(si++, { paddingLeft: compareMode ? '12px' : '32px' })}>
                     <RankBadge rank={company.rank} />
                   </td>
 
                   {/* Динамика YoY */}
-                  <td style={{ ...TD_STYLE, textAlign: 'center' }}>
+                  <td style={stickyTd(si++, { textAlign: 'center' })}>
                     {delta !== 0 ? (
                       <span
                         style={{
@@ -191,12 +344,12 @@ export function RatingTable({ companies }: RatingTableProps) {
                   </td>
 
                   {/* Logo */}
-                  <td style={{ ...TD_STYLE, padding: 0 }}>
+                  <td style={stickyTd(si++, { padding: 0 })}>
                     <Avatar name={company.name} rank={company.rank} inn={company.inn} />
                   </td>
 
                   {/* Компания */}
-                  <td style={{ ...TD_STYLE, fontWeight: 500, overflow: 'hidden' }}>
+                  <td style={stickyTd(si++, { fontWeight: 500, overflow: 'hidden' })}>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: 0, gap: '1px' }}>
                       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{company.name}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -225,14 +378,31 @@ export function RatingTable({ companies }: RatingTableProps) {
                   </td>
 
                   {/* Стаж */}
-                  <td style={{ ...TD_STYLE, color: 'rgba(255,255,255,0.7)', textAlign: 'right', paddingRight: '20px' }}>
+                  <td style={{ ...TD_STYLE, color: 'rgba(255,255,255,0.7)', textAlign: 'right', paddingRight: hasExtra ? '16px' : '32px' }}>
                     {company.experience}
                   </td>
+
+                  {/* Dynamic extra columns */}
+                  {extraColumns.map((ec, ecIdx) => (
+                    <td
+                      key={ec.key}
+                      style={{
+                        ...TD_STYLE,
+                        textAlign: 'right',
+                        color: ec.color ? ec.color(company) : 'rgba(255,255,255,0.7)',
+                        fontFamily: "'Space Grotesk', sans-serif",
+                        paddingRight: ecIdx === extraColumns.length - 1 ? '32px' : '16px',
+                      }}
+                    >
+                      {ec.format(company)}
+                    </td>
+                  ))}
                 </tr>
               );
             })}
           </tbody>
         </table>
+      </div>
       {totalPages > 1 && (
         <div style={{
           display: 'flex',

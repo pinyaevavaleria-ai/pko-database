@@ -447,5 +447,6 @@ export const logoMap: Record<string, string> = {
   "2635258239": "image492.png",
   "2635257732": "image1001.png",
   "9704214076": "image493.png",
-  "7735174895": "image344.png"
+  "7735174895": "image344.png",
+  "5473013580": "image496.png"
 };

@@ -60,7 +60,7 @@ function ArticleCard({ title, tag, tagColor, image, isLast }: {
           display: 'block',
           fontSize: '9px',
           fontWeight: 600,
-          letterSpacing: '0.12em',
+          letterSpacing: '0.08em',
           textTransform: 'uppercase' as const,
           color: tagColor,
           marginBottom: '4px',
@@ -97,7 +97,7 @@ export function Sidebar() {
         <span style={{
           fontSize: '10px',
           fontWeight: 500,
-          letterSpacing: '0.1em',
+          letterSpacing: '0.08em',
           textTransform: 'uppercase' as const,
           color: 'rgba(255,255,255,0.4)',
           whiteSpace: 'nowrap',
@@ -174,7 +174,7 @@ export function Sidebar() {
               <span style={{
                 display: 'inline-block',
                 fontSize: '10px',
-                letterSpacing: '0.15em',
+                letterSpacing: '0.08em',
                 textTransform: 'uppercase' as const,
                 color: 'rgba(255,255,255,0.4)',
                 marginBottom: '12px',

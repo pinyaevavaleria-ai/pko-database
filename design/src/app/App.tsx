@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { HeroScreen } from './components/HeroScreen';
 import {
   PresetTabs,
@@ -6,14 +6,29 @@ import {
   Preset,
   RatingFilters,
 } from './components/FilterBar';
-import { RatingTable } from './components/RatingTable';
+import { RatingTable, ExtraColumn } from './components/RatingTable';
 import { InvestmentTable } from './components/InvestmentTable';
 import { Sidebar } from './components/Sidebar';
+import { CompanyCard } from './components/CompanyCard';
 import { ratingData, RatingCompany } from './data/ratingData';
+import { companyDetailsMap } from './data/companyDetails';
+import { Footer } from './components/Footer';
+import { CompareModal } from './components/CompareModal';
+import { CompareFloatingBar } from './components/CompareFloatingBar';
 
 export default function App() {
   const [preset, setPreset] = useState<Preset>('overview');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCompanyInn, setSelectedCompanyInn] = useState<string | null>(null);
+  const handleCompanyClick = (inn: string) => {
+    setSelectedCompanyInn(inn);
+    window.scrollTo(0, 0);
+  };
+
+  // ── Compare mode ─────────────────────────────────────────────
+  const [compareMode, setCompareMode] = useState(false);
+  const [selectedInns, setSelectedInns] = useState<Set<string>>(new Set());
+  const [showCompareModal, setShowCompareModal] = useState(false);
 
   // ── Rating filters ────────────────────────────────────────────
   const [ratingFilters, setRatingFilters] = useState<RatingFilters>({
@@ -72,9 +87,61 @@ export default function App() {
     });
   })();
 
+  // ── Dynamic extra columns (based on active filters) ──────────
+  const extraColumns = useMemo<ExtraColumn[]>(() => {
+    const cols: ExtraColumn[] = [];
+    const f = ratingFilters;
+    const fmt = (n: number) => Math.abs(n).toLocaleString('ru-RU');
+
+    if (f.deFrom !== '' || f.deTo !== '') {
+      cols.push({
+        key: 'de',
+        header: 'D/E',
+        format: c => c.de.toFixed(2),
+      });
+    }
+    if (f.growthRateFrom !== '' || f.growthRateTo !== '') {
+      cols.push({
+        key: 'growthRate',
+        header: 'Рост фин. акт., %',
+        format: c => `${Number(c.growthRate.toFixed(1)).toLocaleString('ru-RU')}%`,
+      });
+    }
+    if (f.cagrFrom !== '' || f.cagrTo !== '') {
+      cols.push({
+        key: 'cagr',
+        header: 'CAGR 5 лет, %',
+        format: c => `${Number((c.cagr * 100).toFixed(1)).toLocaleString('ru-RU')}%`,
+      });
+    }
+    return cols;
+  }, [ratingFilters]);
+
+  // ── Company Card (отдельная страница) ────────────────────────
+  if (selectedCompanyInn) {
+    const comp = ratingData.find(c => c.inn === selectedCompanyInn);
+    const det = companyDetailsMap[selectedCompanyInn];
+    if (comp && det) {
+      return (
+        <div style={{
+          minHeight: '100vh',
+          background: '#0a0f15',
+          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          color: '#fff',
+          overflowY: 'auto',
+        }}>
+          <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 32px' }}>
+            <CompanyCard company={comp} details={det} onBack={() => setSelectedCompanyInn(null)} />
+          </div>
+          <Footer />
+        </div>
+      );
+    }
+  }
+
+  // ── Main view (рейтинг) ─────────────────────────────────────
   return (
     <div style={{
-      minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
       background: '#0a0f15',
@@ -83,92 +150,129 @@ export default function App() {
     }}>
       <HeroScreen />
 
-      {/* Sticky секция: табы + контент — прилипает к верху при скролле */}
+      {/* Sticky табы — прилипают к верху при скролле */}
       <div style={{
         position: 'sticky',
         top: 0,
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
         background: '#0a0f15',
         zIndex: 20,
+        padding: '16px 32px 12px',
       }}>
-        {/* Табы */}
+        <PresetTabs preset={preset} onPresetChange={setPreset} />
+      </div>
+
+      {/* Основной контент — страница скроллится нативно */}
+      <main style={{ padding: '0 32px 20px' }}>
         <div style={{
-          padding: '16px 32px 12px',
-          flexShrink: 0,
+          display: 'grid',
+          gridTemplateColumns: preset === 'overview' ? '1fr 230px' : '1fr',
+          gap: '24px',
+          alignItems: 'start',
         }}>
-          <PresetTabs preset={preset} onPresetChange={setPreset} />
-        </div>
-
-        {/* Основной контент */}
-        <main style={{ padding: '0 32px 20px', flex: 1, minHeight: 0, display: 'flex' }}>
+          {/* Left — Карточка: поиск + фильтры + таблица */}
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: preset === 'overview' ? '1fr 230px' : '1fr',
-            gap: '24px',
-            flex: 1,
-            minHeight: 0,
+            minWidth: 0,
+            background: '#111920',
+            borderRadius: '12px',
+            border: '1px solid rgba(255,255,255,0.06)',
           }}>
-            {/* Left — Карточка: поиск + фильтры + таблица */}
-            <div style={{
-              minWidth: 0,
-              minHeight: 0,
-              background: '#111920',
-              borderRadius: '12px',
-              border: '1px solid rgba(255,255,255,0.06)',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-            }}>
-              {/* Поиск + фильтры — фиксированы */}
-              <div style={{ flexShrink: 0 }}>
-                <SearchFilterBar
-                  searchQuery={searchQuery}
-                  onSearchChange={setSearchQuery}
-                  ratingFilters={ratingFilters}
-                  onRatingFiltersChange={setRatingFilters}
-                  preset={preset}
+            {/* Поиск + фильтры */}
+            <SearchFilterBar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              ratingFilters={ratingFilters}
+              onRatingFiltersChange={setRatingFilters}
+              preset={preset}
+              compareMode={compareMode}
+              onCompareModeToggle={() => {
+                if (compareMode) {
+                  setCompareMode(false);
+                  setSelectedInns(new Set());
+                } else {
+                  setCompareMode(true);
+                }
+              }}
+              selectedCount={selectedInns.size}
+            />
+
+            {/* Таблица — часть нативного скролла страницы */}
+            {preset === 'overview' ? (
+              ratingCompanies.length === 0 ? (
+                <div
+                  style={{
+                    padding: '64px 0',
+                    textAlign: 'center',
+                    color: 'rgba(255,255,255,0.4)',
+                    fontSize: '14px',
+                  }}
+                >
+                  По вашему запросу ничего не найдено
+                </div>
+              ) : (
+                <RatingTable
+                  companies={ratingCompanies}
+                  onCompanyClick={handleCompanyClick}
+                  compareMode={compareMode}
+                  selectedInns={selectedInns}
+                  onToggleSelect={(inn) => {
+                    setSelectedInns(prev => {
+                      const next = new Set(prev);
+                      if (next.has(inn)) next.delete(inn);
+                      else if (next.size < 5) next.add(inn);
+                      return next;
+                    });
+                  }}
+                  maxSelected={5}
+                  extraColumns={extraColumns}
                 />
-              </div>
+              )
+            ) : (
+              <InvestmentTable onCompanyClick={handleCompanyClick} />
+            )}
 
-              {/* Таблица — скроллится */}
-              <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
-                {preset === 'overview' ? (
-                  ratingCompanies.length === 0 ? (
-                    <div
-                      style={{
-                        padding: '64px 0',
-                        textAlign: 'center',
-                        color: 'rgba(255,255,255,0.4)',
-                        fontSize: '14px',
-                      }}
-                    >
-                      По вашему запросу ничего не найдено
-                    </div>
-                  ) : (
-                    <RatingTable companies={ratingCompanies} />
-                  )
-                ) : (
-                  <InvestmentTable />
-                )}
-
-                <p style={{ padding: '16px 20px 20px', margin: 0, fontSize: '11px', color: 'rgba(255,255,255,0.3)', textAlign: 'center' }}>
-                  Данные на основе отчётности ФНС. Только для информационных целей.
-                </p>
-              </div>
-            </div>
-
-            {/* Right — Sidebar (only on overview) */}
             {preset === 'overview' && (
-              <aside style={{ overflowY: 'auto', minHeight: 0 }}>
-                <Sidebar />
-              </aside>
+              <p style={{ padding: '16px 32px 20px', margin: 0, fontSize: '11px', color: 'rgba(255,255,255,0.3)', textAlign: 'center' }}>
+                Данные на основе отчётности ФНС. Только для информационных целей.
+              </p>
             )}
           </div>
-        </main>
-      </div>
+
+          {/* Right — Sidebar (sticky, фиксируется при скролле) */}
+          {preset === 'overview' && (
+            <aside style={{ position: 'sticky', top: '70px', alignSelf: 'start' }}>
+              <Sidebar />
+            </aside>
+          )}
+        </div>
+      </main>
+      <Footer />
+
+      {/* Compare floating bar */}
+      {compareMode && selectedInns.size > 0 && (
+        <CompareFloatingBar
+          selectedCompanies={ratingData.filter(c => selectedInns.has(c.inn))}
+          onRemove={(inn) => {
+            setSelectedInns(prev => {
+              const next = new Set(prev);
+              next.delete(inn);
+              return next;
+            });
+          }}
+          onCompare={() => setShowCompareModal(true)}
+          onCancel={() => {
+            setCompareMode(false);
+            setSelectedInns(new Set());
+          }}
+        />
+      )}
+
+      {/* Compare modal */}
+      {showCompareModal && (
+        <CompareModal
+          companies={ratingData.filter(c => selectedInns.has(c.inn))}
+          onClose={() => setShowCompareModal(false)}
+        />
+      )}
     </div>
   );
 }

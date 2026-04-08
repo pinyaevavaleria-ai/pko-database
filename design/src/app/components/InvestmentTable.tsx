@@ -97,8 +97,8 @@ const CARD: React.CSSProperties = {
 
 const TH: React.CSSProperties = {
   textAlign: 'left',
-  padding: '0 14px',
-  height: '36px',
+  padding: '0 16px',
+  height: '40px',
   fontSize: '10px',
   color: 'rgba(255,255,255,0.4)',
   fontWeight: 400,
@@ -111,8 +111,8 @@ const TH: React.CSSProperties = {
 };
 
 const TD: React.CSSProperties = {
-  padding: '0 14px',
-  height: '46px',
+  padding: '0 16px',
+  height: '44px',
   fontSize: '13px',
   color: 'rgba(255,255,255,0.7)',
   verticalAlign: 'middle',
@@ -140,44 +140,39 @@ function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
     { value: 'all',       label: 'Все (23)' },
   ];
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>Показать</span>
-      <div
-        style={{
-          display: 'flex',
-          border: '1px solid rgba(0,0,0,0.12)',
-          borderRadius: '20px',
-          overflow: 'hidden',
-          background: 'rgba(255,255,255,0.04)',
-        }}
-      >
-        {opts.map((opt, i) => {
-          const active = opt.value === mode;
-          return (
-            <button
-              key={opt.value}
-              onClick={() => onChange(opt.value)}
-              style={{
-                padding: '5px 13px',
-                fontSize: '12px',
-                fontWeight: active ? 600 : 400,
-                color: active ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
-                background: active ? 'rgba(13,240,230,0.1)' : 'transparent',
-                border: 'none',
-                borderLeft: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.08)',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                transition: 'background 0.12s, color 0.12s',
-                outline: 'none',
-              }}
-              onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
-              onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent'; }}
-            >
-              {opt.label}
-            </button>
-          );
-        })}
-      </div>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '4px',
+      borderBottom: '1px solid rgba(255,255,255,0.06)',
+    }}>
+      {opts.map((opt) => {
+        const active = opt.value === mode;
+        return (
+          <button
+            key={opt.value}
+            onClick={() => onChange(opt.value)}
+            style={{
+              padding: '8px 14px',
+              fontSize: '13px',
+              fontWeight: 500,
+              color: active ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: active ? '2px solid #0DF0E6' : '2px solid transparent',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'color 0.15s, border-color 0.15s',
+              outline: 'none',
+              marginBottom: '-1px',
+            }}
+            onMouseEnter={e => { if (!active) e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; }}
+            onMouseLeave={e => { if (!active) e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+          >
+            {opt.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -281,7 +276,7 @@ function TypeBadge({ type }: { type: string }) {
 // ── BONDS TABLE ───────────────────────────────────────��──────────
 type BondSortKey = 'pkoRank' | 'company' | 'rating' | 'coupon' | 'volume' | 'status' | 'repayment';
 
-function BondsTable() {
+function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
   const [sortKey, setSortKey] = useState<BondSortKey>('pkoRank');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
@@ -338,7 +333,8 @@ function BondsTable() {
         {sorted.map((b, idx) => (
           <tr
             key={b.isin + b.company + idx}
-            style={{ borderBottom: idx < sorted.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+            style={{ borderBottom: idx < sorted.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: onCompanyClick && getPkoInn(b.company) ? 'pointer' : undefined }}
+            onClick={() => { const inn = getPkoInn(b.company); if (inn && onCompanyClick) onCompanyClick(inn); }}
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
@@ -367,7 +363,7 @@ function BondsTable() {
 }
 
 // ── SITE LOANS TABLE ─────────────────────────────────────────────
-function LoansTable() {
+function LoansTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
   return (
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
@@ -382,7 +378,8 @@ function LoansTable() {
         {[...siteLoans].sort((a, b) => (getPkoRank(a.company) ?? 999) - (getPkoRank(b.company) ?? 999)).map((l, idx) => (
           <tr
             key={l.company}
-            style={{ borderBottom: idx < siteLoans.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+            style={{ borderBottom: idx < siteLoans.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: onCompanyClick && getPkoInn(l.company) ? 'pointer' : undefined }}
+            onClick={() => { const inn = getPkoInn(l.company); if (inn && onCompanyClick) onCompanyClick(inn); }}
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
@@ -424,7 +421,7 @@ function LoansTable() {
 }
 
 // ── CORPORATE TABLE ──────────────────────────────────────────────
-function CorporateTable() {
+function CorporateTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
   return (
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
@@ -440,7 +437,8 @@ function CorporateTable() {
         {[...corporates].sort((a, b) => (getPkoRank(a.company) ?? 999) - (getPkoRank(b.company) ?? 999)).map((c, idx) => (
           <tr
             key={c.company}
-            style={{ borderBottom: idx < corporates.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+            style={{ borderBottom: idx < corporates.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: onCompanyClick && getPkoInn(c.company) ? 'pointer' : undefined }}
+            onClick={() => { const inn = getPkoInn(c.company); if (inn && onCompanyClick) onCompanyClick(inn); }}
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
@@ -465,7 +463,7 @@ const INVEST_TYPE_META: Record<AllInvestment['type'], { label: string; emoji: st
   corporate:  { label: 'Корпоративное', emoji: '🏛', bg: 'rgba(255,255,255,0.04)', color: '#7c3aed', border: 'rgba(255,255,255,0.08)' }, // Purple
 };
 
-function AllTable() {
+function AllTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
   const [filterType, setFilterType] = useState<AllInvestment['type'] | 'all'>('all');
 
   const filtered = filterType === 'all'
@@ -490,7 +488,8 @@ function AllTable() {
             return (
               <tr
                 key={r.company + r.type}
-                style={{ borderBottom: idx < filtered.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+                style={{ borderBottom: idx < filtered.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: onCompanyClick && getPkoInn(r.company) ? 'pointer' : undefined }}
+                onClick={() => { const inn = getPkoInn(r.company); if (inn && onCompanyClick) onCompanyClick(inn); }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
               >
@@ -530,10 +529,11 @@ function AllTable() {
 
 // ── Main export ──────────────────────────────────────────────────
 interface InvestmentTableProps {
-  companies?: unknown[]; // kept for API compat, not used — data comes from investmentData
+  companies?: unknown[];
+  onCompanyClick?: (inn: string) => void;
 }
 
-export function InvestmentTable(_props: InvestmentTableProps) {
+export function InvestmentTable({ onCompanyClick }: InvestmentTableProps) {
   const [mode, setMode] = useState<InvestMode>('bonds');
 
   return (
@@ -547,25 +547,25 @@ export function InvestmentTable(_props: InvestmentTableProps) {
       <div>
         {mode === 'bonds' && (
           <div style={{ overflowX: 'auto' }}>
-            <BondsTable />
+            <BondsTable onCompanyClick={onCompanyClick} />
           </div>
         )}
 
         {mode === 'loans' && (
           <div style={{ overflowX: 'auto' }}>
-            <LoansTable />
+            <LoansTable onCompanyClick={onCompanyClick} />
           </div>
         )}
 
         {mode === 'corporate' && (
           <div style={{ overflowX: 'auto' }}>
-            <CorporateTable />
+            <CorporateTable onCompanyClick={onCompanyClick} />
           </div>
         )}
 
         {mode === 'all' && (
           <div style={{ overflowX: 'auto' }}>
-            <AllTable />
+            <AllTable onCompanyClick={onCompanyClick} />
           </div>
         )}
       </div>
