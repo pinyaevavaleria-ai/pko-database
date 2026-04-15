@@ -15,8 +15,10 @@ import { companyDetailsMap } from './data/companyDetails';
 import { Footer } from './components/Footer';
 import { CompareModal } from './components/CompareModal';
 import { CompareFloatingBar } from './components/CompareFloatingBar';
+import { useIsMobile } from './components/ui/use-mobile';
 
 export default function App() {
+  const isMobile = useIsMobile();
   const [preset, setPreset] = useState<Preset>('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCompanyInn, setSelectedCompanyInn] = useState<string | null>(null);
@@ -130,7 +132,7 @@ export default function App() {
           color: '#fff',
           overflowY: 'auto',
         }}>
-          <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 32px' }}>
+          <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 12px' : '0 32px' }}>
             <CompanyCard company={comp} details={det} onBack={() => setSelectedCompanyInn(null)} />
           </div>
           <Footer />
@@ -156,17 +158,17 @@ export default function App() {
         top: 0,
         background: '#0a0f15',
         zIndex: 20,
-        padding: '16px 32px 12px',
+        padding: isMobile ? '12px 12px 8px' : '16px 32px 12px',
       }}>
         <PresetTabs preset={preset} onPresetChange={setPreset} />
       </div>
 
       {/* Основной контент — страница скроллится нативно */}
-      <main style={{ padding: '0 32px 20px' }}>
+      <main style={{ padding: isMobile ? '0 8px 16px' : '0 32px 20px' }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: preset === 'overview' ? '1fr 230px' : '1fr',
-          gap: '24px',
+          gridTemplateColumns: preset === 'overview' && !isMobile ? '1fr 230px' : '1fr',
+          gap: isMobile ? '16px' : '24px',
           alignItems: 'start',
         }}>
           {/* Left — Карточка: поиск + фильтры + таблица */}
@@ -237,13 +239,20 @@ export default function App() {
             )}
           </div>
 
-          {/* Right — Sidebar (sticky, фиксируется при скролле) */}
-          {preset === 'overview' && (
+          {/* Right — Sidebar (sticky on desktop, below table on mobile) */}
+          {preset === 'overview' && !isMobile && (
             <aside style={{ position: 'sticky', top: '70px', alignSelf: 'start' }}>
               <Sidebar />
             </aside>
           )}
         </div>
+
+        {/* Sidebar under table on mobile */}
+        {preset === 'overview' && isMobile && (
+          <div style={{ marginTop: '8px' }}>
+            <Sidebar />
+          </div>
+        )}
       </main>
       <Footer />
 

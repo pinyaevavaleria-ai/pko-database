@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { ChevronDown, ChevronUp, X, Search, GitCompareArrows } from 'lucide-react';
+import { ChevronDown, ChevronUp, X, Search, GitCompareArrows, SlidersHorizontal } from 'lucide-react';
+import { useIsMobile } from './ui/use-mobile';
 
 // ── Filter interfaces ────────────────────────────────────────────
 
@@ -80,7 +81,7 @@ function FilterDropdown({
   const panelRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ top: 0, left: 0 });
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   // Position below the anchor button, aligned to its right edge
   useEffect(() => {
@@ -423,6 +424,7 @@ export function SearchFilterBar({
   compareMode = false, onCompareModeToggle, selectedCount = 0,
 }: SearchFilterBarProps) {
 
+  const isMobile = useIsMobile();
   const setR = (patch: Partial<RatingFilters>) => onRatingFiltersChange({ ...ratingFilters, ...patch });
   const f = ratingFilters;
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -432,10 +434,10 @@ export function SearchFilterBar({
   const activeCount = countActiveFilters(f);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: isMobile ? '12px 12px' : '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         {/* Поиск */}
-        <div style={{ position: 'relative', flex: 1, maxWidth: '360px' }}>
+        <div style={{ position: 'relative', flex: 1, maxWidth: isMobile ? 'none' : '360px' }}>
           <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: 'rgba(255,255,255,0.3)' }} />
           <input
             type="text"
@@ -452,8 +454,8 @@ export function SearchFilterBar({
           />
         </div>
 
-        {/* Сравнить */}
-        {showFilters && onCompareModeToggle && (
+        {/* Сравнить (hidden on mobile) */}
+        {showFilters && onCompareModeToggle && !isMobile && (
           <button
             onClick={onCompareModeToggle}
             style={{
@@ -481,10 +483,35 @@ export function SearchFilterBar({
           </button>
         )}
 
-        {/* Фильтры */}
+        {/* Фильтры — icon-only on mobile */}
         {showFilters && (
           <div ref={filterBtnRef}>
-            <FilterToggleButton isActive={activeCount > 0} activeCount={activeCount} onClick={() => setDrawerOpen(!drawerOpen)} />
+            {isMobile ? (
+              <button
+                onClick={() => setDrawerOpen(!drawerOpen)}
+                style={{
+                  width: '36px', height: '36px', borderRadius: '8px',
+                  border: `1px solid ${activeCount > 0 ? 'rgba(13,240,230,0.2)' : 'rgba(255,255,255,0.12)'}`,
+                  background: activeCount > 0 ? 'rgba(13,240,230,0.04)' : 'transparent',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  position: 'relative', flexShrink: 0,
+                }}
+              >
+                <SlidersHorizontal style={{ width: '16px', height: '16px', color: activeCount > 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)' }} />
+                {activeCount > 0 && (
+                  <span style={{
+                    position: 'absolute', top: '-4px', right: '-4px',
+                    width: '16px', height: '16px', borderRadius: '50%',
+                    background: '#0DF0E6', color: '#0a0f15', fontSize: '9px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
+                  }}>
+                    {activeCount}
+                  </span>
+                )}
+              </button>
+            ) : (
+              <FilterToggleButton isActive={activeCount > 0} activeCount={activeCount} onClick={() => setDrawerOpen(!drawerOpen)} />
+            )}
           </div>
         )}
       </div>
@@ -507,7 +534,7 @@ export function SearchFilterBar({
         const btnStyle: React.CSSProperties = { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' };
         const xIcon = <X style={{ width: '14px', height: '14px', color: 'rgba(255,255,255,0.4)' }} />;
         return (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: isMobile ? 'nowrap' : 'wrap', overflowX: isMobile ? 'auto' : 'visible', WebkitOverflowScrolling: 'touch' as any }}>
             {f.sortDir !== 'desc' && (
               <div style={chipStyle}>Сорт: По возрастанию<button onClick={() => setR({ sortDir: 'desc' })} style={btnStyle}>{xIcon}</button></div>
             )}

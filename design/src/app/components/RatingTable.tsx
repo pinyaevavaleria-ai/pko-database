@@ -2,8 +2,18 @@ import { useState, useRef, useCallback } from 'react';
 import { ArrowUp, ArrowDown, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { RatingCompany } from '../data/ratingData';
 import { logoMap } from '../data/logoMap';
+import { useIsMobile } from './ui/use-mobile';
 
 const PAGE_SIZE = 100;
+
+// ── Compact number formatter for mobile ──
+function formatCompact(n: number): string {
+  const abs = Math.abs(n);
+  const sign = n < 0 ? '−' : '';
+  if (abs >= 1_000_000) return `${sign}${(abs / 1_000_000).toFixed(1).replace('.0', '')}М`;
+  if (abs >= 1_000) return `${sign}${(abs / 1_000).toFixed(0)}К`;
+  return `${sign}${abs}`;
+}
 
 export type ExtraColumn = {
   key: string;
@@ -130,6 +140,7 @@ const TD_STYLE: React.CSSProperties = {
 };
 
 export function RatingTable({ companies, onCompanyClick, compareMode = false, selectedInns, onToggleSelect, maxSelected = 5, extraColumns = [] }: RatingTableProps) {
+  const isMobile = useIsMobile();
   const [page, setPage] = useState(0);
   const fmt = (n: number) => Math.abs(n).toLocaleString('ru-RU');
 
@@ -138,6 +149,200 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
   // Reset page if companies change and page is out of bounds
   if (page >= totalPages && totalPages > 0) setPage(0);
+
+  // ── Hooks must be called before any early return ──────────────
+  const headerRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const isSyncing = useRef(false);
+  const handleBodyScroll = useCallback(() => {
+    if (isSyncing.current) return;
+    isSyncing.current = true;
+    if (headerRef.current && bodyRef.current) {
+      headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
+    }
+    requestAnimationFrame(() => { isSyncing.current = false; });
+  }, []);
+
+  // ── Mobile table view (full columns, sticky №+Company, horizontal scroll) ──
+  if (isMobile) {
+    const mStickyPx = [36, 40, 150]; // [№, Logo, Компания]
+    const mStickyLeft: number[] = [];
+    mStickyPx.forEach((w, i) => { mStickyLeft.push(i === 0 ? 0 : mStickyLeft[i - 1] + mStickyPx[i - 1]); });
+    const mStickyTotal = mStickyLeft[mStickyLeft.length - 1] + mStickyPx[mStickyPx.length - 1];
+
+    const mScrollHeaders = ['YoY', 'Выручка + пр. доходы, тыс ₽', 'Чистая прибыль, тыс ₽', 'Стаж, лет', ...extraColumns.map(ec => ec.header)];
+    const mScrollAligns: ('left' | 'right' | 'center')[] = ['center', 'right', 'right', 'right', ...extraColumns.map(() => 'right' as const)];
+    const mScrollWidths = ['44px', '120px', '110px', '60px', ...extraColumns.map(() => '100px')];
+    const mColWidths = [...mStickyPx.map(w => `${w}px`), ...mScrollWidths];
+    const mColHeaders = ['№', '', 'Компания', ...mScrollHeaders];
+    const mColAligns: ('left' | 'right' | 'center')[] = ['center', 'left', 'left', ...mScrollAligns];
+    const mStickyCount = mStickyPx.length;
+    const mMinWidth = `${mStickyTotal + 44 + 120 + 110 + 60 + extraColumns.length * 100}px`;
+
+    const mTH: React.CSSProperties = {
+      ...TH_STYLE,
+      padding: '0 8px',
+      height: '40px',
+      fontSize: '9px',
+    };
+    const mTD: React.CSSProperties = {
+      ...TD_STYLE,
+      padding: '0 8px',
+      height: '52px',
+      fontSize: '12px',
+    };
+
+    const mColgroup = (
+      <colgroup>
+        {mColWidths.map((w, i) => <col key={i} style={{ width: w }} />)}
+      </colgroup>
+    );
+
+    return (
+      <div>
+        {/* Sticky header */}
+        <div
+          ref={headerRef}
+          style={{
+            position: 'sticky', top: 44, zIndex: 11,
+            background: '#111920', overflowX: 'hidden',
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
+          }}
+        >
+          <table style={{ width: '100%', minWidth: mMinWidth, borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+            {mColgroup}
+            <thead>
+              <tr>
+                {mColHeaders.map((h, i) => {
+                  const isSticky = i < mStickyCount;
+                  return (
+                    <th key={i} style={{
+                      ...mTH,
+                      borderBottom: 'none',
+                      textAlign: mColAligns[i],
+                      ...(h === '' ? { padding: 0 } : {}),
+                      ...(isSticky ? { position: 'sticky', left: `${mStickyLeft[i]}px`, zIndex: 12, background: '#111920' } : {}),
+                    }}>
+                      {h && <span>{h}</span>}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        {/* Scrollable body */}
+        <div ref={bodyRef} style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' as any }} onScroll={handleBodyScroll}>
+          <table style={{ width: '100%', minWidth: mMinWidth, borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+            {mColgroup}
+            <tbody>
+              {pagedCompanies.map((company, idx) => {
+                const delta = company.rankDelta;
+                const isLast = idx === pagedCompanies.length - 1;
+                const cellBg = idx % 2 === 1 ? '#121a22' : '#111920';
+
+                const mStickyTd = (colIdx: number, extra?: React.CSSProperties): React.CSSProperties => ({
+                  ...mTD,
+                  position: 'sticky',
+                  left: `${mStickyLeft[colIdx]}px`,
+                  zIndex: 2,
+                  background: cellBg,
+                  ...extra,
+                });
+
+                return (
+                  <tr
+                    key={company.rank}
+                    style={{
+                      borderBottom: isLast ? 'none' : '1px solid rgba(255,255,255,0.04)',
+                      cursor: onCompanyClick ? 'pointer' : undefined,
+                    }}
+                    onClick={() => onCompanyClick?.(company.inn)}
+                  >
+                    {/* № */}
+                    <td style={mStickyTd(0, { textAlign: 'center' })}>
+                      <RankBadge rank={company.rank} />
+                    </td>
+                    {/* Logo */}
+                    <td style={mStickyTd(1, { padding: '0 4px' })}>
+                      <Avatar name={company.name} rank={company.rank} inn={company.inn} />
+                    </td>
+                    {/* Компания */}
+                    <td style={mStickyTd(2, { fontWeight: 500, overflow: 'hidden' })}>
+                      <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, gap: '1px' }}>
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '12px' }}>{company.name}</span>
+                        <span style={{ fontSize: '10px', fontWeight: 400, color: 'rgba(255,255,255,0.4)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {company.city || ''}
+                        </span>
+                      </div>
+                    </td>
+                    {/* YoY */}
+                    <td style={{ ...mTD, textAlign: 'center' }}>
+                      {delta !== 0 ? (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '2px', fontSize: '11px', fontWeight: 600, color: delta > 0 ? '#0DF0E6' : '#ef4444' }}>
+                          {delta > 0 ? <ArrowUp style={{ width: '10px', height: '10px' }} /> : <ArrowDown style={{ width: '10px', height: '10px' }} />}
+                          {Math.abs(delta)}
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>—</span>
+                      )}
+                    </td>
+                    {/* Выручка */}
+                    <td style={{ ...mTD, textAlign: 'right', color: 'rgba(255,255,255,0.7)' }}>
+                      {fmt(company.revenue)}
+                    </td>
+                    {/* Прибыль */}
+                    <td style={{ ...mTD, textAlign: 'right', fontWeight: 500, color: company.profit >= 0 ? '#0DF0E6' : '#ef4444' }}>
+                      {company.profit < 0 ? `−${fmt(company.profit)}` : fmt(company.profit)}
+                    </td>
+                    {/* Стаж */}
+                    <td style={{ ...mTD, textAlign: 'right', color: 'rgba(255,255,255,0.7)' }}>
+                      {company.experience}
+                    </td>
+                    {/* Extra columns */}
+                    {extraColumns.map((ec) => (
+                      <td key={ec.key} style={{ ...mTD, textAlign: 'right', color: ec.color ? ec.color(company) : 'rgba(255,255,255,0.7)' }}>
+                        {ec.format(company)}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '12px 12px', borderTop: '1px solid rgba(255,255,255,0.04)',
+            fontSize: '12px', color: 'rgba(255,255,255,0.4)',
+          }}>
+            <span>{page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, companies.length)} из {companies.length}</span>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <button disabled={page === 0} onClick={() => setPage(p => p - 1)} style={{
+                width: '32px', height: '32px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)',
+                background: 'transparent', cursor: page === 0 ? 'default' : 'pointer', opacity: page === 0 ? 0.4 : 1,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <ChevronLeft style={{ width: '16px', height: '16px', color: 'rgba(255,255,255,0.7)' }} />
+              </button>
+              <button disabled={page === totalPages - 1} onClick={() => setPage(p => p + 1)} style={{
+                width: '32px', height: '32px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)',
+                background: 'transparent', cursor: page === totalPages - 1 ? 'default' : 'pointer', opacity: page === totalPages - 1 ? 0.4 : 1,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <ChevronRight style={{ width: '16px', height: '16px', color: 'rgba(255,255,255,0.7)' }} />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   const hasExtra = extraColumns.length > 0;
 
@@ -171,18 +376,7 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
   const colHeaders = [...stickyHeaders, ...scrollHeaders];
   const colAligns: ('left' | 'right' | 'center')[] = [...stickyAligns, ...scrollAligns];
 
-  // ── Scroll sync between sticky header and scrollable body ────
-  const headerRef = useRef<HTMLDivElement>(null);
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const isSyncing = useRef(false);
-  const handleBodyScroll = useCallback(() => {
-    if (isSyncing.current) return;
-    isSyncing.current = true;
-    if (headerRef.current && bodyRef.current) {
-      headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
-    }
-    requestAnimationFrame(() => { isSyncing.current = false; });
-  }, []);
+  // ── Scroll sync (hooks declared above early return) ──────────
 
   const tableMinWidth = hasExtra ? `${stickyTotalPx + scrollCount * 150}px` : '830px';
   const colgroupEl = (

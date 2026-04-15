@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowUp, ArrowDown, ArrowUpDown, ExternalLink } from 'lucide-react';
+import { useIsMobile } from './ui/use-mobile';
 import { bonds, siteLoans, corporates, allInvestments, Bond, SiteLoan, Corporate, AllInvestment } from '../data/investmentData';
 import { ratingData } from '../data/ratingData';
 import { logoMap } from '../data/logoMap';
@@ -133,6 +134,7 @@ interface ModeSwitcherProps {
 }
 
 function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
+  const isMobile = useIsMobile();
   const opts: { value: InvestMode; label: string }[] = [
     { value: 'bonds',     label: 'Облигации (10)' },
     { value: 'loans',     label: 'Займы через сайт (3)' },
@@ -145,6 +147,8 @@ function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
       alignItems: 'center',
       gap: '4px',
       borderBottom: '1px solid rgba(255,255,255,0.06)',
+      overflowX: isMobile ? 'auto' : 'visible',
+      WebkitOverflowScrolling: 'touch' as any,
     }}>
       {opts.map((opt) => {
         const active = opt.value === mode;

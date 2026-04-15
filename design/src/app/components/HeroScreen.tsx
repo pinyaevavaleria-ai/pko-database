@@ -1,6 +1,8 @@
 import { Building2, BarChart3, TrendingUp } from 'lucide-react';
+import { useIsMobile } from './ui/use-mobile';
 
 export function HeroScreen() {
+  const isMobile = useIsMobile();
   const spaceGrotesk = "'Space Grotesk', sans-serif";
 
   return (
@@ -27,17 +29,17 @@ export function HeroScreen() {
       }} />
 
       {/* Header */}
-      <header style={{ padding: '16px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+      <header style={{ padding: isMobile ? '12px 12px' : '16px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '20px' }}>
           {/* Логотип РВ и ДП — слева */}
-          <div style={{ position: 'relative', height: '64px' }}>
-            <img src="/logo-rvdp.png" alt="Рынок Взыскания и Debt Price" style={{ height: '64px', opacity: 0.85 }} />
+          <div style={{ position: 'relative', height: isMobile ? '40px' : '64px' }}>
+            <img src="/logo-rvdp.png" alt="Рынок Взыскания и Debt Price" style={{ height: isMobile ? '40px' : '64px', opacity: 0.85 }} />
             <a href="https://rvzrus.ru/" target="_blank" rel="noopener noreferrer" title="Рынок Взыскания" style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '100%' }} />
             <a href="https://debtprice.market/" target="_blank" rel="noopener noreferrer" title="Debt Price" style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '100%' }} />
           </div>
-          <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.12)' }} />
+          {!isMobile && <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.12)' }} />}
           {/* Навигация */}
-          <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <nav style={{ display: isMobile ? 'none' : 'flex', alignItems: 'center', gap: '8px' }}>
             {['ПКО-300', 'Тематические рейтинги'].map((label, i) => (
               <a
                 key={label}
@@ -63,14 +65,14 @@ export function HeroScreen() {
             ))}
           </nav>
         </div>
-        {/* Навигатор — справа */}
-        <a href="https://navigator.debt-tech.ru/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        {/* Навигатор — справа (hidden on mobile) */}
+        <a href="https://navigator.debt-tech.ru/" target="_blank" rel="noopener noreferrer" style={{ display: isMobile ? 'none' : 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <img src="/logo-navigator.png" alt="Навигатор" style={{ height: '96px', opacity: 0.9, transition: 'opacity 0.2s' }} onMouseEnter={e => { e.currentTarget.style.opacity = '1'; }} onMouseLeave={e => { e.currentTarget.style.opacity = '0.9'; }} />
         </a>
       </header>
 
       {/* Pyramid Background — на всю высоту */}
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '55%', zIndex: 1 }}>
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: isMobile ? '100%' : '55%', zIndex: 1, opacity: isMobile ? 0.4 : 1 }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #0a0f15 0%, transparent 40%, transparent 80%, #0a0f15 100%)', zIndex: 2 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #0a0f15 0%, transparent 10%, transparent 80%, #0a0f15 100%)', zIndex: 2 }} />
         <img
@@ -82,7 +84,7 @@ export function HeroScreen() {
 
       {/* Main Content */}
       <main style={{ display: 'flex', position: 'relative' }}>
-        <div style={{ flex: 1, padding: '24px 32px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10, maxWidth: '700px' }}>
+        <div style={{ flex: 1, padding: isMobile ? '16px 16px 24px' : '24px 32px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10, maxWidth: '700px' }}>
           <span style={{
             fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em',
             textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.4)',
@@ -109,10 +111,10 @@ export function HeroScreen() {
             Единый дашборд с аналитикой ПКО-300. Оценка инвестиционной привлекательности, финансовой устойчивости и рыночных позиций.
           </p>
 
-          <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: isMobile ? '20px' : '32px', flexWrap: 'wrap' }}>
             {[
-              { icon: Building2, label: 'Компаний', value: '540+' },
-              { icon: BarChart3, label: 'Данные', value: 'ФНС 2026' },
+              { icon: Building2, label: 'Компаний', value: '630+' },
+              { icon: BarChart3, label: 'Данные', value: 'ФНС 2025' },
               { icon: TrendingUp, label: 'Динамика', value: 'за 5 лет' },
             ].map(({ icon: Icon, label, value }) => (
               <div key={label}>
