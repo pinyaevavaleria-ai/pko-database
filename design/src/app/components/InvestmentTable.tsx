@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowUp, ArrowDown, ArrowUpDown, ExternalLink } from 'lucide-react';
 import { useIsMobile } from './ui/use-mobile';
+import { stripOrgForm } from '../utils/formatCompanyName';
 import { bonds, siteLoans, corporates, allInvestments, Bond, SiteLoan, Corporate, AllInvestment } from '../data/investmentData';
 import { ratingData } from '../data/ratingData';
 import { logoMap } from '../data/logoMap';
@@ -60,7 +61,7 @@ function CompanyLogo({ name }: { name: string }) {
   const logoFile = inn ? logoMap[inn] : null;
   const [imgError, setImgError] = useState(false);
   const rank = getPkoRank(name) ?? 0;
-  const letter = name[0] ?? '?';
+  const letter = stripOrgForm(name)[0] ?? '?';
   const bg = AVATAR_COLORS[(rank - 1) % AVATAR_COLORS.length];
 
   if (logoFile && !imgError) {
@@ -351,7 +352,7 @@ function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
             <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600, width: '44px' }}>{getPkoRank(b.company) ?? '—'}</td>
-            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={b.company} />{b.company}</div></td>
+            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={b.company} />{stripOrgForm(b.company)}</div></td>
             <td style={TD}><RatingBadge rating={b.rating} /></td>
             <td style={{ ...TD }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
@@ -396,7 +397,7 @@ function LoansTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
             <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(l.company) ?? '—'}</td>
-            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={l.company} />{l.company}</div></td>
+            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={l.company} />{stripOrgForm(l.company)}</div></td>
             <td style={TD}>
               <TypeBadge type={l.type} />
             </td>
@@ -455,7 +456,7 @@ function CorporateTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => 
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
             <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(c.company) ?? '—'}</td>
-            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={c.company} />{c.company}</div></td>
+            <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={c.company} />{stripOrgForm(c.company)}</div></td>
             <td style={{ ...TD, color: 'rgba(255,255,255,0.7)', maxWidth: '280px', whiteSpace: 'normal' }}>
               {c.founder}
             </td>
@@ -506,7 +507,7 @@ function AllTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
               >
                 <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600 }}>{getPkoRank(r.company) ?? '—'}</td>
-                <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={r.company} />{r.company}</div></td>
+                <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={r.company} />{stripOrgForm(r.company)}</div></td>
                 <td style={TD}>
                   <span
                     style={{

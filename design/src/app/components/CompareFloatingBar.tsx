@@ -2,6 +2,7 @@ import { X, GitCompareArrows } from 'lucide-react';
 import { RatingCompany } from '../data/ratingData';
 import { logoMap } from '../data/logoMap';
 import { useState } from 'react';
+import { stripOrgForm } from '../utils/formatCompanyName';
 
 const AVATAR_COLORS = [
   '#00B2AA', '#0060B9', '#4326BA', '#00B982', '#0DF0E6',
@@ -76,9 +77,9 @@ export function CompareFloatingBar({ selectedCompanies, onRemove, onCompare, onC
             borderRadius: '8px',
             whiteSpace: 'nowrap',
           }}>
-            <TinyAvatar name={c.name} rank={c.rank} inn={c.inn} />
+            <TinyAvatar name={stripOrgForm(c.name)} rank={c.rank} inn={c.inn} />
             <span style={{ fontSize: '12px', fontWeight: 500, color: '#fff', maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {c.name}
+              {stripOrgForm(c.name)}
             </span>
             <button
               onClick={() => onRemove(c.inn)}

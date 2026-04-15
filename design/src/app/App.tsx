@@ -15,6 +15,7 @@ import { ratingData, RatingCompany } from './data/ratingData';
 import { companyDetailsMap } from './data/companyDetails';
 import { articles } from './data/articlesData';
 import { Footer } from './components/Footer';
+import { SiteHeader } from './components/SiteHeader';
 import { CompareModal } from './components/CompareModal';
 import { CompareFloatingBar } from './components/CompareFloatingBar';
 import { useIsMobile } from './components/ui/use-mobile';
@@ -156,6 +157,7 @@ export default function App() {
           color: '#fff',
           overflowY: 'auto',
         }}>
+          <SiteHeader activeTab="pko300" onNavigateToThematic={handleNavigateToThematic} onNavigateToRating={() => { setSelectedCompanyInn(null); handleNavigateToRating(); }} />
           <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 12px' : '0 32px' }}>
             <CompanyCard company={comp} details={det} onBack={() => setSelectedCompanyInn(null)} />
           </div>
@@ -175,6 +177,7 @@ export default function App() {
         color: '#fff',
         overflowY: 'auto',
       }}>
+        <SiteHeader activeTab="thematic" onNavigateToThematic={handleNavigateToThematic} onNavigateToRating={handleNavigateToRating} />
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 12px' : '0 32px' }}>
           <ArticlePage
             articleId={selectedArticleId}
@@ -197,6 +200,7 @@ export default function App() {
         color: '#fff',
         overflowY: 'auto',
       }}>
+        <SiteHeader activeTab="thematic" onNavigateToThematic={handleNavigateToThematic} onNavigateToRating={handleNavigateToRating} />
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 12px' : '0 32px' }}>
           {/* Back button */}
           <button

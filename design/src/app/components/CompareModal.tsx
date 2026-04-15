@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { RatingCompany } from '../data/ratingData';
 import { logoMap } from '../data/logoMap';
 import { useState } from 'react';
+import { stripOrgForm } from '../utils/formatCompanyName';
 
 // ── Formatting helpers ──────────────────────────────────────────
 const fmtNum = (n: number) => Math.abs(n).toLocaleString('ru-RU');
@@ -237,12 +238,12 @@ export function CompareModal({ companies, onClose }: CompareModalProps) {
                     borderBottom: '1px solid rgba(255,255,255,0.06)',
                   }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
-                      <MiniAvatar name={c.name} rank={c.rank} inn={c.inn} />
+                      <MiniAvatar name={stripOrgForm(c.name)} rank={c.rank} inn={c.inn} />
                       <span style={{
                         fontSize: '12px', fontWeight: 600, color: '#fff',
                         maxWidth: '140px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                       }}>
-                        {c.name}
+                        {stripOrgForm(c.name)}
                       </span>
                       {c.city && (
                         <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)' }}>

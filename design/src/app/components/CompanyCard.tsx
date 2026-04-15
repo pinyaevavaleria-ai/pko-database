@@ -4,6 +4,7 @@ import { RatingCompany } from '../data/ratingData';
 import { CompanyDetails, YearlyFinancials } from '../data/companyDetails';
 import { logoMap } from '../data/logoMap';
 import { useIsMobile } from './ui/use-mobile';
+import { stripOrgForm } from '../utils/formatCompanyName';
 
 // ── Helpers ─────────────────────────────────────────────────────
 
@@ -137,13 +138,13 @@ function HeaderSection({ company, details, logoFile }: { company: RatingCompany;
               {logoFile ? (
                 <img src={`/logos/${logoFile}`} alt="" style={{ maxWidth: `${logoInner}px`, maxHeight: `${logoInner}px`, objectFit: 'contain' }} />
               ) : (
-                <span style={{ fontSize: '18px', fontWeight: 700, color: ACCENT }}>{company.name[0]}</span>
+                <span style={{ fontSize: '18px', fontWeight: 700, color: ACCENT }}>{stripOrgForm(company.name)[0]}</span>
               )}
             </div>
             {/* Name + badges */}
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '18px', fontWeight: 700 }}>{company.name}</span>
+                <span style={{ fontSize: '18px', fontWeight: 700 }}>{stripOrgForm(company.name)}</span>
                 <span style={{
                   fontSize: '11px', fontWeight: 600, color: ACCENT,
                   background: 'rgba(13,240,230,0.1)', padding: '2px 7px', borderRadius: '4px',
@@ -221,14 +222,14 @@ function HeaderSection({ company, details, logoFile }: { company: RatingCompany;
             {logoFile ? (
               <img src={`/logos/${logoFile}`} alt="" style={{ maxWidth: '48px', maxHeight: '48px', objectFit: 'contain' }} />
             ) : (
-              <span style={{ fontSize: '22px', fontWeight: 700, color: ACCENT }}>{company.name[0]}</span>
+              <span style={{ fontSize: '22px', fontWeight: 700, color: ACCENT }}>{stripOrgForm(company.name)[0]}</span>
             )}
           </div>
 
           {/* Info */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
-              <span style={{ fontSize: '20px', fontWeight: 700 }}>{company.name}</span>
+              <span style={{ fontSize: '20px', fontWeight: 700 }}>{stripOrgForm(company.name)}</span>
               <span style={{
                 fontSize: '12px', fontWeight: 600, color: ACCENT,
                 background: 'rgba(13,240,230,0.1)', padding: '2px 8px', borderRadius: '4px',
