@@ -65,9 +65,9 @@ export function HeroScreen() {
             ))}
           </nav>
         </div>
-        {/* Навигатор — справа (hidden on mobile) */}
-        <a href="https://navigator.debt-tech.ru/" target="_blank" rel="noopener noreferrer" style={{ display: isMobile ? 'none' : 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <img src="/logo-navigator.png" alt="Навигатор" style={{ height: '96px', opacity: 0.9, transition: 'opacity 0.2s' }} onMouseEnter={e => { e.currentTarget.style.opacity = '1'; }} onMouseLeave={e => { e.currentTarget.style.opacity = '0.9'; }} />
+        {/* Навигатор — справа */}
+        <a href="https://navigator.debt-tech.ru/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img src="/logo-navigator.png" alt="Навигатор" style={{ height: isMobile ? '48px' : '96px', opacity: 0.9, transition: 'opacity 0.2s' }} onMouseEnter={e => { e.currentTarget.style.opacity = '1'; }} onMouseLeave={e => { e.currentTarget.style.opacity = '0.9'; }} />
         </a>
       </header>
 
