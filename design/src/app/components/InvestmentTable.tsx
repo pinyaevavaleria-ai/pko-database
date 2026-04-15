@@ -24,6 +24,7 @@ const ALIASES: Record<string, string> = {
   'Столичная Сервисная Компания': 'Столичное АВД',
   'Сентинел (СКМ)': 'СКМ',
   'Региональная Служба Взыскания': 'РСВ',
+  'Кредитор': 'ООО "ПКО "КРЕДИТОР"',
 };
 function resolveCompanyName(companyName: string): string | null {
   if (pkoRankMap.has(companyName)) return companyName;

@@ -36,7 +36,7 @@ export interface SiteLoan {
 export const siteLoans: SiteLoan[] = [
   { company: 'Филберт',                             type: 'Займы через сайт для физлиц', sites: ['filbert.pro'] },
   { company: 'М.Б.А. Финансы',                     type: 'Займы через сайт для физлиц', sites: ['mbafin.ru'] },
-  { company: 'Первая Гильдия Ростовщиков (Кредитор)', type: 'Займы через сайт для физлиц', sites: ['creditor.ru', 'moneyrost.ru'] },
+  { company: 'Кредитор', type: 'Займы через сайт для физлиц', sites: ['creditor.ru', 'moneyrost.ru'] },
 ];
 
 // ── Корпоративные ────────────────────────────────────────────────
@@ -86,7 +86,7 @@ export const allInvestments: AllInvestment[] = [
   // Займы
   { company: 'Филберт',       type: 'site-loan', details: 'Займы через сайт для физлиц', subDetails: 'filbert.pro' },
   { company: 'М.Б.А. Финансы', type: 'site-loan', details: 'Займы через сайт для физлиц', subDetails: 'mbafin.ru' },
-  { company: 'Первая Гильдия Ростовщиков', type: 'site-loan', details: 'Займы через сайт для физлиц', subDetails: 'creditor.ru, moneyrost.ru' },
+  { company: 'Кредитор', type: 'site-loan', details: 'Займы через сайт для физлиц', subDetails: 'creditor.ru, moneyrost.ru' },
   // Корпоративные
   { company: 'Феникс',        type: 'corporate', details: 'Банк',                  subDetails: 'Т-Банк (Тинькофф)' },
   { company: 'ЭОС',           type: 'corporate', details: 'Иностранный холдинг',   subDetails: 'EOS Group (Otto Group, Германия)' },
