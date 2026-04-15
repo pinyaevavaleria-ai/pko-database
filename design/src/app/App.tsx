@@ -10,20 +10,44 @@ import { RatingTable, ExtraColumn } from './components/RatingTable';
 import { InvestmentTable } from './components/InvestmentTable';
 import { Sidebar } from './components/Sidebar';
 import { CompanyCard } from './components/CompanyCard';
+import { ArticlePage } from './components/ArticlePage';
 import { ratingData, RatingCompany } from './data/ratingData';
 import { companyDetailsMap } from './data/companyDetails';
+import { articles } from './data/articlesData';
 import { Footer } from './components/Footer';
 import { CompareModal } from './components/CompareModal';
 import { CompareFloatingBar } from './components/CompareFloatingBar';
 import { useIsMobile } from './components/ui/use-mobile';
+import { ArrowRight, Calendar } from 'lucide-react';
 
 export default function App() {
   const isMobile = useIsMobile();
   const [preset, setPreset] = useState<Preset>('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCompanyInn, setSelectedCompanyInn] = useState<string | null>(null);
+  const [page, setPage] = useState<'rating' | 'thematic' | 'article'>('rating');
+  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
+
   const handleCompanyClick = (inn: string) => {
     setSelectedCompanyInn(inn);
+    window.scrollTo(0, 0);
+  };
+
+  const handleNavigateToThematic = () => {
+    setPage('thematic');
+    setSelectedCompanyInn(null);
+    window.scrollTo(0, 0);
+  };
+
+  const handleNavigateToRating = () => {
+    setPage('rating');
+    setSelectedArticleId(null);
+    window.scrollTo(0, 0);
+  };
+
+  const handleArticleClick = (id: string) => {
+    setPage('article');
+    setSelectedArticleId(id);
     window.scrollTo(0, 0);
   };
 
@@ -141,6 +165,170 @@ export default function App() {
     }
   }
 
+  // ── Article page (отдельная страница, как CompanyCard) ───────
+  if (page === 'article' && selectedArticleId) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#0a0f15',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        color: '#fff',
+        overflowY: 'auto',
+      }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 12px' : '0 32px' }}>
+          <ArticlePage
+            articleId={selectedArticleId}
+            onBack={handleNavigateToThematic}
+            onArticleClick={handleArticleClick}
+          />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // ── Thematic ratings listing (отдельная страница, как CompanyCard) ──
+  if (page === 'thematic') {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#0a0f15',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        color: '#fff',
+        overflowY: 'auto',
+      }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 12px' : '0 32px' }}>
+          {/* Back button */}
+          <button
+            onClick={handleNavigateToRating}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'none',
+              border: 'none',
+              color: 'rgba(255,255,255,0.5)',
+              fontSize: '13px',
+              cursor: 'pointer',
+              padding: '20px 0 16px',
+              transition: 'color 0.15s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#0DF0E6'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; }}
+          >
+            ← ПКО-300
+          </button>
+
+          <h1 style={{
+            fontSize: isMobile ? '24px' : '32px',
+            fontWeight: 800,
+            letterSpacing: '-0.02em',
+            margin: '0 0 8px',
+          }}>
+            Тематические рейтинги
+          </h1>
+          <p style={{
+            fontSize: '14px',
+            color: 'rgba(255,255,255,0.45)',
+            lineHeight: 1.7,
+            margin: '0 0 32px',
+            maxWidth: '600px',
+          }}>
+            Аналитические материалы и исследования на основе данных рейтинга ПКО-300.
+          </p>
+
+          {/* Grid of square cards */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+            gap: '16px',
+            marginBottom: '48px',
+          }}>
+            {articles.map(article => (
+              <div
+                key={article.id}
+                onClick={() => handleArticleClick(article.id)}
+                style={{
+                  background: '#111920',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  transition: 'border-color 0.2s, box-shadow 0.2s',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'rgba(13,240,230,0.2)';
+                  e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.3)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                {/* Square image */}
+                <div style={{
+                  width: '100%',
+                  aspectRatio: '1 / 1',
+                  overflow: 'hidden',
+                }}>
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '8px', fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>
+                    <Calendar style={{ width: '11px', height: '11px' }} />
+                    {article.date}
+                  </div>
+
+                  <h3 style={{
+                    fontSize: '15px',
+                    fontWeight: 600,
+                    lineHeight: 1.35,
+                    color: '#fff',
+                    margin: '0 0 8px',
+                  }}>
+                    {article.shortTitle}
+                  </h3>
+
+                  <p style={{
+                    fontSize: '12px',
+                    lineHeight: 1.5,
+                    color: 'rgba(255,255,255,0.4)',
+                    margin: '0 0 12px',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical' as const,
+                    overflow: 'hidden',
+                  }}>
+                    {article.summary}
+                  </p>
+
+                  <span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    color: '#0DF0E6',
+                  }}>
+                    Читать
+                    <ArrowRight style={{ width: '14px', height: '14px' }} />
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   // ── Main view (рейтинг) ─────────────────────────────────────
   return (
     <div style={{
@@ -150,7 +338,7 @@ export default function App() {
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       color: '#fff',
     }}>
-      <HeroScreen />
+      <HeroScreen activeTab="pko300" onNavigateToThematic={handleNavigateToThematic} onNavigateToRating={handleNavigateToRating} />
 
       {/* Sticky табы — прилипают к верху при скролле */}
       <div style={{
@@ -242,7 +430,7 @@ export default function App() {
           {/* Right — Sidebar (sticky on desktop, below table on mobile) */}
           {preset === 'overview' && !isMobile && (
             <aside style={{ position: 'sticky', top: '70px', alignSelf: 'start' }}>
-              <Sidebar />
+              <Sidebar onArticleClick={handleArticleClick} />
             </aside>
           )}
         </div>
@@ -250,7 +438,7 @@ export default function App() {
         {/* Sidebar under table on mobile */}
         {preset === 'overview' && isMobile && (
           <div style={{ marginTop: '8px' }}>
-            <Sidebar />
+            <Sidebar onArticleClick={handleArticleClick} />
           </div>
         )}
       </main>

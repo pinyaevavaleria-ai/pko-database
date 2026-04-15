@@ -1,7 +1,13 @@
 import { Building2, BarChart3, TrendingUp } from 'lucide-react';
 import { useIsMobile } from './ui/use-mobile';
 
-export function HeroScreen() {
+interface HeroScreenProps {
+  activeTab?: 'pko300' | 'thematic';
+  onNavigateToThematic?: () => void;
+  onNavigateToRating?: () => void;
+}
+
+export function HeroScreen({ activeTab = 'pko300', onNavigateToThematic, onNavigateToRating }: HeroScreenProps) {
   const isMobile = useIsMobile();
   const spaceGrotesk = "'Space Grotesk', sans-serif";
 
@@ -40,29 +46,36 @@ export function HeroScreen() {
           {!isMobile && <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.12)' }} />}
           {/* Навигация */}
           <nav style={{ display: isMobile ? 'none' : 'flex', alignItems: 'center', gap: '8px' }}>
-            {['ПКО-300', 'Тематические рейтинги'].map((label, i) => (
-              <a
-                key={label}
-                href="#"
-                style={{
-                  display: 'flex', alignItems: 'center',
-                  padding: '6px 14px',
-                  border: `1px solid ${i === 0 ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'}`,
-                  borderRadius: '2px',
-                  fontSize: '11px',
-                  fontWeight: i === 0 ? 600 : 400,
-                  color: i === 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase' as const,
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(13,240,230,0.4)'; e.currentTarget.style.color = '#0DF0E6'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = i === 0 ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = i === 0 ? '#0DF0E6' : 'rgba(255,255,255,0.4)'; }}
-              >
-                {label}
-              </a>
-            ))}
+            {([
+              { label: 'ПКО-300', key: 'pko300' as const, onClick: onNavigateToRating },
+              { label: 'Тематические рейтинги', key: 'thematic' as const, onClick: onNavigateToThematic },
+            ]).map(({ label, key, onClick }) => {
+              const isActive = activeTab === key;
+              return (
+                <a
+                  key={label}
+                  href="#"
+                  onClick={e => { e.preventDefault(); onClick?.(); }}
+                  style={{
+                    display: 'flex', alignItems: 'center',
+                    padding: '6px 14px',
+                    border: `1px solid ${isActive ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'}`,
+                    borderRadius: '2px',
+                    fontSize: '11px',
+                    fontWeight: isActive ? 600 : 400,
+                    color: isActive ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s',
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase' as const,
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(13,240,230,0.4)'; e.currentTarget.style.color = '#0DF0E6'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = isActive ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = isActive ? '#0DF0E6' : 'rgba(255,255,255,0.4)'; }}
+                >
+                  {label}
+                </a>
+              );
+            })}
           </nav>
         </div>
         {/* Навигатор — справа */}
