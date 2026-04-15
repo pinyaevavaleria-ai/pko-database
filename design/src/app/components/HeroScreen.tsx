@@ -51,44 +51,29 @@ export function HeroScreen({ activeTab = 'pko300', onNavigateToThematic, onNavig
 
       {/* Main Content */}
       <main style={{ display: 'flex', position: 'relative' }}>
-        <div style={{ flex: 1, padding: isMobile ? '16px 16px 24px' : '24px 32px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10, maxWidth: '700px' }}>
-          <span style={{
-            fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em',
-            textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.4)',
-            marginBottom: '12px', fontFamily: spaceGrotesk,
-          }}>
-            Аналитическая платформа
-          </span>
-
+        <div style={{ flex: 1, padding: isMobile ? '32px 16px 40px' : '64px 48px 64px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10, maxWidth: '750px' }}>
           <h1 style={{
-            fontSize: 'clamp(3rem, 7vw, 5rem)',
+            fontSize: 'clamp(3.5rem, 8vw, 5.5rem)',
             fontWeight: 800,
             lineHeight: 1,
             letterSpacing: '-0.03em',
-            marginBottom: '12px',
+            marginBottom: '16px',
             fontFamily: spaceGrotesk,
             color: '#0DF0E6',
           }}>
             ПКО-300
           </h1>
           <p style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
-            fontWeight: 500,
-            color: 'rgba(255,255,255,0.6)',
-            marginBottom: '20px',
-            lineHeight: 1.3,
+            fontSize: 'clamp(1.4rem, 3vw, 2.2rem)',
+            fontWeight: 700,
+            color: '#fff',
+            marginBottom: '32px',
+            lineHeight: 1.25,
           }}>
-            Главный рейтинг коллекторских агентств
+            Главный рейтинг коллекторских агентств России
           </p>
 
-          <p style={{
-            fontSize: '15px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7,
-            marginBottom: '24px', maxWidth: '520px',
-          }}>
-            Единый дашборд с аналитикой ПКО-300. Оценка инвестиционной привлекательности, финансовой устойчивости и рыночных позиций.
-          </p>
-
-          <div style={{ display: 'flex', gap: isMobile ? '20px' : '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: isMobile ? '24px' : '40px', flexWrap: 'wrap' }}>
             {[
               { icon: Building2, label: 'Компаний', value: '630+' },
               { icon: BarChart3, label: 'Данные', value: 'ФНС 2025' },

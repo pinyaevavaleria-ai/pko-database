@@ -67,8 +67,8 @@ function CompanyLogo({ name }: { name: string }) {
   if (logoFile && !imgError) {
     return (
       <div style={{
-        width: '28px', height: '28px', borderRadius: '6px',
-        background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)',
+        width: '32px', height: '32px', borderRadius: '8px',
+        background: '#fff',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexShrink: 0, overflow: 'hidden',
       }}>
@@ -76,7 +76,7 @@ function CompanyLogo({ name }: { name: string }) {
           src={`/logos/${logoFile}`}
           alt={name}
           onError={() => setImgError(true)}
-          style={{ maxWidth: '24px', maxHeight: '24px', objectFit: 'contain' }}
+          style={{ maxWidth: '28px', maxHeight: '28px', objectFit: 'contain' }}
         />
       </div>
     );
@@ -84,10 +84,10 @@ function CompanyLogo({ name }: { name: string }) {
 
   return (
     <div style={{
-      width: '28px', height: '28px', borderRadius: '6px',
+      width: '32px', height: '32px', borderRadius: '8px',
       background: bg, color: '#fff',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      flexShrink: 0, fontSize: '12px', fontWeight: 700,
+      flexShrink: 0, fontSize: '13px', fontWeight: 700,
     }}>
       {letter}
     </div>
