@@ -559,6 +559,28 @@ export function SearchFilterBar({
             {(f.deFrom !== '' || f.deTo !== '') && (
               <div style={chipStyle}>D/E: {f.deFrom || '0'} — {f.deTo || '∞'}<button onClick={() => setR({ deFrom: '', deTo: '' })} style={btnStyle}>{xIcon}</button></div>
             )}
+            <button
+              onClick={() => setR({
+                sortDir: 'desc', napka: 'ignore',
+                experienceFrom: '', experienceTo: '',
+                capitalPublic: true, capitalCorporate: true, capitalNone: true,
+                revenueFrom: '', revenueTo: '',
+                profitFrom: '', profitTo: '',
+                deFrom: '', deTo: '',
+                growthRateFrom: '', growthRateTo: '',
+                cagrFrom: '', cagrTo: '',
+              })}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '4px',
+                padding: '6px 14px', background: 'rgba(255,255,255,0.06)', borderRadius: '100px',
+                fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.5)',
+                border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer',
+                whiteSpace: 'nowrap', flexShrink: 0,
+              }}
+            >
+              <X style={{ width: '14px', height: '14px' }} />
+              Сбросить все
+            </button>
           </div>
         );
       })()}
