@@ -165,25 +165,27 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
   // ── Mobile table view (full columns, sticky №+Company, horizontal scroll) ──
   if (isMobile) {
-    const mStickyPx = [36, 40, 150]; // [№, Logo, Компания]
+    const mStickyPx = [50, 40, 150]; // [№, Logo, Компания]
     const mStickyLeft: number[] = [];
     mStickyPx.forEach((w, i) => { mStickyLeft.push(i === 0 ? 0 : mStickyLeft[i - 1] + mStickyPx[i - 1]); });
     const mStickyTotal = mStickyLeft[mStickyLeft.length - 1] + mStickyPx[mStickyPx.length - 1];
 
     const mScrollHeaders = ['YoY', 'Выручка + пр. доходы, тыс ₽', 'Чистая прибыль, тыс ₽', 'Стаж, лет', ...extraColumns.map(ec => ec.header)];
     const mScrollAligns: ('left' | 'right' | 'center')[] = ['center', 'right', 'right', 'right', ...extraColumns.map(() => 'right' as const)];
-    const mScrollWidths = ['44px', '120px', '110px', '60px', ...extraColumns.map(() => '100px')];
+    const mScrollWidths = ['44px', '130px', '120px', '60px', ...extraColumns.map(() => '100px')];
     const mColWidths = [...mStickyPx.map(w => `${w}px`), ...mScrollWidths];
     const mColHeaders = ['№', '', 'Компания', ...mScrollHeaders];
     const mColAligns: ('left' | 'right' | 'center')[] = ['center', 'left', 'left', ...mScrollAligns];
     const mStickyCount = mStickyPx.length;
-    const mMinWidth = `${mStickyTotal + 44 + 120 + 110 + 60 + extraColumns.length * 100}px`;
+    const mMinWidth = `${mStickyTotal + 44 + 130 + 120 + 60 + extraColumns.length * 100}px`;
 
     const mTH: React.CSSProperties = {
       ...TH_STYLE,
       padding: '0 8px',
       height: '40px',
       fontSize: '9px',
+      overflow: 'hidden',
+      letterSpacing: '0.04em',
     };
     const mTD: React.CSSProperties = {
       ...TD_STYLE,
@@ -262,7 +264,7 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                     onClick={() => onCompanyClick?.(company.inn)}
                   >
                     {/* № */}
-                    <td style={mStickyTd(0, { textAlign: 'center' })}>
+                    <td style={mStickyTd(0, { textAlign: 'right', paddingRight: '10px' })}>
                       <RankBadge rank={company.rank} />
                     </td>
                     {/* Logo */}
@@ -350,8 +352,8 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
   // First N columns are sticky on horizontal scroll: №, YoY, Logo, Компания
   // In compare mode, Checkbox is also sticky.
   const stickyPx = compareMode
-    ? [40, 48, 48, 36, 180]   // [☑, №, YoY, Logo, Компания]
-    : [52, 52, 36, 190];      // [№, YoY, Logo, Компания]
+    ? [40, 56, 48, 36, 180]   // [☑, №, YoY, Logo, Компания]
+    : [60, 52, 36, 190];      // [№, YoY, Logo, Компания]
   const stickyCount = stickyPx.length;
   // Cumulative left offsets for position: sticky
   const stickyLeft: number[] = [];

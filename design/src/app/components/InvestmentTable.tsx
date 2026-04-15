@@ -22,12 +22,19 @@ const ALIASES: Record<string, string> = {
   'Юридическая служба взыскания': 'ЮСВ',
   'АктивБизнесКонсалт': 'АБК',
   'Столичная Сервисная Компания': 'Столичное АВД',
+  'Сентинел (СКМ)': 'СКМ',
+  'Региональная Служба Взыскания': 'РСВ',
 };
 function resolveCompanyName(companyName: string): string | null {
   if (pkoRankMap.has(companyName)) return companyName;
-  if (ALIASES[companyName] && pkoRankMap.has(ALIASES[companyName])) return ALIASES[companyName];
+  const alias = ALIASES[companyName];
+  if (alias && pkoRankMap.has(alias)) return alias;
+  const lower = companyName.toLowerCase();
+  const aliasLower = alias?.toLowerCase();
   for (const [name] of pkoRankMap) {
-    if (name.includes(companyName) || companyName.includes(name)) return name;
+    const nameLower = name.toLowerCase();
+    if (nameLower.includes(lower) || lower.includes(nameLower)) return name;
+    if (aliasLower && (nameLower.includes(aliasLower) || aliasLower.includes(nameLower))) return name;
   }
   return null;
 }
@@ -461,10 +468,10 @@ function CorporateTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => 
 }
 
 // ── ALL TABLE ────────────────────────────────────────────────────
-const INVEST_TYPE_META: Record<AllInvestment['type'], { label: string; emoji: string; bg: string; color: string; border: string }> = {
-  bonds:      { label: 'Облигации',     emoji: '📊', bg: 'rgba(255,255,255,0.04)', color: '#2563eb', border: 'rgba(255,255,255,0.08)' }, // Blue
-  'site-loan':{ label: 'Займы',         emoji: '🌐', bg: 'rgba(255,255,255,0.04)', color: '#059669', border: 'rgba(255,255,255,0.08)' }, // Emerald
-  corporate:  { label: 'Корпоративное', emoji: '🏛', bg: 'rgba(255,255,255,0.04)', color: '#7c3aed', border: 'rgba(255,255,255,0.08)' }, // Purple
+const INVEST_TYPE_META: Record<AllInvestment['type'], { label: string; bg: string; color: string; border: string }> = {
+  bonds:      { label: 'Облигации',     bg: 'rgba(255,255,255,0.04)', color: '#2563eb', border: 'rgba(255,255,255,0.08)' },
+  'site-loan':{ label: 'Займы',         bg: 'rgba(255,255,255,0.04)', color: '#059669', border: 'rgba(255,255,255,0.08)' },
+  corporate:  { label: 'Корпоративное', bg: 'rgba(255,255,255,0.04)', color: '#7c3aed', border: 'rgba(255,255,255,0.08)' },
 };
 
 function AllTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
@@ -514,7 +521,6 @@ function AllTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }
                       border: `1px solid ${meta.border}`,
                     }}
                   >
-                    <span>{meta.emoji}</span>
                     {meta.label}
                   </span>
                 </td>
