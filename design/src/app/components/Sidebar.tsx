@@ -170,36 +170,23 @@ export function Sidebar() {
             }} />
 
             {/* Content */}
-            <div style={{ position: 'relative', zIndex: 10 }}>
-              <span style={{
-                display: 'inline-block',
-                fontSize: '10px',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase' as const,
-                color: 'rgba(255,255,255,0.4)',
-                marginBottom: '12px',
-              }}>
-                Реклама
-              </span>
-              <p style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                lineHeight: 1.4,
-                color: '#fff',
-                margin: '0 0 8px',
-              }}>
-                Разместите рекламу на&nbsp;площадке ПКО-300
-              </p>
+            <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <img src="/logo-navigator.png" alt="Навигатор" style={{ height: '56px', marginBottom: '16px', opacity: 0.95 }} />
               <p style={{
                 fontSize: '12px',
+                fontWeight: 600,
                 lineHeight: 1.5,
-                color: 'rgba(255,255,255,0.5)',
-                margin: '0 0 24px',
+                color: 'rgba(255,255,255,0.7)',
+                margin: '0 0 20px',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase' as const,
               }}>
-                Более 10 000 профессионалов рынка взыскания ежемесячно
+                Навигатор по&nbsp;технологическим решениям для&nbsp;работы с&nbsp;долговыми обязательствами
               </p>
               <a
-                href="#"
+                href="https://navigator.debt-tech.ru/catalog"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -218,7 +205,7 @@ export function Sidebar() {
                 onMouseEnter={e => { e.currentTarget.style.filter = 'brightness(1.1)'; }}
                 onMouseLeave={e => { e.currentTarget.style.filter = 'none'; }}
               >
-                ПОДРОБНЕЕ
+                Перейти
                 <ArrowRight style={{ width: '14px', height: '14px' }} />
               </a>
             </div>
