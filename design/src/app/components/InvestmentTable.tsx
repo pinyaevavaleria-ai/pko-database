@@ -306,12 +306,12 @@ function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
     return av.localeCompare(bv, 'ru') * mul;
   });
 
-  function Th({ k, children }: { k: BondSortKey; children: React.ReactNode }) {
+  function Th({ k, children, style }: { k: BondSortKey; children: React.ReactNode; style?: React.CSSProperties }) {
     const active = sortKey === k;
     return (
       <th
         onClick={() => handleSort(k)}
-        style={{ ...TH, cursor: 'pointer' }}
+        style={{ ...TH, cursor: 'pointer', ...style }}
         onMouseEnter={e => { e.currentTarget.style.color = '#374151'; }}
         onMouseLeave={e => { e.currentTarget.style.color = '#9ca3af'; }}
       >
@@ -331,7 +331,7 @@ function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
-          <Th k="pkoRank">№ в ПКО-300</Th>
+          <Th k="pkoRank" style={{ width: '44px', fontSize: '10px', whiteSpace: 'normal', lineHeight: 1.3 }}>№ в ПКО-300</Th>
           <Th k="company">Компания</Th>
           <Th k="rating">Рейтинг</Th>
           <th style={TH}>ISIN / Погашение</th>
@@ -350,7 +350,7 @@ function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(13,240,230,0.03)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
-            <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600, width: '60px' }}>{getPkoRank(b.company) ?? '—'}</td>
+            <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600, width: '44px' }}>{getPkoRank(b.company) ?? '—'}</td>
             <td style={TD_NAME}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={b.company} />{b.company}</div></td>
             <td style={TD}><RatingBadge rating={b.rating} /></td>
             <td style={{ ...TD }}>
@@ -380,7 +380,7 @@ function LoansTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
-          <th style={{ ...TH, width: '60px', fontSize: '11px' }}>№ в ПКО-300</th>
+          <th style={{ ...TH, width: '44px', fontSize: '10px', whiteSpace: 'normal', lineHeight: 1.3 }}>№ в ПКО-300</th>
           <th style={TH}>Компания</th>
           <th style={TH}>Тип</th>
           <th style={TH}>Сайт</th>
@@ -438,7 +438,7 @@ function CorporateTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => 
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
-          <th style={{ ...TH, width: '60px', fontSize: '11px' }}>№ в ПКО-300</th>
+          <th style={{ ...TH, width: '44px', fontSize: '10px', whiteSpace: 'normal', lineHeight: 1.3 }}>№ в ПКО-300</th>
           <th style={TH}>Компания</th>
           <th style={TH}>Учредитель / Структура</th>
           <th style={TH}>Тип</th>
@@ -487,7 +487,7 @@ function AllTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th style={{ ...TH, width: '60px', fontSize: '11px' }}>№ в ПКО-300</th>
+            <th style={{ ...TH, width: '44px', fontSize: '10px', whiteSpace: 'normal', lineHeight: 1.3 }}>№ в ПКО-300</th>
             <th style={TH}>Компания</th>
             <th style={TH}>Тип привлечения</th>
             <th style={TH}>Детали</th>
