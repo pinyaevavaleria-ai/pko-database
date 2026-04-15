@@ -160,11 +160,11 @@ export function Sidebar({ onArticleClick }: SidebarProps) {
 
             {/* Content */}
             <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', width: '100%' }}>
-              <img src="/logo-navigator.png" alt="Навигатор" style={{ height: '48px', marginBottom: '20px', alignSelf: 'flex-start' }} />
+              <img src="/logo-navigator.png" alt="Навигатор" style={{ height: '64px', marginBottom: '20px', alignSelf: 'flex-start' }} />
               <p style={{
                 fontSize: '13px',
                 fontWeight: 800,
-                fontStyle: 'italic',
+                fontStyle: 'normal',
                 lineHeight: 1.4,
                 color: '#ffffff',
                 margin: '0 0 8px',
