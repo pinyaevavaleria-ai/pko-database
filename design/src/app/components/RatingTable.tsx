@@ -3,6 +3,7 @@ import { ArrowUp, ArrowDown, ArrowUpDown, ChevronLeft, ChevronRight } from 'luci
 import { RatingCompany } from '../data/ratingData';
 import { logoMap } from '../data/logoMap';
 import { useIsMobile } from './ui/use-mobile';
+import { stripOrgForm } from '../utils/formatCompanyName';
 
 const PAGE_SIZE = 100;
 
@@ -269,12 +270,12 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                     </td>
                     {/* Logo */}
                     <td style={mStickyTd(1, { padding: '0 4px' })}>
-                      <Avatar name={company.name} rank={company.rank} inn={company.inn} />
+                      <Avatar name={stripOrgForm(company.name)} rank={company.rank} inn={company.inn} />
                     </td>
                     {/* Компания */}
                     <td style={mStickyTd(2, { fontWeight: 500, overflow: 'hidden' })}>
                       <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, gap: '1px' }}>
-                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '12px' }}>{company.name}</span>
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '12px' }}>{stripOrgForm(company.name)}</span>
                         <span style={{ fontSize: '10px', fontWeight: 400, color: 'rgba(255,255,255,0.4)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {company.city || ''}
                         </span>
@@ -541,13 +542,13 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
                   {/* Logo */}
                   <td style={stickyTd(si++, { padding: 0 })}>
-                    <Avatar name={company.name} rank={company.rank} inn={company.inn} />
+                    <Avatar name={stripOrgForm(company.name)} rank={company.rank} inn={company.inn} />
                   </td>
 
                   {/* Компания */}
                   <td style={stickyTd(si++, { fontWeight: 500, overflow: 'hidden' })}>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: 0, gap: '1px' }}>
-                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{company.name}</span>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{stripOrgForm(company.name)}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         {company.city && (
                           <span style={{ fontSize: '11px', fontWeight: 400, color: 'rgba(255,255,255,0.4)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

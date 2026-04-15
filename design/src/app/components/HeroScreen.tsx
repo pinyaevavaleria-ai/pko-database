@@ -1,5 +1,6 @@
 import { Building2, BarChart3, TrendingUp } from 'lucide-react';
 import { useIsMobile } from './ui/use-mobile';
+import { SiteHeader } from './SiteHeader';
 
 interface HeroScreenProps {
   activeTab?: 'pko300' | 'thematic';
@@ -35,54 +36,7 @@ export function HeroScreen({ activeTab = 'pko300', onNavigateToThematic, onNavig
       }} />
 
       {/* Header */}
-      <header style={{ padding: isMobile ? '12px 12px' : '16px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '20px' }}>
-          {/* Логотип РВ и ДП — слева */}
-          <div style={{ position: 'relative', height: isMobile ? '40px' : '64px' }}>
-            <img src="/logo-rvdp.png" alt="Рынок Взыскания и Debt Price" style={{ height: isMobile ? '40px' : '64px', opacity: 0.85 }} />
-            <a href="https://rvzrus.ru/" target="_blank" rel="noopener noreferrer" title="Рынок Взыскания" style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '100%' }} />
-            <a href="https://debtprice.market/" target="_blank" rel="noopener noreferrer" title="Debt Price" style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '100%' }} />
-          </div>
-          {!isMobile && <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.12)' }} />}
-          {/* Навигация */}
-          <nav style={{ display: isMobile ? 'none' : 'flex', alignItems: 'center', gap: '8px' }}>
-            {([
-              { label: 'ПКО-300', key: 'pko300' as const, onClick: onNavigateToRating },
-              { label: 'Тематические рейтинги', key: 'thematic' as const, onClick: onNavigateToThematic },
-            ]).map(({ label, key, onClick }) => {
-              const isActive = activeTab === key;
-              return (
-                <a
-                  key={label}
-                  href="#"
-                  onClick={e => { e.preventDefault(); onClick?.(); }}
-                  style={{
-                    display: 'flex', alignItems: 'center',
-                    padding: '6px 14px',
-                    border: `1px solid ${isActive ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'}`,
-                    borderRadius: '2px',
-                    fontSize: '11px',
-                    fontWeight: isActive ? 600 : 400,
-                    color: isActive ? '#0DF0E6' : 'rgba(255,255,255,0.4)',
-                    textDecoration: 'none',
-                    transition: 'all 0.2s',
-                    letterSpacing: '0.06em',
-                    textTransform: 'uppercase' as const,
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(13,240,230,0.4)'; e.currentTarget.style.color = '#0DF0E6'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = isActive ? 'rgba(13,240,230,0.25)' : 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = isActive ? '#0DF0E6' : 'rgba(255,255,255,0.4)'; }}
-                >
-                  {label}
-                </a>
-              );
-            })}
-          </nav>
-        </div>
-        {/* Навигатор — справа */}
-        <a href="https://navigator.debt-tech.ru/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <img src="/logo-navigator.png" alt="Навигатор" style={{ height: isMobile ? '48px' : '96px', opacity: 0.9, transition: 'opacity 0.2s' }} onMouseEnter={e => { e.currentTarget.style.opacity = '1'; }} onMouseLeave={e => { e.currentTarget.style.opacity = '0.9'; }} />
-        </a>
-      </header>
+      <SiteHeader activeTab={activeTab} onNavigateToThematic={onNavigateToThematic} onNavigateToRating={onNavigateToRating} />
 
       {/* Pyramid Background — на всю высоту */}
       <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: isMobile ? '100%' : '55%', zIndex: 1, opacity: isMobile ? 0.4 : 1 }}>
@@ -97,34 +51,29 @@ export function HeroScreen({ activeTab = 'pko300', onNavigateToThematic, onNavig
 
       {/* Main Content */}
       <main style={{ display: 'flex', position: 'relative' }}>
-        <div style={{ flex: 1, padding: isMobile ? '16px 16px 24px' : '24px 32px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10, maxWidth: '700px' }}>
-          <span style={{
-            fontSize: '10px', fontWeight: 500, letterSpacing: '0.12em',
-            textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.4)',
-            marginBottom: '12px', fontFamily: spaceGrotesk,
-          }}>
-            Аналитическая платформа
-          </span>
-
+        <div style={{ flex: 1, padding: isMobile ? '32px 16px 40px' : '64px 48px 64px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10, maxWidth: '750px' }}>
           <h1 style={{
-            fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
+            fontSize: 'clamp(3.5rem, 8vw, 5.5rem)',
             fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.02em',
-            marginBottom: '20px',
-            fontFamily: "'Inter', sans-serif",
+            lineHeight: 1,
+            letterSpacing: '-0.03em',
+            marginBottom: '16px',
+            fontFamily: spaceGrotesk,
+            color: '#0DF0E6',
           }}>
-            Главный рейтинг<br />коллекторских<br />агентств
+            ПКО-300
           </h1>
-
           <p style={{
-            fontSize: '15px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7,
-            marginBottom: '24px', maxWidth: '520px',
+            fontSize: 'clamp(1.4rem, 3vw, 2.2rem)',
+            fontWeight: 700,
+            color: '#fff',
+            marginBottom: '32px',
+            lineHeight: 1.25,
           }}>
-            Единый дашборд с аналитикой ПКО-300. Оценка инвестиционной привлекательности, финансовой устойчивости и рыночных позиций.
+            Главный рейтинг коллекторских агентств России
           </p>
 
-          <div style={{ display: 'flex', gap: isMobile ? '20px' : '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: isMobile ? '24px' : '40px', flexWrap: 'wrap' }}>
             {[
               { icon: Building2, label: 'Компаний', value: '630+' },
               { icon: BarChart3, label: 'Данные', value: 'ФНС 2025' },
