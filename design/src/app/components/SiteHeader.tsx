@@ -15,8 +15,8 @@ export function SiteHeader({ activeTab = 'pko300', onNavigateToThematic, onNavig
         {/* Логотип РВ и ДП — слева */}
         <div style={{ position: 'relative', height: isMobile ? '40px' : '64px' }}>
           <img src="/logo-rvdp.png" alt="Рынок Взыскания и Debt Price" style={{ height: isMobile ? '40px' : '64px', opacity: 0.85 }} />
-          <a href="https://rvzrus.ru/" target="_blank" rel="noopener noreferrer" title="Рынок Взыскания" style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '100%' }} />
-          <a href="https://debtprice.market/" target="_blank" rel="noopener noreferrer" title="Debt Price" style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '100%' }} />
+          <a href="https://debtprice.market/" target="_blank" rel="noopener noreferrer" title="Debt Price" style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '100%' }} />
+          <a href="https://rvzrus.ru/" target="_blank" rel="noopener noreferrer" title="Рынок Взыскания" style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '100%' }} />
         </div>
         {!isMobile && <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.12)' }} />}
         {/* Навигация */}
