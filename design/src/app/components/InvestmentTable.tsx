@@ -136,17 +136,21 @@ const TD_NAME: React.CSSProperties = {
   minWidth: '160px',
 };
 
-// On mobile: freeze first two columns (№ в ПКО-300 + Компания) during horizontal scroll
+// On mobile: freeze only № + Logo columns during horizontal scroll — company name scrolls
 function useMobileSticky() {
   const isMobile = useIsMobile();
-  if (!isMobile) return { rankTh: {}, companyTh: {}, rankTd: {}, companyTd: {} };
+  if (!isMobile) return { rankTh: {}, logoTh: {}, rankTd: {}, logoTd: {} };
   return {
-    rankTh:    { position: 'sticky' as const, left: 0,      zIndex: 3, background: '#111920' },
-    companyTh: { position: 'sticky' as const, left: '44px', zIndex: 3, background: '#111920' },
-    rankTd:    { position: 'sticky' as const, left: 0,      zIndex: 1, background: '#111920' },
-    companyTd: { position: 'sticky' as const, left: '44px', zIndex: 1, background: '#111920' },
+    rankTh: { position: 'sticky' as const, left: 0,      zIndex: 3, background: '#111920' },
+    logoTh: { position: 'sticky' as const, left: '44px', zIndex: 3, background: '#111920' },
+    rankTd: { position: 'sticky' as const, left: 0,      zIndex: 1, background: '#111920' },
+    logoTd: { position: 'sticky' as const, left: '44px', zIndex: 1, background: '#111920' },
   };
 }
+
+// Shared styles for logo / name cells (split from TD_NAME)
+const TH_LOGO: React.CSSProperties = { ...TH, width: '48px', padding: '0 8px' };
+const TD_LOGO: React.CSSProperties = { ...TD, width: '48px', padding: '0 8px' };
 
 // ── Sub-mode switcher ────────�����───���──────────────────────────────
 interface ModeSwitcherProps {
@@ -302,7 +306,7 @@ function TypeBadge({ type }: { type: string }) {
 type BondSortKey = 'pkoRank' | 'company' | 'rating' | 'coupon' | 'volume' | 'status' | 'repayment';
 
 function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
-  const { rankTh, companyTh, rankTd, companyTd } = useMobileSticky();
+  const { rankTh, logoTh, rankTd, logoTd } = useMobileSticky();
   const [sortKey, setSortKey] = useState<BondSortKey>('pkoRank');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
@@ -346,7 +350,8 @@ function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
       <thead>
         <tr>
           <Th k="pkoRank" style={{ width: '44px', fontSize: '10px', whiteSpace: 'normal', lineHeight: 1.3, ...rankTh }}>№ в<br />ПКО-300</Th>
-          <Th k="company" style={companyTh}>Компания</Th>
+          <th style={{ ...TH_LOGO, ...logoTh }} aria-label="Логотип" />
+          <Th k="company">Компания</Th>
           <Th k="rating">Рейтинг</Th>
           <th style={TH}>ISIN / Погашение</th>
           <Th k="coupon">Купон</Th>
@@ -365,7 +370,8 @@ function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
             <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600, width: '44px', ...rankTd }}>{getPkoRank(b.company) ?? '—'}</td>
-            <td style={{ ...TD_NAME, ...companyTd }}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={b.company} />{stripOrgForm(b.company)}</div></td>
+            <td style={{ ...TD_LOGO, ...logoTd }}><CompanyLogo name={b.company} /></td>
+            <td style={TD_NAME}>{stripOrgForm(b.company)}</td>
             <td style={TD}><RatingBadge rating={b.rating} /></td>
             <td style={{ ...TD }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
@@ -390,13 +396,14 @@ function BondsTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
 
 // ── SITE LOANS TABLE ─────────────────────────────────────────────
 function LoansTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
-  const { rankTh, companyTh, rankTd, companyTd } = useMobileSticky();
+  const { rankTh, logoTh, rankTd, logoTd } = useMobileSticky();
   return (
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
           <th style={{ ...TH, width: '44px', fontSize: '10px', whiteSpace: 'normal', lineHeight: 1.3, ...rankTh }}>№ в<br />ПКО-300</th>
-          <th style={{ ...TH, ...companyTh }}>Компания</th>
+          <th style={{ ...TH_LOGO, ...logoTh }} aria-label="Логотип" />
+          <th style={TH}>Компания</th>
           <th style={TH}>Тип</th>
           <th style={TH}>Сайт</th>
         </tr>
@@ -411,7 +418,8 @@ function LoansTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
             <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600, ...rankTd }}>{getPkoRank(l.company) ?? '—'}</td>
-            <td style={{ ...TD_NAME, ...companyTd }}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={l.company} />{stripOrgForm(l.company)}</div></td>
+            <td style={{ ...TD_LOGO, ...logoTd }}><CompanyLogo name={l.company} /></td>
+            <td style={TD_NAME}>{stripOrgForm(l.company)}</td>
             <td style={TD}>
               <TypeBadge type={l.type} />
             </td>
@@ -449,13 +457,14 @@ function LoansTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void
 
 // ── CORPORATE TABLE ──────────────────────────────────────────────
 function CorporateTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
-  const { rankTh, companyTh, rankTd, companyTd } = useMobileSticky();
+  const { rankTh, logoTh, rankTd, logoTd } = useMobileSticky();
   return (
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
           <th style={{ ...TH, width: '44px', fontSize: '10px', whiteSpace: 'normal', lineHeight: 1.3, ...rankTh }}>№ в<br />ПКО-300</th>
-          <th style={{ ...TH, ...companyTh }}>Компания</th>
+          <th style={{ ...TH_LOGO, ...logoTh }} aria-label="Логотип" />
+          <th style={TH}>Компания</th>
           <th style={TH}>Учредитель / Структура</th>
           <th style={TH}>Тип</th>
           <th style={TH}>Детали</th>
@@ -471,7 +480,8 @@ function CorporateTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => 
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
           >
             <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600, ...rankTd }}>{getPkoRank(c.company) ?? '—'}</td>
-            <td style={{ ...TD_NAME, ...companyTd }}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={c.company} />{stripOrgForm(c.company)}</div></td>
+            <td style={{ ...TD_LOGO, ...logoTd }}><CompanyLogo name={c.company} /></td>
+            <td style={TD_NAME}>{stripOrgForm(c.company)}</td>
             <td style={{ ...TD, color: 'rgba(255,255,255,0.7)', maxWidth: '280px', whiteSpace: 'normal' }}>
               {c.founder}
             </td>
@@ -492,7 +502,7 @@ const INVEST_TYPE_META: Record<AllInvestment['type'], { label: string; bg: strin
 };
 
 function AllTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }) {
-  const { rankTh, companyTh, rankTd, companyTd } = useMobileSticky();
+  const { rankTh, logoTh, rankTd, logoTd } = useMobileSticky();
   const [filterType, setFilterType] = useState<AllInvestment['type'] | 'all'>('all');
 
   const filtered = filterType === 'all'
@@ -505,7 +515,8 @@ function AllTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }
         <thead>
           <tr>
             <th style={{ ...TH, width: '44px', fontSize: '10px', whiteSpace: 'normal', lineHeight: 1.3, ...rankTh }}>№ в<br />ПКО-300</th>
-            <th style={{ ...TH, ...companyTh }}>Компания</th>
+            <th style={{ ...TH_LOGO, ...logoTh }} aria-label="Логотип" />
+            <th style={TH}>Компания</th>
             <th style={TH}>Тип привлечения</th>
             <th style={TH}>Детали</th>
             <th style={TH}>Подробнее</th>
@@ -523,7 +534,8 @@ function AllTable({ onCompanyClick }: { onCompanyClick?: (inn: string) => void }
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
               >
                 <td style={{ ...TD, color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 600, ...rankTd }}>{getPkoRank(r.company) ?? '—'}</td>
-                <td style={{ ...TD_NAME, ...companyTd }}><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><CompanyLogo name={r.company} />{stripOrgForm(r.company)}</div></td>
+                <td style={{ ...TD_LOGO, ...logoTd }}><CompanyLogo name={r.company} /></td>
+                <td style={TD_NAME}>{stripOrgForm(r.company)}</td>
                 <td style={TD}>
                   <span
                     style={{
