@@ -153,15 +153,13 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
   // ── Hooks must be called before any early return ──────────────
   const headerRef = useRef<HTMLDivElement>(null);
+  const headerInnerRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
-  const isSyncing = useRef(false);
   const handleBodyScroll = useCallback(() => {
-    if (isSyncing.current) return;
-    isSyncing.current = true;
-    if (headerRef.current && bodyRef.current) {
-      headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
-    }
-    requestAnimationFrame(() => { isSyncing.current = false; });
+    if (!headerInnerRef.current || !bodyRef.current) return;
+    const sL = bodyRef.current.scrollLeft;
+    // transform вместо scrollLeft — работает в iOS WebKit, где scrollLeft на overflow:hidden игнорируется
+    headerInnerRef.current.style.transform = `translate3d(${-sL}px, 0, 0)`;
   }, []);
 
   // ── Mobile table view (full columns, sticky №+Company, horizontal scroll) ──
@@ -172,7 +170,7 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
     const mStickyTotal = mStickyLeft[mStickyLeft.length - 1] + mStickyPx[mStickyPx.length - 1];
 
     const mScrollHeaders = ['YoY', 'Выручка + пр. доходы, тыс ₽', 'Чистая прибыль, тыс ₽', 'Стаж, лет', ...extraColumns.map(ec => ec.header)];
-    const mScrollAligns: ('left' | 'right' | 'center')[] = ['center', 'right', 'right', 'right', ...extraColumns.map(() => 'right' as const)];
+    const mScrollAligns: ('left' | 'right' | 'center')[] = ['center', 'left', 'right', 'right', ...extraColumns.map(() => 'right' as const)];
     const mScrollWidths = ['44px', '130px', '120px', '60px', ...extraColumns.map(() => '100px')];
     const mColWidths = [...mStickyPx.map(w => `${w}px`), ...mScrollWidths];
     const mColHeaders = ['№', '', 'Компания', ...mScrollHeaders];
@@ -195,46 +193,106 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
     return (
       <div>
-        {/* Sticky header — flex-row (не <table>) для обхода iOS Safari баг с sticky <th> */}
+        {/* Sticky header — два слоя: sticky-колонки поверх + скроллируемые через translateX.
+            Избегает iOS WebKit багов: (1) scrollLeft на overflow:hidden игнорируется,
+            (2) flex/line-height alignment ломается внутри position:sticky при scroll. */}
         <div
           ref={headerRef}
           style={{
             position: 'sticky', top: 44, zIndex: 11,
-            background: '#111920', overflowX: 'hidden',
+            background: '#111920',
+            overflow: 'hidden',
             borderBottom: '1px solid rgba(255,255,255,0.06)',
             boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
             height: '48px',
+            WebkitTransform: 'translateZ(0)' as any,
+            transform: 'translateZ(0)',
           }}
         >
-          <div style={{ display: 'flex', minWidth: mMinWidth, height: '48px' }}>
-            {mColHeaders.map((h, i) => {
-              const isSticky = i < mStickyCount;
+          {/* Скроллируемые заголовки (non-sticky) — transform синхронно с body */}
+          <div
+            ref={headerInnerRef}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: `${mStickyTotal}px`,
+              height: '48px',
+              display: 'flex',
+              willChange: 'transform',
+            }}
+          >
+            {mColHeaders.slice(mStickyCount).map((h, i) => {
+              const idx = i + mStickyCount;
+              const align = mColAligns[idx];
+              return (
+                <div key={idx} style={{
+                  width: mColWidths[idx],
+                  height: '48px',
+                  flexShrink: 0,
+                  position: 'relative',
+                }}>
+                  <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '8px',
+                    right: '8px',
+                    transform: 'translateY(-50%)',
+                    WebkitTransform: 'translateY(-50%)' as any,
+                    textAlign: align,
+                    fontSize: '9px',
+                    color: 'rgba(255,255,255,0.4)',
+                    fontWeight: 400,
+                    lineHeight: 1.2,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    userSelect: 'none',
+                  }}>
+                    {h}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Sticky-колонки (№, Logo, Компания) — поверх скроллируемых */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: '48px',
+            width: `${mStickyTotal}px`,
+            zIndex: 2,
+            background: '#111920',
+            display: 'flex',
+          }}>
+            {mColHeaders.slice(0, mStickyCount).map((h, i) => {
               const align = mColAligns[i];
               return (
                 <div key={i} style={{
                   width: mColWidths[i],
                   height: '48px',
                   flexShrink: 0,
-                  padding: '0 8px',
-                  boxSizing: 'border-box',
-                  fontSize: '9px',
-                  color: 'rgba(255,255,255,0.4)',
-                  fontWeight: 400,
-                  lineHeight: '48px',
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  textAlign: align,
-                  whiteSpace: 'nowrap',
-                  userSelect: 'none',
-                  ...(isSticky ? { position: 'sticky', left: `${mStickyLeft[i]}px`, zIndex: 12, background: '#111920' } : {}),
+                  position: 'relative',
                 }}>
-                  <span style={{
-                    display: 'inline-block',
-                    verticalAlign: 'middle',
-                    lineHeight: 1.2,
-                    whiteSpace: 'normal',
-                    maxWidth: '100%',
-                  }}>{h}</span>
+                  {h && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '8px',
+                      right: '8px',
+                      transform: 'translateY(-50%)',
+                      WebkitTransform: 'translateY(-50%)' as any,
+                      textAlign: align,
+                      fontSize: '9px',
+                      color: 'rgba(255,255,255,0.4)',
+                      fontWeight: 400,
+                      lineHeight: 1.2,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      userSelect: 'none',
+                    }}>
+                      {h}
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -298,7 +356,7 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                       )}
                     </td>
                     {/* Выручка */}
-                    <td style={{ ...mTD, textAlign: 'right', color: 'rgba(255,255,255,0.7)' }}>
+                    <td style={{ ...mTD, textAlign: 'left', color: 'rgba(255,255,255,0.7)' }}>
                       {fmt(company.revenue)}
                     </td>
                     {/* Прибыль */}
