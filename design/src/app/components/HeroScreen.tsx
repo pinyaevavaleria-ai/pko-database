@@ -75,7 +75,7 @@ export function HeroScreen({ activeTab = 'pko300', onNavigateToThematic, onNavig
 
           <div style={{ display: 'flex', gap: isMobile ? '24px' : '40px', flexWrap: 'wrap' }}>
             {[
-              { icon: Building2, label: 'Компаний', value: '630+' },
+              { icon: Building2, label: 'Компаний', value: '520+' },
               { icon: BarChart3, label: 'Данные', value: 'ФНС 2025' },
               { icon: TrendingUp, label: 'Динамика', value: 'за 5 лет' },
             ].map(({ icon: Icon, label, value }) => (
