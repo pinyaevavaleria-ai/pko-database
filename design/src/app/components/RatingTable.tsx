@@ -206,31 +206,35 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
             height: '48px',
           }}
         >
-          <div style={{ display: 'flex', minWidth: mMinWidth, height: '100%' }}>
+          <div style={{ display: 'flex', minWidth: mMinWidth, height: '48px' }}>
             {mColHeaders.map((h, i) => {
               const isSticky = i < mStickyCount;
               const align = mColAligns[i];
-              const justify = align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start';
               return (
                 <div key={i} style={{
                   width: mColWidths[i],
+                  height: '48px',
                   flexShrink: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: justify,
                   padding: '0 8px',
                   boxSizing: 'border-box',
                   fontSize: '9px',
                   color: 'rgba(255,255,255,0.4)',
                   fontWeight: 400,
-                  lineHeight: 1.2,
+                  lineHeight: '48px',
                   letterSpacing: '0.04em',
                   textTransform: 'uppercase',
-                  whiteSpace: 'normal',
+                  textAlign: align,
+                  whiteSpace: 'nowrap',
                   userSelect: 'none',
                   ...(isSticky ? { position: 'sticky', left: `${mStickyLeft[i]}px`, zIndex: 12, background: '#111920' } : {}),
                 }}>
-                  <span>{h}</span>
+                  <span style={{
+                    display: 'inline-block',
+                    verticalAlign: 'middle',
+                    lineHeight: 1.2,
+                    whiteSpace: 'normal',
+                    maxWidth: '100%',
+                  }}>{h}</span>
                 </div>
               );
             })}
