@@ -180,14 +180,6 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
     const mStickyCount = mStickyPx.length;
     const mMinWidth = `${mStickyTotal + 44 + 130 + 120 + 60 + extraColumns.length * 100}px`;
 
-    const mTH: React.CSSProperties = {
-      ...TH_STYLE,
-      padding: 0,
-      height: '48px',
-      fontSize: '9px',
-      letterSpacing: '0.04em',
-      verticalAlign: 'middle',
-    };
     const mTD: React.CSSProperties = {
       ...TD_STYLE,
       padding: '0 8px',
@@ -203,7 +195,7 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
     return (
       <div>
-        {/* Sticky header */}
+        {/* Sticky header — flex-row (не <table>) для обхода iOS Safari баг с sticky <th> */}
         <div
           ref={headerRef}
           style={{
@@ -211,41 +203,38 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
             background: '#111920', overflowX: 'hidden',
             borderBottom: '1px solid rgba(255,255,255,0.06)',
             boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
+            height: '48px',
           }}
         >
-          <table style={{ width: '100%', minWidth: mMinWidth, borderCollapse: 'collapse', tableLayout: 'fixed' }}>
-            {mColgroup}
-            <thead>
-              <tr>
-                {mColHeaders.map((h, i) => {
-                  const isSticky = i < mStickyCount;
-                  const align = mColAligns[i];
-                  const justify = align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start';
-                  return (
-                    <th key={i} style={{
-                      ...mTH,
-                      borderBottom: 'none',
-                      ...(isSticky ? { position: 'sticky', left: `${mStickyLeft[i]}px`, zIndex: 12, background: '#111920' } : {}),
-                    }}>
-                      {h && (
-                        <div style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: justify,
-                          height: '48px',
-                          padding: '0 8px',
-                          lineHeight: 1.2,
-                          boxSizing: 'border-box',
-                        }}>
-                          <span>{h}</span>
-                        </div>
-                      )}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-          </table>
+          <div style={{ display: 'flex', minWidth: mMinWidth, height: '100%' }}>
+            {mColHeaders.map((h, i) => {
+              const isSticky = i < mStickyCount;
+              const align = mColAligns[i];
+              const justify = align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start';
+              return (
+                <div key={i} style={{
+                  width: mColWidths[i],
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: justify,
+                  padding: '0 8px',
+                  boxSizing: 'border-box',
+                  fontSize: '9px',
+                  color: 'rgba(255,255,255,0.4)',
+                  fontWeight: 400,
+                  lineHeight: 1.2,
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  whiteSpace: 'normal',
+                  userSelect: 'none',
+                  ...(isSticky ? { position: 'sticky', left: `${mStickyLeft[i]}px`, zIndex: 12, background: '#111920' } : {}),
+                }}>
+                  <span>{h}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Scrollable body */}
