@@ -529,7 +529,8 @@ export function SearchFilterBar({
           display: 'inline-flex', alignItems: 'center', gap: '6px',
           padding: '6px 12px', background: 'rgba(13,240,230,0.06)', borderRadius: '100px',
           fontSize: '13px', fontWeight: 500, color: '#0DF0E6',
-          border: '1px solid rgba(13,240,230,0.15)'
+          border: '1px solid rgba(13,240,230,0.15)',
+          whiteSpace: 'nowrap', flexShrink: 0,
         };
         const btnStyle: React.CSSProperties = { background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' };
         const xIcon = <X style={{ width: '14px', height: '14px', color: 'rgba(255,255,255,0.4)' }} />;
