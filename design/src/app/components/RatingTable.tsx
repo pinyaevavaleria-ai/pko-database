@@ -182,10 +182,9 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
     const mTH: React.CSSProperties = {
       ...TH_STYLE,
-      padding: '0 8px',
-      height: '40px',
+      padding: '6px 8px',
+      height: '56px',
       fontSize: '9px',
-      overflow: 'hidden',
       letterSpacing: '0.04em',
     };
     const mTD: React.CSSProperties = {
@@ -265,7 +264,7 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                     onClick={() => onCompanyClick?.(company.inn)}
                   >
                     {/* № */}
-                    <td style={mStickyTd(0, { textAlign: 'right', paddingRight: '10px' })}>
+                    <td style={mStickyTd(0, { textAlign: 'center' })}>
                       <RankBadge rank={company.rank} />
                     </td>
                     {/* Logo */}
