@@ -1,5 +1,5 @@
 // ИНН → файл логотипа (авто-генерация из logo_mapping.json)
-// 446 компаний с логотипами из 545
+// 440 компаний с логотипами из 529 активных
 
 export const logoMap: Record<string, string> = {
   "6315626402": "image024.png",
@@ -43,7 +43,6 @@ export const logoMap: Record<string, string> = {
   "9102201009": "image235.png",
   "7727834940": "image206.png",
   "7723706312": "image1001.png",
-  "916009139": "image1001.png",
   "7716228295": "image130.png",
   "7702686930": "image190.png",
   "5406796664": "image279.png",
@@ -51,7 +50,6 @@ export const logoMap: Record<string, string> = {
   "6316220412": "image178.png",
   "5257119624": "image177.png",
   "6501281184": "image122.png",
-  "3702593710": "image230.png",
   "5260410400": "image016.png",
   "7702814010": "image011.png",
   "7728718713": "image181.png",
@@ -101,7 +99,6 @@ export const logoMap: Record<string, string> = {
   "6829117690": "image098.png",
   "7728312015": "image100.png",
   "7811653557": "image229.png",
-  "7701410819": "image187.png",
   "1657199916": "image036.png",
   "5904335578": "image059.png",
   "2130168738": "image208.png",
@@ -294,7 +291,6 @@ export const logoMap: Record<string, string> = {
   "3443117300": "image334.png",
   "6685168732": "image336.png",
   "9705144752": "image337.png",
-  "1841045690": "image338.png",
   "2130221558": "image339.png",
   "5260474996": "image340.png",
   "9715385482": "image341.png",
@@ -309,7 +305,6 @@ export const logoMap: Record<string, string> = {
   "9725038110": "image352.png",
   "9703030100": "image353.png",
   "7733244339": "image354.png",
-  "6165226716": "image355.png",
   "1101170931": "image1001.png",
   "9725041272": "image356.png",
   "7724810411": "image357.png",
@@ -338,7 +333,6 @@ export const logoMap: Record<string, string> = {
   "6102064540": "image386.png",
   "3443147600": "image1001.png",
   "2130228345": "image387.png",
-  "4632281610": "image388.png",
   "7716956819": "image389.png",
   "5260478969": "image391.png",
   "9703045548": "image392.png",
@@ -420,7 +414,6 @@ export const logoMap: Record<string, string> = {
   "7715895257": "image1001.png",
   "5402045635": "image463.png",
   "9726053295": "image464.png",
-  "6316284222": "image466.png",
   "5190095134": "image1001.png",
   "7100025192": "image467.png",
   "7300023241": "image468.png",
@@ -448,5 +441,5 @@ export const logoMap: Record<string, string> = {
   "2635257732": "image1001.png",
   "9704214076": "image493.png",
   "7735174895": "image344.png",
-  "5473013580": "image496.png"
+  "5473013580": "image496.png",
 };
