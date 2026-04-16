@@ -182,10 +182,11 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
     const mTH: React.CSSProperties = {
       ...TH_STYLE,
-      padding: '6px 8px',
-      height: '56px',
+      padding: '4px 8px',
+      height: '44px',
       fontSize: '9px',
       letterSpacing: '0.04em',
+      verticalAlign: 'middle',
     };
     const mTD: React.CSSProperties = {
       ...TD_STYLE,
