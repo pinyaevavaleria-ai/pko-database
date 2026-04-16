@@ -269,10 +269,10 @@ export default function App() {
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
-                {/* Square image */}
+                {/* Card image */}
                 <div style={{
                   width: '100%',
-                  aspectRatio: '1 / 1',
+                  aspectRatio: '4 / 3',
                   overflow: 'hidden',
                 }}>
                   <img

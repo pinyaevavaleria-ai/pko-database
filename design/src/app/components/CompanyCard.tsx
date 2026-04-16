@@ -754,7 +754,7 @@ function FundraisingSidebar({ details }: { details: CompanyDetails }) {
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', minWidth: 0 }}>
                 <span style={{ color: MUTED, flexShrink: 0 }}>Тип</span>
-                <span style={{ fontWeight: 500, textAlign: 'right', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fr.type}</span>
+                <span style={{ fontWeight: 500, textAlign: 'right', minWidth: 0 }}>{fr.type}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
                 <span style={{ color: MUTED, flexShrink: 0 }}>Статус</span>
@@ -765,7 +765,7 @@ function FundraisingSidebar({ details }: { details: CompanyDetails }) {
               {fr.founder && fr.founder !== '—' && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', minWidth: 0 }}>
                   <span style={{ color: MUTED, flexShrink: 0 }}>Учредитель</span>
-                  <span style={{ fontWeight: 500, textAlign: 'right', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fr.founder}</span>
+                  <span style={{ fontWeight: 500, textAlign: 'right', minWidth: 0 }}>{fr.founder}</span>
                 </div>
               )}
             </>
@@ -791,7 +791,7 @@ function FundraisingSidebar({ details }: { details: CompanyDetails }) {
               {firstRating && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', minWidth: 0 }}>
                   <span style={{ color: MUTED, flexShrink: 0 }}>Рейтинг</span>
-                  <span style={{ fontWeight: 500, fontSize: '12px', textAlign: 'right', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{firstRating}</span>
+                  <span style={{ fontWeight: 500, fontSize: '12px', textAlign: 'right', minWidth: 0 }}>{firstRating}</span>
                 </div>
               )}
             </>
