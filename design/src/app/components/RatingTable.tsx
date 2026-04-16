@@ -182,8 +182,8 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
 
     const mTH: React.CSSProperties = {
       ...TH_STYLE,
-      padding: '4px 8px',
-      height: '44px',
+      padding: 0,
+      height: '48px',
       fontSize: '9px',
       letterSpacing: '0.04em',
       verticalAlign: 'middle',
@@ -219,15 +219,27 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
               <tr>
                 {mColHeaders.map((h, i) => {
                   const isSticky = i < mStickyCount;
+                  const align = mColAligns[i];
+                  const justify = align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start';
                   return (
                     <th key={i} style={{
                       ...mTH,
                       borderBottom: 'none',
-                      textAlign: mColAligns[i],
-                      ...(h === '' ? { padding: 0 } : {}),
                       ...(isSticky ? { position: 'sticky', left: `${mStickyLeft[i]}px`, zIndex: 12, background: '#111920' } : {}),
                     }}>
-                      {h && <span>{h}</span>}
+                      {h && (
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: justify,
+                          height: '48px',
+                          padding: '0 8px',
+                          lineHeight: 1.2,
+                          boxSizing: 'border-box',
+                        }}>
+                          <span>{h}</span>
+                        </div>
+                      )}
                     </th>
                   );
                 })}
