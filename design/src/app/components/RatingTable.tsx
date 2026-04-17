@@ -157,7 +157,8 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
   const bodyRef = useRef<HTMLDivElement>(null);
   const handleBodyScroll = useCallback(() => {
     if (!headerInnerRef.current || !bodyRef.current) return;
-    const sL = bodyRef.current.scrollLeft;
+    // Math.round убирает subpixel jitter — текст в заголовках перестаёт «дёргаться» при скролле
+    const sL = Math.round(bodyRef.current.scrollLeft);
     // transform вместо scrollLeft — работает в iOS WebKit, где scrollLeft на overflow:hidden игнорируется
     headerInnerRef.current.style.transform = `translate3d(${-sL}px, 0, 0)`;
   }, []);
@@ -229,15 +230,12 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                   width: mColWidths[idx],
                   height: '48px',
                   flexShrink: 0,
-                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start',
+                  padding: '0 8px',
                 }}>
-                  <div style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '8px',
-                    right: '8px',
-                    transform: 'translateY(-50%)',
-                    WebkitTransform: 'translateY(-50%)' as any,
+                  <span style={{
                     textAlign: align,
                     fontSize: '9px',
                     color: 'rgba(255,255,255,0.4)',
@@ -248,7 +246,7 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                     userSelect: 'none',
                   }}>
                     {h}
-                  </div>
+                  </span>
                 </div>
               );
             })}
@@ -271,16 +269,13 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                   width: mColWidths[i],
                   height: '48px',
                   flexShrink: 0,
-                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start',
+                  padding: '0 8px',
                 }}>
                   {h && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '8px',
-                      right: '8px',
-                      transform: 'translateY(-50%)',
-                      WebkitTransform: 'translateY(-50%)' as any,
+                    <span style={{
                       textAlign: align,
                       fontSize: '9px',
                       color: 'rgba(255,255,255,0.4)',
@@ -291,7 +286,7 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                       userSelect: 'none',
                     }}>
                       {h}
-                    </div>
+                    </span>
                   )}
                 </div>
               );
@@ -356,15 +351,15 @@ export function RatingTable({ companies, onCompanyClick, compareMode = false, se
                       )}
                     </td>
                     {/* Выручка */}
-                    <td style={{ ...mTD, textAlign: 'left', color: 'rgba(255,255,255,0.7)' }}>
+                    <td style={{ ...mTD, textAlign: 'center', color: 'rgba(255,255,255,0.7)' }}>
                       {fmt(company.revenue)}
                     </td>
                     {/* Прибыль */}
-                    <td style={{ ...mTD, textAlign: 'right', fontWeight: 500, color: company.profit >= 0 ? '#0DF0E6' : '#ef4444' }}>
+                    <td style={{ ...mTD, textAlign: 'center', fontWeight: 500, color: company.profit >= 0 ? '#0DF0E6' : '#ef4444' }}>
                       {company.profit < 0 ? `−${fmt(company.profit)}` : fmt(company.profit)}
                     </td>
                     {/* Стаж */}
-                    <td style={{ ...mTD, textAlign: 'right', color: 'rgba(255,255,255,0.7)' }}>
+                    <td style={{ ...mTD, textAlign: 'center', color: 'rgba(255,255,255,0.7)' }}>
                       {company.experience}
                     </td>
                     {/* Extra columns */}
