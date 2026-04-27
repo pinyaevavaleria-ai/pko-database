@@ -43,7 +43,7 @@ export function HeroScreen({ activeTab = 'pko300', onNavigateToThematic, onNavig
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #0a0f15 0%, transparent 40%, transparent 80%, #0a0f15 100%)', zIndex: 2 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #0a0f15 0%, transparent 10%, transparent 80%, #0a0f15 100%)', zIndex: 2 }} />
         <img
-          src="https://images.unsplash.com/photo-1675012848706-ff1b1fd7c675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMGFuZCUyMHdoaXRlJTIwbW9kZXJuJTIwYXJjaGl0ZWN0dXJlfGVufDF8fHx8MTc3NDcxNDM5Nnww&ixlib=rb-4.1.0&q=80&w=1080"
+          src="/images/hero-architecture.jpg"
           alt="Architecture Background"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', opacity: 0.3, filter: 'grayscale(100%) contrast(1.2) brightness(0.7)' }}
         />
