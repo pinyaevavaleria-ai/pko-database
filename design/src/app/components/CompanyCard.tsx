@@ -6,6 +6,11 @@ import { logoMap } from '../data/logoMap';
 import { useIsMobile } from './ui/use-mobile';
 import { stripOrgForm } from '../utils/formatCompanyName';
 
+// ── Companies showing previous-year data ────────────────────────
+// Для отдельных ПКО берём цифры за 2024 вместо 2025 (баг/аномалия 2025-отчётности).
+// Источник в xlsx уже подменён, здесь — лишь UI-пометка.
+const DATA_YEAR_2024_OVERRIDE = new Set<string>(['2635261351']); // АВЗ
+
 // ── Helpers ─────────────────────────────────────────────────────
 
 function fmtMoney(v: number): string {
@@ -322,6 +327,8 @@ function FinancialsSection({ company, details }: { company: RatingCompany; detai
   const isMobile = useIsMobile();
   const fin2024 = details.financials.find(f => f.year === 2024);
   const fin2025 = details.financials.find(f => f.year === 2025);
+  const useY2024 = DATA_YEAR_2024_OVERRIDE.has(company.inn);
+  const dataYear = useY2024 ? 2024 : 2025;
 
   const rows: { label: string; value: number; prev: number | null; dot: string }[] = [
     { label: 'Выручка', value: details.revenue2025, prev: details.revenue2024, dot: '#0DF0E6' },
@@ -340,14 +347,26 @@ function FinancialsSection({ company, details }: { company: RatingCompany; detai
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: isMobile ? '12px' : '16px' }}>
         <BarChart3 style={{ width: '16px', height: '16px', color: ACCENT }} />
         <span style={{ fontSize: isMobile ? '12px' : '13px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: spaceGrotesk }}>
-          Финансовые показатели (2025)
+          Финансовые показатели ({dataYear})
         </span>
       </div>
+
+      {useY2024 && (
+        <div style={{
+          marginBottom: '12px', padding: '8px 10px', borderRadius: '8px',
+          background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)',
+          fontSize: '11px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4,
+        }}>
+          ⚠ Отображаются данные за <b>2024 год</b>: в отчётности компании за 2025 произошёл
+          бухгалтерский сбой (аномальный скачок прочих доходов до 17,7 млрд ₽). До исправления
+          источника используем последние корректные значения.
+        </div>
+      )}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 0 8px', borderBottom: `1px solid ${BORDER}`, fontSize: '10px', fontWeight: 600, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
         <span>Показать</span>
         <div style={{ display: 'flex', gap: isMobile ? '20px' : '40px' }}>
-          <span>2025 год</span>
+          <span>{dataYear} год</span>
           <span>YoY</span>
         </div>
       </div>
