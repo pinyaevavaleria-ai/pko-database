@@ -25,7 +25,9 @@ export default function App() {
   const isMobile = useIsMobile();
   const [preset, setPreset] = useState<Preset>('overview');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCompanyInn, setSelectedCompanyInn] = useState<string | null>(null);
+  const [selectedCompanyInn, setSelectedCompanyInn] = useState<string | null>(
+    () => new URLSearchParams(window.location.search).get('company'),
+  );
   const [page, setPage] = useState<'rating' | 'thematic' | 'article'>('rating');
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
 
