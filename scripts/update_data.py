@@ -384,7 +384,7 @@ def build_rating_entry(row: dict, rank: int, name: str, old_rating: dict) -> dic
         "eqt": round(parse_num(row.get("Собственный капитал 2025"))),
         "dLong": 0,
         "dShort": 0,
-        "de": round(de_pct / 100, 2) if de_pct else 0.0,
+        "de": round(de_pct, 2) if de_pct else 0.0,
         "receivable": round(parse_num(row.get("Дебит. задолженность 2025"))),
         "cagr": round(cagr_pct / 100, 2) if cagr_pct else 0.0,
         "loan": round(parse_num(row.get("Заёмный капитал 2025"))),
