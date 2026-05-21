@@ -360,11 +360,15 @@ export const companyDetailsMap: Record<string, CompanyDetails> = {{
 '''
 
 
-def build_rating_entry(row: dict, rank: int, name: str, old_rating: dict) -> dict:
+def build_rating_entry(row: dict, rank: int, name: str, old_rating: dict, rank_2024: dict) -> dict:
     inn = row["__inn"]
     rev_2025 = parse_num(row.get("Выручка + прочие доходы 2025"))
     rev_2024 = parse_num(row.get("Выручка + прочие доходы 2024"))
     year_change = round(((rev_2025 - rev_2024) / rev_2024) * 100, 1) if rev_2024 > 0 else 0.0
+    # rankDelta: позиция-2024 минус позиция-2025 в НАШЕМ ранжировании (по «Выручка + прочие доходы»).
+    # Колонку источника «Позиция относительно прошлого года» не используем — она от «Номера рейтинга ПКО-300».
+    prev_rank = rank_2024.get(inn)
+    rank_delta = (prev_rank - rank) if prev_rank else 0
     de_pct = parse_num(row.get("D/E коэффициент"))
     cagr_pct = parse_num(row.get("Темпы роста за 5 лет (CAGR)"))
     saved = old_rating.get(inn, {})
@@ -388,7 +392,7 @@ def build_rating_entry(row: dict, rank: int, name: str, old_rating: dict) -> dic
         "receivable": round(parse_num(row.get("Дебит. задолженность 2025"))),
         "cagr": round(cagr_pct / 100, 2) if cagr_pct else 0.0,
         "loan": round(parse_num(row.get("Заёмный капитал 2025"))),
-        "rankDelta": int(parse_num(row.get("Позиция в рейтинге относительно прошлого года", 0))),
+        "rankDelta": rank_delta,
     }
 
 
@@ -438,7 +442,7 @@ def build_details_entry(row: dict, old_details: dict) -> dict:
         "capitalStructure": {
             "equity": round(eq),
             "debt": round(debt),
-            "deRatio": round(parse_num(row.get("D/E коэффициент")) / 100, 2),
+            "deRatio": round(parse_num(row.get("D/E коэффициент")), 2),
             "authorizedCapital": round(parse_num(row.get("Уставной капитал"))),
             "debtShare": round((debt / total) * 100, 1) if total > 0 else 0.0,
             "equityShare": round((eq / total) * 100, 1) if total > 0 else 0.0,
@@ -450,11 +454,11 @@ def build_details_entry(row: dict, old_details: dict) -> dict:
 
 
 def write_ts_files(rows_with_rank: list[tuple[int, str, dict]], src_name: str,
-                   old_rating: dict, old_details: dict):
+                   old_rating: dict, old_details: dict, rank_2024: dict):
     # ratingData.ts
     out = RATING_HEADER.format(src=src_name)
     for rank, name, row in rows_with_rank:
-        e = build_rating_entry(row, rank, name, old_rating)
+        e = build_rating_entry(row, rank, name, old_rating, rank_2024)
         out += f"  {json.dumps(e, ensure_ascii=False)},\n"
     out += "];\n"
     RATING_TS.write_text(out, encoding="utf-8")
@@ -533,6 +537,12 @@ def main():
         name = short_name(r)
         rows_with_rank.append((i, name, r))
 
+    # Ранжирование за 2024 по той же метрике — для расчёта rankDelta.
+    rows_2024 = sorted(
+        [r for r in rows if parse_num(r.get("Выручка + прочие доходы 2024")) > 0],
+        key=lambda r: parse_num(r.get("Выручка + прочие доходы 2024")), reverse=True)
+    rank_2024 = {r["__inn"]: i for i, r in enumerate(rows_2024, start=1)}
+
     # Validate
     errors = validate(rows_with_rank)
     if errors:
@@ -592,7 +602,7 @@ def main():
 
     # Real write
     src_name = src.name
-    write_ts_files(rows_with_rank, src_name, old_rating, old_details)
+    write_ts_files(rows_with_rank, src_name, old_rating, old_details, rank_2024)
     print()
     print(f"✅ Wrote {len(rows)} entries → {RATING_TS.name}, {FINANCE_TS.name}, {DETAILS_TS.name}")
 
