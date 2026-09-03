@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 """
 update_data.py — обновляет TS-файлы данных рейтинга ПКО-300
-из свежей выгрузки в data/source/PKO-*.xlsx.
+из свежей выгрузки в data/source/PKO-*.xlsx или PKO-*.json.
 
 Использование:
     python3 scripts/update_data.py --dry-run    # показывает diff и топ-20, не пишет файлы
     python3 scripts/update_data.py              # реальное обновление
 
 Что делает:
-    1. Находит самый свежий PKO-*.xlsx в data/source/ (или берёт --source).
-    2. Парсит xlsx (openpyxl).
-    3. Читает текущие ts-файлы для сохранения ручных правок:
+    1. Находит самый свежий PKO-*.xlsx / PKO-*.json в data/source/ (или берёт --source).
+    2. Парсит источник (openpyxl для xlsx, json для json — колонки одинаковые).
+    3. Применяет MANUAL_OVERRIDES (известные ошибки источника, см. ниже).
+    4. Читает текущие ts-файлы для сохранения ручных правок:
        - ratingData.ts: napka, capitalAttraction
-       - companyDetails.ts: website, fundraising, bonds
-    4. Сортирует компании по полю «Выручка + прочие доходы 2025» (по убыванию).
-    5. Присваивает плотный ранг 1..N.
-    6. Если «Краткое название» пусто — fallback на полное через stripOrgForm.
-    7. Перезаписывает ratingData.ts, financeDynamic.ts, companyDetails.ts.
-    8. Печатает лог: добавлено/удалено/перемещено + топ-20.
+       - companyDetails.ts: website (если непустой), fundraising, bonds
+    5. Сортирует компании по полю «Выручка + прочие доходы 2025» (по убыванию).
+    6. Присваивает плотный ранг 1..N.
+    7. Если «Краткое название» пусто — fallback на полное через stripOrgForm.
+    8. Перезаписывает ratingData.ts, financeDynamic.ts, companyDetails.ts.
+    9. Печатает лог: добавлено/удалено/перемещено + топ-20.
 
 Заменяет старые скрипты:
     scripts/convert_new_json.py  (читал JSON из Downloads, ранг из источника)
@@ -44,6 +45,49 @@ FINANCE_TS = DATA_DIR / "financeDynamic.ts"
 DETAILS_TS = DATA_DIR / "companyDetails.ts"
 
 YEARS = [2021, 2022, 2023, 2024, 2025]
+
+# ---------------------------------------------------------------------------
+# Manual overrides — известные ошибки источника, подтверждённые вручную.
+# Применяются к строке источника ДО генерации, поэтому прогон идемпотентен.
+# ---------------------------------------------------------------------------
+
+# Компании, у которых показатели 2025 подменяются значениями 2024
+# (аномалия отчётности 2025). Карточка помечает их плашкой —
+# см. DATA_YEAR_2024_OVERRIDE в design/src/app/components/CompanyCard.tsx.
+# 2635261351 ООО ПКО «АВЗ» — «Прочие доходы 2025» = 17,7 млрд ₽ (PR #27).
+YEAR_2024_OVERRIDE_INNS = {"2635261351"}
+YEAR_METRIC_PREFIXES = [
+    "Выручка", "Прочие доходы", "Расходы", "Выручка + прочие доходы",
+    "Чистая прибыль", "Фин. вложения", "Дебит. задолженность",
+    "Собственный капитал", "Заёмный капитал",
+]
+# 5-летние метрики у таких компаний ненадёжны — обнуляем.
+YEAR_OVERRIDE_ZERO_FIELDS = [
+    "Темпы роста за 5 лет (CAGR)", "Рост фин активов за 5 лет", "D/E (%)", "D/E коэффициент",
+]
+
+# Точечные замены полей: {ИНН: {колонка источника: значение}}.
+FIELD_OVERRIDES: dict[str, dict] = {
+    # Краткое имя для таблицы (PR #26)
+    "2635261351": {"Краткое название": "ПКО АВЗ"},
+    # Дата регистрации по ЕГРЮЛ/ОГРН 1187847227270 — 14.08.2018, в источнике 28.08.2020 (PR #31).
+    # Стаж = полных лет на дату выгрузки (27.08.2026).
+    "7806547391": {"Дата основания": "14.08.2018", "Стаж": 8},
+    # В источнике вместо сайта указан e-mail (touchcollect@yandex.ru) — не ссылка.
+    "9734021755": {"Сайт": ""},
+}
+
+
+def apply_overrides(rows: list[dict]) -> None:
+    for row in rows:
+        inn = row["__inn"]
+        if inn in YEAR_2024_OVERRIDE_INNS:
+            for p in YEAR_METRIC_PREFIXES:
+                row[f"{p} 2025"] = row.get(f"{p} 2024")
+            for f in YEAR_OVERRIDE_ZERO_FIELDS:
+                row[f] = 0
+        for k, v in FIELD_OVERRIDES.get(inn, {}).items():
+            row[k] = v
 
 
 # ---------------------------------------------------------------------------
@@ -138,7 +182,8 @@ def strip_org_form(name: str) -> str:
 
 def short_name(row: dict) -> str:
     """Краткое название из источника, fallback на полное через build_short_from_full."""
-    short = (row.get("Краткое название") or "").strip()
+    # «Ёлочки» из источника приводим к прямым кавычкам — как у остальных записей.
+    short = (row.get("Краткое название") or "").replace("«", '"').replace("»", '"').strip()
     if short and short.lower() != "nan":
         return short
     full = (row.get("Полное название") or row.get("Название") or "").strip()
@@ -169,10 +214,28 @@ def fmt_date(raw: str) -> str:
 # Source loading
 # ---------------------------------------------------------------------------
 def find_latest_source() -> Path:
-    files = sorted(SOURCE_DIR.glob("PKO-*.xlsx"))
+    files = sorted(list(SOURCE_DIR.glob("PKO-*.xlsx")) + list(SOURCE_DIR.glob("PKO-*.json")),
+                   key=lambda p: p.stem)
     if not files:
-        sys.exit(f"ERROR: no PKO-*.xlsx files in {SOURCE_DIR}")
+        sys.exit(f"ERROR: no PKO-*.xlsx / PKO-*.json files in {SOURCE_DIR}")
     return files[-1]
+
+
+def load_json(path: Path) -> list[dict]:
+    """JSON-выгрузка с теми же колонками, что и xlsx. Пустые ячейки приходят строкой 'nan'."""
+    rows = []
+    for d in json.loads(path.read_text(encoding="utf-8")):
+        d = {k: (None if isinstance(v, str) and v.strip().lower() == "nan" else v) for k, v in d.items()}
+        d["__inn"] = str(d.get("ИНН") or "").strip()
+        if d["__inn"]:
+            rows.append(d)
+    return rows
+
+
+def load_source(path: Path) -> list[dict]:
+    if path.suffix.lower() == ".json":
+        return load_json(path)
+    return load_xlsx(path)
 
 
 def load_xlsx(path: Path) -> list[dict]:
@@ -430,7 +493,7 @@ def build_details_entry(row: dict, old_details: dict) -> dict:
         "director": row.get("Генеральный директор") or "",
         "ogrn": str(row.get("ОГРН") or ""),
         "registrationDate": fmt_date(row.get("Дата основания") or ""),
-        "website": saved.get("website", row.get("Сайт") or ""),
+        "website": saved.get("website") or row.get("Сайт") or "",
         "region": row.get("Регион") or "",
         "address": row.get("Адрес") or "",
         "authorizedCapital": round(parse_num(row.get("Уставной капитал"))),
@@ -512,8 +575,9 @@ def main():
     src = Path(args.source) if args.source else find_latest_source()
     print(f"📂 Source: {src.relative_to(REPO)}")
 
-    rows = load_xlsx(src)
-    print(f"📊 Loaded {len(rows)} rows from xlsx")
+    rows = load_source(src)
+    print(f"📊 Loaded {len(rows)} rows from {src.suffix[1:]}")
+    apply_overrides(rows)
 
     # Dedupe by INN
     seen = set()
