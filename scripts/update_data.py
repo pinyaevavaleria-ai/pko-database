@@ -81,6 +81,12 @@ FIELD_OVERRIDES: dict[str, dict] = {
 def apply_overrides(rows: list[dict]) -> None:
     for row in rows:
         inn = row["__inn"]
+        # «Расходы» = стр. 2120 + 2350 ОФР. Часть компаний сдаёт расходы со знаком
+        # минус (скобки в форме), и ГИР БО отдаёт их отрицательными — напр.
+        # М.Б.А. Финансы 2021–2023, АКР 2021–2023, ССК 2024. Расход не бывает
+        # отрицательным, поэтому берём модуль (17 компаний в выгрузке 2026-08).
+        for y in YEARS:
+            row[f"Расходы {y}"] = abs(parse_num(row.get(f"Расходы {y}")))
         if inn in YEAR_2024_OVERRIDE_INNS:
             for p in YEAR_METRIC_PREFIXES:
                 row[f"{p} 2025"] = row.get(f"{p} 2024")
